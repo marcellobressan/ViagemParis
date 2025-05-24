@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roteiro Interativo: Paris em Família 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Visualization & Content Choices:
+        - Daily Itinerary: Transport instructions formatted as step-by-step guides. Grande Galerie de l'Évolution added to Day 21/07. Musée Jacquemart-André added to Day 23/07 with flexible timing. Daily theme icons and descriptions added. Parc Astérix alternative for 26/07 replaced.
+        - Points of Interest: Enhanced textual descriptions, Unicode icons, and image placeholders (using placehold.co), and "Vamos lá!" (Google Maps) buttons. Angelina, Grande Galerie de l'Évolution, and Musée Jacquemart-André added. Parc Astérix removed.
+        - Culinary: Specific dietary information removed, restaurant list remains.
+        - Transport & Tips: Mentions of Vovô Marco's specific mobility restrictions rephrased for general comfort or removed.
+        - Supabase: Client initialized with correct URL and user-provided public anon key. Example section for comments remains. Added checks for Supabase client and table.
+        - No actual map rendering, but textual "map-like" directions for transport.
+        - CONFIRMING NO SVG/Mermaid. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F5F5F5; /* Marble White */
+            color: #2F2F2F; /* Twilight Black */
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+            background-color: #C2B280; /* Cobblestone Beige */
+            color: #2F2F2F; /* Twilight Black */
+            border-radius: 0.375rem;
+            padding: 0.5rem 1rem;
+        }
+        .nav-button.active {
+            background-color: #4169E1; /* Royal Velvet */
+            color: #F5F5F5; /* Marble White */
+            font-weight: 600;
+        }
+        .nav-button:hover:not(.active) {
+            background-color: #ADD8E6; /* Light Sky Blue for hover */
+        }
+        .content-section {
+            display: none;
+            background-color: white; 
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        .content-section.active {
+            display: block;
+        }
+        .day-card {
+            margin-bottom: 0; 
+        }
+        .day-card h3.main-title {
+             color: #C41E3A; 
+             display: flex;
+             align-items: center;
+             font-size: 1.75rem; 
+             margin-bottom: 0.75rem;
+        }
+        .day-theme-icon {
+            font-size: 1.8em;
+            margin-right: 0.75rem;
+            color: #FFD700; /* Gilded Gold */
+        }
+        .day-theme-description {
+            font-size: 0.95em;
+            color: #A9A9A9; /* Parisian Gray */
+            margin-bottom: 1.25rem; 
+            font-style: italic;
+        }
+         .day-card h4.plan-subtitle {
+             color: #C41E3A; 
+             margin-top: 1rem;
+             margin-bottom: 0.5rem;
+             font-size: 1.25rem;
+             border-bottom: 1px solid #DDA0DD; 
+             padding-bottom: 0.25rem;
+        }
+        .plan-section {
+            margin-bottom:1rem;
+        }
+        .plan-section h5 { 
+            font-weight: 600;
+            color: #4A5568; 
+            margin-top:0.75rem;
+            margin-bottom:0.25rem;
+            font-size: 1.1rem; 
+        }
+        .transport-details {
+            background-color: #E0E0E0; 
+            padding: 1rem; 
+            border-radius: 0.375rem;
+            margin-top: 1rem; 
+            font-size: 0.9em;
+            color: #2F2F2F; 
+            border-left: 4px solid #4169E1; 
+        }
+        .transport-details h6 { 
+            font-weight: 700; 
+            color: #2F2F2F; 
+            margin-bottom: 0.5rem;
+            font-size: 1.05em; 
+        }
+        .transport-details p {
+            margin-bottom: 0.5rem; 
+            line-height: 1.6;
+        }
+        .transport-details strong { 
+            color: #4169E1; 
+            font-weight: 600;
+        }
+        .transport-details em { 
+            color: #A9A9A9; 
+        }
+        .alternative-plan-container {
+            background-color: #FFF0F5; 
+            border-top: 2px dashed #DDA0DD; 
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+        .alternative-plan-container h4.plan-subtitle {
+            color: #800080; 
+            border-bottom-color: #800080;
+        }
+        .accordion-toggle {
+            width: 100%;
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+            outline: none;
+        }
+        .accordion-toggle.transport-accordion {
+            background-color: #D8CBA7; 
+            color: #C41E3A; 
+        }
+        .accordion-toggle.transport-accordion:hover {
+            background-color: #C2B280; 
+        }
+        .accordion-toggle.tips-accordion {
+             background-color: #B0E0E6; 
+             color: #4169E1; 
+        }
+        .accordion-toggle.tips-accordion:hover {
+            background-color: #87CEEB; 
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 1rem; 
+            background-color: white;
+        }
+        .accordion-content.open {
+             padding: 1rem; 
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; 
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px; 
+            max-height: 300px; 
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 300px; 
+            }
+        }
+        .poi-item {
+            display: flex;
+            flex-direction: column; 
+            gap: 1rem;
+            background-color: #FAF0E6; 
+            padding: 1rem;
+            border-radius: 0.375rem;
+            border: 1px solid #D8CBA7; 
+        }
+        .poi-image-container {
+            flex-shrink: 0;
+            width: 100%; 
+            max-width: 250px; 
+            height: 180px;
+            background-color: #E2E8F0; 
+            border-radius: 0.375rem;
+            overflow: hidden;
+            margin: 0 auto 1rem auto; 
+        }
+        .poi-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .poi-details {
+            flex-grow: 1;
+        }
+        .poi-icon {
+            font-size: 1.5em;
+            margin-right: 0.5rem;
+            color: #FFD700; /* Gilded Gold */
+            vertical-align: middle;
+        }
+        .poi-details h4 { 
+            color: #C41E3A; 
+        }
+        .poi-details h4 a { 
+            color: #4169E1; 
+        }
+         .poi-details h4 a:hover {
+            color: #228B22; 
+        }
+        .poi-category { 
+            color: #87CEEB; 
+        }
+        .maps-button {
+            background-color: #228B22; /* Garden Green */
+            color: #F5F5F5; /* Marble White */
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 0.75rem;
+            transition: background-color 0.3s ease;
+        }
+        .maps-button:hover {
+            background-color: #3CB371; /* MediumSeaGreen - slightly lighter green */
+        }
+        footer {
+            border-top: 1px solid #A9A9A9; 
+            color: #A9A9A9; 
+        }
+        header h1 { color: #C41E3A;  }
+        header p { color: #A9A9A9;  }
+        section h2 { color: #C41E3A;  } 
+        #overview .bg-amber-100 { background-color: #FFF0F5;  }
+        #overview .text-orange-600 { color: #C41E3A;  }
+        #overview .bg-sky-100 { background-color: #E0FFFF;  }
+        #overview .text-sky-700 { color: #4169E1;  }
+        #culinary-info h3 { color: #C41E3A;  }
+        #restaurant-suggestions strong a { color: #4169E1;  }
+        #restaurant-suggestions strong a:hover { color: #228B22;  }
+        #comments-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #FFF0F5; /* Soft Blush */
+            border-radius: 0.5rem;
+            border: 1px solid #DDA0DD; /* Lavender Blossom */
+        }
+        #comments-section h3 {
+            color: #800080; /* Nightlife Purple */
+            margin-bottom: 1rem;
+        }
+        #comments-section textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: 1px solid #A9A9A9; /* Parisian Gray */
+            margin-bottom: 0.5rem;
+            min-height: 80px;
+            color: #2F2F2F;
+        }
+        #comments-section button {
+            background-color: #228B22; /* Garden Green */
+            color: #F5F5F5; /* Marble White */
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.3s ease;
+        }
+        #comments-section button:hover {
+            background-color: #3CB371;
+        }
+        #comments-list div {
+            background-color: #F5F5F5; /* Marble White */
+            padding: 0.75rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid #C2B280; /* Cobblestone Beige */
+        }
+
+    </style>
+</head>
+<body class="text-stone-800">
+    <div class="container mx-auto p-4 max-w-6xl">
+        <header class="mb-8 text-center">
+            <h1 class="text-4xl font-bold">Paris em Família: Aventura 2025</h1>
+            <p class="text-lg">Seu roteiro interativo para uma viagem inesquecível!</p>
+        </header>
+
+        <nav class="flex flex-wrap justify-center gap-2 mb-8">
+            <button class="nav-button active" data-target="overview">Visão Geral</button>
+            <button class="nav-button" data-target="daily-itinerary">Roteiro Diário</button>
+            <button class="nav-button" data-target="points-of-interest">Pontos de Interesse</button>
+            <button class="nav-button" data-target="culinary">Gastronomia</button>
+            <button class="nav-button" data-target="transport">Transporte</button>
+            <button class="nav-button" data-target="tips">Dicas Úteis</button>
+            <button class="nav-button" data-target="trip-comments">Comentários</button>
+        </nav>
+
+        <main>
+            <section id="overview" class="content-section active">
+                <h2 class="text-3xl font-semibold mb-4">🌟 Bem-vindos à Aventura Parisiense!</h2>
+                <p class="mb-4">Esta aplicação interativa é o seu guia para a mágica viagem de 15 dias da família Barros-Bressan a Paris e Disneyland, de 14 a 28 de julho de 2025. Explore os planos diários, incluindo alternativas e informações de transporte detalhadas, e descubra dicas para tornar esta jornada multigeracional verdadeiramente inesquecível. Navegue pelas secções para aceder a todos os detalhes do seu roteiro personalizado.</p>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-amber-100 p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold text-orange-600 mb-2">Datas da Viagem</h3>
+                        <p>📅 Saída: 14 de Julho de 2025</p>
+                        <p>🔙 Retorno: 28 de Julho de 2025</p>
+                        <p>⏳ Duração Total: 15 dias / 14 noites</p>
+                    </div>
+                    <div class="bg-sky-100 p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold text-sky-700 mb-2">Fases da Viagem</h3>
+                        <p>🏰 Disneyland Paris: 4 dias / 3 noites</p>
+                        <p>🏙️ Paris (cidade): 11 dias / 10 noites</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="tripPhaseChart"></canvas>
+                </div>
+                 <p class="mt-6 text-sm">Este é um resumo visual da divisão da vossa estadia. Utilizem os botões de navegação acima para explorar cada secção em detalhe.</p>
+            </section>
+
+            <section id="daily-itinerary" class="content-section">
+                <h2 class="text-3xl font-semibold mb-6">🗓️ Roteiro Diário Detalhado</h2>
+                <p class="mb-6">Aqui encontrará o plano para cada dia da vossa aventura, incluindo uma opção alternativa e informações de transporte detalhadas, seguindo um formato passo a passo. Selecione um dia para ver as atividades programadas, sugestões de refeições e considerações especiais. Lembrem-se que a flexibilidade é chave, e este roteiro serve como um guia para maximizar a vossa diversão!</p>
+                <div class="mb-4 flex flex-wrap gap-2 justify-center" id="day-selector">
+                </div>
+                <div id="itinerary-details" class="mt-6">
+                </div>
+            </section>
+
+            <section id="points-of-interest" class="content-section">
+                <h2 class="text-3xl font-semibold mb-6">🗺️ Pontos de Interesse</h2>
+                <p class="mb-6">Paris e arredores oferecem uma infinidade de atrações. Esta secção lista os principais pontos mencionados no vosso roteiro, com descrições visuais, ícones, links para os seus sites oficiais (quando disponível) e imagens de placeholder para dar uma ideia visual. Poderão encontrar aqui informações sobre museus, monumentos, parques e outros locais fascinantes que tornarão a vossa viagem ainda mais rica.</p>
+                <div id="poi-list" class="space-y-6">
+                </div>
+            </section>
+
+            <section id="culinary" class="content-section">
+                <h2 class="text-3xl font-semibold mb-6">🍽️ Delícias Gastronômicas</h2>
+                <p class="mb-6">A culinária parisiense é uma experiência por si só! Esta secção é dedicada às vossas aventuras gastronómicas, com sugestões de restaurantes para que todos desfrutem dos sabores de Paris. Desde brasseries clássicas a patisseries de luxo, preparem-se para se deliciar.</p>
+                <div id="culinary-info" class="space-y-4">
+                    <h3 class="text-2xl font-semibold mt-6 mb-3">Sugestões de Restaurantes (Resumo)</h3>
+                    <ul id="restaurant-suggestions" class="list-disc pl-5 space-y-2"></ul>
+                </div>
+            </section>
+
+            <section id="transport" class="content-section">
+                <h2 class="text-3xl font-semibold mb-6">🚌 Plano de Transporte Geral</h2>
+                <p class="mb-6">Navegar por Paris e arredores requer um bom planeamento de transporte. Aqui estão os detalhes sobre os vossos transfers e as melhores formas de se locomoverem pela cidade, com foco na acessibilidade e conforto para toda a família. Instruções específicas e detalhadas para cada dia, incluindo alternativas, estão na secção "Roteiro Diário".</p>
+                <div id="transport-info" class="space-y-4">
+                     </div>
+            </section>
+
+            <section id="tips" class="content-section">
+                <h2 class="text-3xl font-semibold mb-6">💡 Dicas Úteis e Extras</h2>
+                <p class="mb-6">Para garantir que a vossa viagem seja o mais tranquila e agradável possível, reunimos aqui algumas dicas sobre o que levar na mala, comunicação, compras, e sugestões para as melhores fotos. Pequenos detalhes que fazem uma grande diferença!</p>
+                <div id="useful-tips-content" class="space-y-4">
+                    </div>
+            </section>
+
+            <section id="trip-comments" class="content-section">
+                <h2 class="text-3xl font-semibold mb-6">📝 Comentários da Viagem</h2>
+                <p class="mb-6">Deixe aqui as suas memórias, dicas ou momentos favoritos da viagem para partilhar com a família!</p>
+                <!--  INSTRUÇÃO PARA O UTILIZADOR: Para que os comentários funcionem, crie uma tabela chamada 'comentarios' no seu projeto Supabase com as seguintes colunas:
+                      - id (bigint, primary key, auto-incrementing)
+                      - created_at (timestamp with time zone, default now())
+                      - author (text)
+                      - text (text)
+                      Certifique-se também de que as Row Level Security (RLS) policies permitem a inserção e leitura anónima, ou configure-as conforme a sua necessidade.
+                -->
+                <div id="comments-section">
+                    <h3>Deixe o seu Comentário:</h3>
+                    <textarea id="comment-author" placeholder="O seu nome" class="mb-2"></textarea>
+                    <textarea id="comment-text" placeholder="Escreva o seu comentário aqui..."></textarea>
+                    <button id="submit-comment">Enviar Comentário</button>
+                    <h3 class="mt-6 mb-3">Comentários Anteriores:</h3>
+                    <div id="comments-list">
+                        <p>A carregar comentários...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="mt-12 pt-8 text-center">
+            <p>© 2025 Família Barros-Bressan em Paris. Roteiro por Seu Guia Especializado.</p>
+            <p class="text-sm">Aplicação interativa desenvolvida para facilitar a sua aventura!</p>
+        </footer>
+    </div>
+
+<script>
+    // Configuração do Supabase
+    const SUPABASE_URL = 'https://ldwxmwezcrgaqqncdxdy.supabase.co'; 
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxkd3htd2V6Y3JnYXFxbmNkeGR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwMDIzMDYsImV4cCI6MjA2MzU3ODMwNn0.xDxvmlWt5S61NJQb7KTpn_xIGCH8Sx9ssI6qpl9eMOU'; 
+
+    let supabase = null;
+    try {
+        if (SUPABASE_URL && SUPABASE_ANON_KEY && SUPABASE_ANON_KEY !== 'SUA_CHAVE_ANONIMA_PUBLICA_SUPABASE_AQUI') { 
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            console.log('Supabase client initialized.');
+        } else {
+            console.warn('Supabase Chave Anónima (anon public) não configurada corretamente. Funcionalidades de base de dados estarão desativadas. Por favor, insira a sua chave anônima pública.');
+            // Atualizar a UI para informar o utilizador
+            const commentsList = document.getElementById('comments-list');
+            if (commentsList) {
+                commentsList.innerHTML = '<p>A funcionalidade de comentários está desativada. Por favor, configure as credenciais do Supabase corretamente no código.</p>';
+            }
+            const submitCommentButton = document.getElementById('submit-comment');
+            if (submitCommentButton) {
+                submitCommentButton.disabled = true;
+                submitCommentButton.style.backgroundColor = '#A9A9A9'; // Parisian Gray para indicar desativado
+            }
+        }
+    } catch (error) {
+        console.error('Erro ao inicializar o cliente Supabase:', error);
+        const commentsList = document.getElementById('comments-list');
+        if (commentsList) {
+            commentsList.innerHTML = '<p>Erro ao conectar com a base de dados de comentários.</p>';
+        }
+    }
+
+
+    const itineraryData = {
+        "14/07": { 
+            day: "Segunda", 
+            mainTitle: "Chegada e Dia da Bastilha", 
+            themeIcon: "🎆",
+            themeDescription: "Chegada emocionante em Paris durante as celebrações do Dia da Bastilha e instalação na magia da Disney.",
+            mainPlan: {
+                morning: "Chegada ao Aeroporto Charles de Gaulle (CDG). Recolha de bagagem e encontro com o motorista do transfer.", 
+                afternoon: "Transfer para o Hotel Disney. Check-in e instalação nos quartos. Tempo para descanso e os mais novos explorarem as imediações do hotel (se aplicável).", 
+                evening: "Jantar tranquilo no restaurante do hotel ou num dos restaurantes da Disney Village com reserva prévia. Opcional: Se houver visibilidade e disposição, tentar avistar os fogos de artifício da Bastilha à distância (sem sair do complexo Disney).",
+                transport: "<h6>Como Chegar:</h6><p>🚕 <strong>Recomendado:</strong> Transfer privado pré-reservado em van (ex: Viator, GetYourGuide). Essencial devido ao Dia da Bastilha (trânsito intenso, muitas ruas fechadas em Paris, maior procura por serviços). Confirmar com o operador detalhes sobre o ponto de encontro e tempo estimado de viagem.</p><p><em>Alternativa:</em> Magical Shuttle (serviço oficial da Disney - verificar horários e necessidade de reserva para veículos adaptados) ou TGV do Terminal 2 do CDG para Marne-la-Vallée Chessy (estação da Disney - rápido, ~12 min, mas implica gerir bagagem em estações movimentadas).</p>",
+            },
+            considerations: "Dia da Bastilha: Esperar grandes multidões e perturbações nos transportes em Paris. O foco principal é uma chegada e instalação tranquilas no hotel Disney. Evitar deslocações ao centro de Paris neste dia.",
+            alternativePlan: null 
+        },
+        "15/07": { 
+            day: "Terça", 
+            disney: true,
+            mainTitle: "Disney: Primeiro Dia de Magia!", 
+            themeIcon: "🏰✨",
+            themeDescription: "Explorando os encantos clássicos do Disneyland Park, dos contos de fadas às aventuras emocionantes.",
+            mainPlan: {
+                morning: "🏰 Disneyland Park: Começar pela Main Street U.S.A. em direção ao Castelo da Bela Adormecida para fotos. Explorar Fantasyland: 'it's a small world', 'Peter Pan's Flight' (usar Premier Access se disponível), 'Dumbo the Flying Elephant'. Seguir para Discoveryland: 'Buzz Lightyear Laser Blast' (se reaberto) ou 'Orbitron'.", 
+                afternoon: "Almoço no parque (ex: Pizzeria Bella Notte). Continuar em Adventureland: 'Pirates of the Caribbean'. Pausa para descanso no hotel a meio da tarde, especialmente para os membros mais velhos e as crianças.", 
+                evening: "Regresso ao Disneyland Park para a 🎆 Disney Stars on Parade (verificar horário e bom local para assistir). Jantar (ex: Plaza Gardens com personagens - reservar com muita antecedência). Show Noturno sobre o Castelo (Fogo de Artifício/Disney Electrical Sky Parade - verificar programação).",
+                transport: "<h6>Como Chegar:</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques (se o hotel não for o Disneyland Hotel, que é na entrada).</p>"
+            },
+            considerations: "Gerir alergia da Clara e seletividade da Beatriz nas refeições (consultar guias de alergia e menus). Usar a app Disneyland Paris para horários de shows, filas e reservas de restaurantes. Comprar Disney Premier Access para atrações populares pode ser útil.",
+            alternativePlan: {
+                title: "Foco em Walt Disney Studios e Relax",
+                morning: "🎬 Walt Disney Studios Park: Começar por Worlds of Pixar: 'Crush's Coaster' (para os mais aventureiros, fila pode ser longa), 'Ratatouille: The Adventure'. Explorar Toon Studio.",
+                afternoon: "Almoço no Studios (ex: Bistrot Chez Rémy - reservar!). Assistir ao show 'TOGETHER: A Pixar Musical Adventure'. Regresso ao hotel para descanso prolongado ou aproveitar a piscina.",
+                evening: "Jantar mais cedo e informal na Disney Village (ex: Earl of Sandwich, Five Guys). Noite tranquila no hotel, preparando-se para o dia seguinte.",
+                transport: "<h6>Como Chegar (Alternativa):</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques/Disney Village.</p>",
+                notes: "Ideal se o grupo preferir um ritmo mais lento no primeiro dia completo ou se houver grande interesse nas atrações do Walt Disney Studios Park."
+            }
+        },
+        "16/07": { 
+            day: "Quarta", 
+            disney: true,
+            mainTitle: "Disney: Walt Disney Studios e Mais Magia",
+            themeIcon: "🎬🦸",
+            themeDescription: "Aventura no Walt Disney Studios com super-heróis e regresso aos clássicos do Disneyland Park.",
+            mainPlan: {
+                morning: "🎬 Walt Disney Studios Park: Explorar o Avengers Campus: 'Spider-Man W.E.B. Adventure', 'Avengers Assemble: Flight Force'. Fotos com Super-Heróis (verificar app).", 
+                afternoon: "Almoço no Avengers Campus (ex: PYM Kitchen - buffet temático). Regresso ao Disneyland Park. Encontro com Mickey Mouse na Main Street, U.S.A. (verificar app para horários e local exato, pode ser necessário fila virtual). Explorar Frontierland: 'Big Thunder Mountain' (se todos se sentirem aventureiros).", 
+                evening: "Jantar na Disney Village (ex: Billy Bob’s Buffet no La Grange - boa variedade para todos). Lojas na Disney Village.",
+                transport: "<h6>Como Chegar:</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques/Disney Village.</p>"
+            },
+            considerations: "Verificar horários de shows e encontros com personagens na app. PYM Kitchen é uma experiência divertida, mas pode ser cara; Stark Factory é uma alternativa mais rápida no Avengers Campus.",
+            alternativePlan: {
+                title: "Dia Clássico no Disneyland Park com Foco em Shows",
+                morning: "🏰 Disneyland Park: Main Street U.S.A. e Frontierland: 'Phantom Manor'. Assistir a um dos shows ao ar livre (ex: The Lion King: Rhythms of the Pride Lands - verificar se está em cartaz e horários).",
+                afternoon: "Almoço no parque (ex: Cowboy Cookout Barbecue). Adventureland: 'Indiana Jones et le Temple du Péril' (para os mais corajosos). Discoveryland: 'Star Tours: The Adventures Continue'.",
+                evening: "Jantar temático no Disneyland Park (ex: Captain Jack's - Restaurant des Pirates, mas CUIDADO EXTREMO com a alergia da Clara, verificar menu e falar com o chef). Aproveitar as atrações com menos fila durante o show noturno (se o grupo já o viu).",
+                transport: "<h6>Como Chegar (Alternativa):</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques.</p>",
+                notes: "Para quem prefere a atmosfera clássica do Disneyland Park e quer focar-se também nos espetáculos."
+            }
+        },
+        "17/07": { 
+            day: "Quinta", 
+            disney: true,
+            mainTitle: "Disney: Favoritos e Despedida",
+            themeIcon: "💖🛍️",
+            themeDescription: "Últimos momentos mágicos, revendo atrações favoritas e um jantar especial de despedida da Disney.",
+            mainPlan: {
+                morning: "✨ Revisitar as atrações favoritas em qualquer um dos parques. Se houver interesse, Encontros com Personagens no Princess Pavilion (para Valentina/Clara - usar app para verificar disponibilidade de fila virtual ou horários).", 
+                afternoon: "🛍️ Compras de souvenirs de última hora. Desfrutar de um snack temático (ex: Mickey Premium Bar). Última oportunidade para ver a Disney Stars on Parade ou um show específico que o grupo tenha gostado.", 
+                evening: "👑 Jantar especial de despedida da Disney. Sugestões: Auberge de Cendrillon (refeição com Princesas Disney) ou Royal Banquet no Disneyland Hotel (refeição com Reis e Rainhas Disney). Ambas requerem reserva com MUITA antecedência.",
+                transport: "<h6>Como Chegar:</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques/Disney Village.</p>"
+            },
+            considerations: "Reservar jantares com personagens com meses de antecedência. Se o voo de regresso for no dia seguinte cedo, considerar organizar as malas à noite. Late check-out ou depósito de bagagem no hotel podem ser úteis.",
+            alternativePlan: {
+                title: "Manhã Relaxante, Disney Village e Preparativos",
+                morning: "😴 Manhã mais tranquila, pequeno-almoço sem pressa no hotel. Aproveitar as instalações do hotel (piscina, se houver).",
+                afternoon: "Explorar a Disney Village: World of Disney para compras finais, The LEGO Store. Almoço informal na Disney Village (ex: Annette's Diner para um ambiente anos 50, ou Vapiano para opções italianas).",
+                evening: "Jantar mais cedo e simples na Disney Village. Começar a organizar as malas para a partida de Paris no dia seguinte. Talvez um último gelado ou crepe.",
+                transport: "<h6>Como Chegar (Alternativa):</h6><p>🚌 Shuttles gratuitos do hotel para a Disney Village (se aplicável) ou a pé.</p>",
+                notes: "Bom para um dia mais descansado antes da transição para Paris, ou se o grupo já estiver satisfeito com os parques e preferir um ritmo mais leve."
+            }
+        },
+        "18/07": { 
+            day: "Sexta", 
+            mainTitle: "Adeus Disney, Bonjour Paris!",
+            themeIcon: "👋🏙️",
+            themeDescription: "Transição da magia da Disney para o charme parisiense, com instalação e primeiro contacto com a cidade.",
+            mainPlan: {
+                morning: "🏰 Manhã: Últimas atividades na Disney (se houver tempo e disposição, talvez uma volta rápida numa atração favorita ou compra de última hora). Check-out do hotel Disney (verificar horário limite).", 
+                afternoon: "Chegada ao Hotel Havane em Paris. Check-in e instalação nos quartos. Tempo para descanso.", 
+                evening: "🚶‍♀️ Passeio de orientação no 9º Arrondissement, perto do hotel. Observar a arquitetura, identificar cafés e lojas locais. Jantar numa brasserie tradicional do bairro para uma primeira experiência parisiense autêntica.",
+                transport: `<h6>Como Chegar (Hotel Disney → Hotel Havane, Paris):</h6>
+                    <p>🚕 <strong>Opção 1 (Recomendada para conforto):</strong> Transfer privado pré-reservado (van para acomodar o grupo e bagagens). Tempo estimado: ~1h a 1h30, dependendo do trânsito.</p>
+                    <p>🚂 <strong>Opção 2 (Transporte Público):</strong></p>
+                    <p>   1. 🚶‍♀️ Do Hotel Disney até à estação Marne-la-Vallée Chessy.</p>
+                    <p>   2. 🚆 Apanhe o <strong>RER A</strong> (sentido Paris - ex: St-Germain-en-Laye, Poissy, Cergy) até à estação <strong>Auber</strong> (~40-45 min).</p>
+                    <p>   3. 🚶‍♀️ De Auber, pode apanhar um táxi até ao Hotel Havane (~10-15 min) ou:</p>
+                    <p>   4. 🚇 Caminhe até à estação Opéra (ligada a Auber) e apanhe a <strong>Linha 7</strong> do Metro (sentido La Courneuve) até à estação <strong>Cadet</strong> (2 paradas, ~5 min).</p>
+                    <p>   5. 🚶‍♀️ Da estação Cadet, caminhe ~2-3 min até ao Hotel Havane (44 rue de Trévise).</p>`
+            },
+            considerations: "Gerir o cansaço da transição. Comprar bilhetes de metro/passe Navigo Découverte se planeiam usar muito o transporte público em Paris. Verificar o Hotel Havane quanto a ar condicionado e potencial ruído.",
+            alternativePlan: {
+                title: "Chegada Tranquila e Jantar Próximo ao Hotel",
+                morning: "Check-out do hotel Disney. Transfer direto para o Hotel Havane.",
+                afternoon: "Instalação e descanso prolongado no Hotel Havane. Crianças podem ter um tempo mais calmo (leitura, jogos eletrónicos).",
+                evening: "Jantar num restaurante muito próximo ao hotel, talvez uma pizzaria ou um bistrô com opções simples para agradar a todos, minimizando o esforço no primeiro dia em Paris.",
+                transport: "<h6>Como Chegar (Alternativa - Hotel Disney → Hotel Havane, Paris):</h6><p>Conforme plano principal.</p>",
+                notes: "Prioriza o descanso e uma transição suave, ideal se a manhã na Disney for cansativa ou se o grupo preferir um início mais calmo em Paris."
+            }
+        },
+        "19/07": { 
+            day: "Sábado", 
+            mainTitle: "Montmartre Artística e Sacré-Cœur",
+            themeIcon: "🎨⛪",
+            themeDescription: "Explorando o bairro boémio de Montmartre, a arte da Place du Tertre e a majestosa Basílica do Sacré-Cœur.",
+            mainPlan: {
+                morning: "🎨 Montmartre: Visitar a Place du Tertre para ver os artistas a trabalhar. Explorar as ruas charmosas. Visita à Basílica do Sacré-Cœur (interior e, para quem quiser, vistas da cúpula - notar que são muitos degraus).",
+                afternoon: "Passeio relaxado por Montmartre, visitando lojas de souvenirs e galerias. Almoço numa crêperie típica do bairro. À tarde, os membros mais idosos do grupo podem regressar ao hotel para descansar, enquanto os outros continuam a explorar ou visitam o Musée de Montmartre.",
+                evening: "Jantar perto do Hotel Havane ou, para uma experiência diferente, explorar as Passages Couverts perto dos Grands Boulevards (ex: Passage des Panoramas, Galerie Vivienne).",
+                transport: `<h6>Como Chegar (Hotel Havane → Montmartre/Sacré-Cœur):</h6>
+                    <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido La Courneuve) até à estação <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas).</p>
+                    <p>🔄 Na Chaussée d'Antin - La Fayette, faça a transferência para a <strong>Linha 9</strong> (sentido Mairie de Montreuil) até à estação <strong>Anvers</strong> (4 paradas).</p>
+                    <p>🚶‍♀️ Da estação Anvers, caminhe ~5-7 min pela Rue de Steinkerque (rua turística) até à base do funicular de Montmartre.</p>
+                    <p>🚠 Apanhe o <strong>Funicular de Montmartre</strong> para subir até à Sacré-Cœur (usa um bilhete t+ de metro).</p>
+                    <p><em>Alternativa para Abbesses (coração de Montmartre):</em></p>
+                    <p>   🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>   🚇 Apanhe a <strong>Linha 7</strong> (sentido La Courneuve) até à estação <strong>Opéra</strong> (3 paradas).</p>
+                    <p>   🔄 Na Opéra, faça a transferência para a <strong>Linha 12</strong> (sentido Mairie d'Aubervilliers) até à estação <strong>Abbesses</strong> (5 paradas).</p>
+                    <p>   🚶‍♀️ Explore Montmartre a partir de Abbesses.</p>`
+            },
+            considerations: "Montmartre é uma colina com muitas ruas de paralelepípedos; usar calçado confortável. A Basílica do Sacré-Cœur tem entrada acessível para PMR na lateral. A Place du Tertre pode ser muito movimentada.",
+            alternativePlan: {
+                title: "Canal Saint-Martin e Parc de la Villette",
+                morning: "🚤 Passeio de barco pelo Canal Saint-Martin (reservar com antecedência com empresas como Canauxrama ou Paris Canal) para ver as eclusas e a atmosfera boémia. Ou, uma caminhada tranquila ao longo das margens do canal.",
+                afternoon: "🌳 Explorar o Parc de la Villette: Visitar a Cité des Sciences et de l'Industrie (especialmente se houver interesse em ciência e tecnologia, bom para as crianças mais velhas e adultos) ou simplesmente desfrutar dos jardins temáticos, áreas de lazer e da arquitetura moderna do parque (Philharmonie de Paris, Géode - verificar se está aberta).",
+                evening: "Jantar num dos restaurantes modernos e animados perto do Canal Saint-Martin (Quai de Valmy/Jemmapes) ou em La Villette.",
+                transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Canal Saint-Martin/La Villette):</h6>
+                    <p><strong>Para o Canal Saint-Martin (ex: área de République/Jacques Bonsergent):</strong></p>
+                    <p>   🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>   🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até à estação <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas).</p>
+                    <p>   🔄 Mude para a <strong>Linha 9</strong> (sentido Mairie de Montreuil) até <strong>République</strong> (3 paradas) ou <strong>Oberkampf</strong> (4 paradas). Caminhe até ao canal.</p>
+                    <p>   <em>Ou:</em> Linha 7 até <strong>Poissonnière</strong> (1 parada), caminhe até à estação <strong>Gare de l'Est</strong> (~5 min), apanhe a <strong>Linha 5</strong> (sentido Place d'Italie) até <strong>Jacques Bonsergent</strong> (1 parada).</p>
+                    <p><strong>Para o Parc de la Villette:</strong></p>
+                    <p>   🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>   🚇 Apanhe a <strong>Linha 7</strong> (sentido La Courneuve) diretamente até à estação <strong>Porte de la Villette</strong> (9 paradas, serve a Cité des Sciences) ou <strong>Corentin Cariou</strong> (8 paradas).</p>`,
+                notes: "Uma alternativa mais contemporânea e menos turística, ideal para um dia de verão, oferecendo uma mistura de relaxamento e cultura moderna."
+            }
+        },
+         "20/07": { 
+            day: "Domingo", 
+            mainTitle: "Louvre e Jardin des Tuileries",
+            themeIcon: "🖼️🌳",
+            themeDescription: "Imersão na arte mundialmente famosa do Louvre, seguida de um relaxante passeio pelo histórico Jardin des Tuileries.",
+            mainPlan: {
+                morning: "🖼️ Museu do Louvre (horário pré-reservado essencial!). Foco nas obras-primas: Mona Lisa, Vénus de Milo, Vitória de Samotrácia. Explorar a ala das Antiguidades Egípcias. Papai Marcello: aproveitar os recursos de apoio e rotas calmas disponíveis, se desejar.", 
+                afternoon: "🧺 Almoço: Piquenique no Jardin des Tuileries (comprar iguarias numa boulangerie/fromagerie local) ou num dos cafés do jardim. Passeio pelo Jardin des Tuileries, admirando as esculturas e fontes.", 
+                evening: "🚢 Cruzeiro no Rio Sena ao pôr do sol ou à noite (reservar com antecedência, ex: Bateaux Mouches, Vedettes du Pont Neuf). Ideal para ver os monumentos iluminados de uma perspetiva diferente.",
+                transport: `<h6>Como Chegar (Hotel Havane → Museu do Louvre):</h6>
+                    <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) diretamente até à estação <strong>Palais Royal - Musée du Louvre</strong> (5 paradas, ~10-12 min).</p>
+                    <p>🚶‍♀️ Da estação, siga as indicações para a entrada da Pirâmide do Louvre (~4 min).</p>
+                    <h6>Como Chegar (Louvre/Jardin des Tuileries → Cais do Cruzeiro no Sena - ex: Pont de l'Alma para Bateaux Mouches):</h6>
+                    <p>🚶‍♀️ Do Jardin des Tuileries (lado Sena), caminhe ao longo do Quai des Tuileries ou Quai François Mitterrand em direção oeste (rio à sua esquerda) até à Pont Royal ou Pont de Solférino (~10-15 min).</p>
+                    <p>🚌 Apanhe o <strong>Autocarro 72</strong> (sentido Parc de Saint-Cloud) da paragem Pont Royal ou Musée d'Orsay até à paragem <strong>Alma-Marceau</strong> (perto do cais dos Bateaux Mouches).</p>
+                    <p><em>Alternativa Metro (mais demorada):</em></p>
+                    <p>   🚇 Da estação Tuileries (Linha 1, no jardim), apanhe a <strong>Linha 1</strong> (sentido La Défense) até <strong>Franklin D. Roosevelt</strong> (1 parada).</p>
+                    <p>   🔄 Mude para a <strong>Linha 9</strong> (sentido Pont de Sèvres) até <strong>Alma-Marceau</strong> (1 parada).</p>
+                    <p>   🚶‍♀️ Caminhe ~5 min até o cais.</p>
+                    <p><em>Para Vedettes du Pont Neuf (Square du Vert-Galant):</em> Caminhada de ~15-20 min do Louvre, atravessando a Pont des Arts e seguindo para a ponta da Île de la Cité.</p>`
+            },
+            considerations: "Louvre: Acessibilidade boa. Envolver crianças com 'caça ao tesouro' de obras. Reservar cruzeiro com antecedência, verificando o ponto de partida e acessibilidade do cais.",
+            alternativePlan: {
+                title: "Musée Rodin, Les Invalides e Bairro Charmoso",
+                morning: "🗿 Musée Rodin: Explorar a coleção de esculturas de Auguste Rodin, incluindo 'O Pensador' e 'O Beijo', dispostas na mansão e nos belos jardins circundantes.",
+                afternoon: "🏨 Les Invalides: Visitar o Musée de l'Armée (Museu do Exército) para ver as coleções de armaduras e história militar, e o Dôme des Invalides, onde se encontra o túmulo de Napoleão Bonaparte. Almoço num café perto de Les Invalides.",
+                evening: "Jantar no charmoso 7º arrondissement, conhecido pelos seus restaurantes elegantes e ambiente tranquilo. Passeio noturno pela Esplanade des Invalides.",
+                transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Musée Rodin):</h6>
+                    <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) até à estação <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas).</p>
+                    <p>🔄 Mude para a <strong>Linha 9</strong> (sentido Pont de Sèvres) até à estação <strong>Franklin D. Roosevelt</strong> (2 paradas).</p>
+                    <p>🔄 Mude para a <strong>Linha 13</strong> (sentido Châtillon-Montrouge) até à estação <strong>Varenne</strong> (4 paradas, a mais próxima do Musée Rodin).</p>
+                    <p>🚶‍♀️ Caminhe ~2-3 min até o Musée Rodin.</p>
+                    <h6>Como Chegar (Alternativa - Musée Rodin → Les Invalides):</h6>
+                    <p>🚶‍♀️ Caminhada curta e agradável de ~5-7 minutos entre os dois locais.</p>`,
+                notes: "Uma opção cultural focada em escultura e história, com a beleza serena dos jardins do Musée Rodin. O 7º arrondissement oferece uma atmosfera parisiense clássica para o jantar."
+            }
+        },
+        "21/07": { 
+            day: "Segunda", 
+            mainTitle: "D'Orsay, Grande Galerie de l'Évolution e Quartier Latin",
+            themeIcon: "🖼️🐘📚",
+            themeDescription: "Uma jornada pela arte impressionista, a maravilha da evolução natural e o charme intelectual do Quartier Latin.",
+            mainPlan: {
+                morning: "🖼️ Museu d'Orsay (horário pré-reservado): Admirar a vasta coleção de arte impressionista e pós-impressionista, alojada numa magnífica antiga estação de comboios.", 
+                afternoon: "Almoço perto do Musée d'Orsay ou no Quartier Latin. 🐘 Visita à Grande Galerie de l’Évolution no Jardin des Plantes. Se o tempo permitir, breve passeio pelo Quartier Latin (ex: Shakespeare & Co.).", 
+                evening: "Jantar no Quartier Latin.",
+                transport: `<h6>Como Chegar (Hotel Havane → Musée d'Orsay):</h6>
+                    <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) até à estação <strong>Palais Royal - Musée du Louvre</strong> (5 paradas).</p>
+                    <p>🚶‍♀️ Caminhe ~10-15 min atravessando o Jardin des Tuileries e a Pont Royal ou Pont de Solférino até ao Musée d'Orsay.</p>
+                    <p><em>Alternativa com menos caminhada, mais mudanças:</em></p>
+                    <p>   🚇 Linha 7 de Cadet até <strong>Opéra</strong>. Mude para <strong>RER C</strong> (sentido Pontoise/Versailles) até <strong>Musée d'Orsay</strong> (1 parada). Verificar acessibilidade do RER C.</p>
+                    <h6>Como Chegar (Musée d'Orsay → Grande Galerie de l’Évolution - Jardin des Plantes):</h6>
+                    <p>🚌 Apanhe o <strong>Autocarro 63</strong> (sentido Gare de Lyon) da paragem Solférino - Bellechasse (perto do Musée d'Orsay) até à paragem <strong>Jardin des Plantes</strong> (várias paragens, ~20-25 min). A galeria fica dentro do Jardin des Plantes.</p>
+                    <p>🚇 <em>Alternativa Metro (mais mudanças):</em></p>
+                    <p>   Da estação Musée d'Orsay (RER C), apanhe o <strong>RER C</strong> (sentido Juvisy/Massy-Palaiseau) até <strong>Saint-Michel Notre-Dame</strong> (1 parada).</p>
+                    <p>   🔄 Mude para a <strong>Linha 10</strong> (sentido Gare d'Austerlitz) até <strong>Jussieu</strong> ou <strong>Gare d'Austerlitz</strong> (ambas perto do Jardin des Plantes).</p>
+                    <h6>Como Chegar (Grande Galerie de l’Évolution → Restaurante no Quartier Latin):</h6>
+                    <p>🚶‍♀️ Caminhada de ~10-20 minutos, dependendo da localização exata do restaurante no Quartier Latin.</p>
+                    <p>🚇 Ou, da estação <strong>Jussieu</strong> (Linhas 7 e 10) ou <strong>Place Monge</strong> (Linha 7), acesso fácil a várias partes do Quartier Latin.</p>`
+            },
+            considerations: "D'Orsay e Grande Galerie de l'Évolution são acessíveis. O Jardin des Plantes é um ótimo local para uma pausa. O Quartier Latin tem ruas de paralelepípedos.",
+            alternativePlan: {
+                title: "Île de la Cité, Sainte-Chapelle e Cruzeiro",
+                morning: "⛪ Sainte-Chapelle (reservar bilhetes com antecedência!): Maravilhar-se com os deslumbrantes vitrais góticos. Visitar a Conciergerie (exterior ou visita completa).",
+                afternoon: "💐 Passeio pela Île de la Cité: Ver a Catedral de Notre-Dame (exterior). Visitar o Marché aux Fleurs Reine Elizabeth II. Atravessar a Pont Neuf. Almoço na Île de la Cité.",
+                evening: "🚢 Cruzeiro no Sena ao pôr do sol. Jantar perto da Île de la Cité ou no Quartier Latin.",
+                transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Sainte-Chapelle/Île de la Cité):</h6>
+                    <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) até à estação <strong>Châtelet</strong> (6 paradas).</p>
+                    <p>🚶‍♀️ De Châtelet, caminhe ~5-7 min, atravessando a Pont au Change, até à Île de la Cité e à Sainte-Chapelle.</p>`,
+                notes: "Foco na história medieval e na beleza arquitetónica no coração de Paris. A Sainte-Chapelle é uma joia."
+            }
+        },
+        "22/07": { 
+            day: "Terça", 
+            mainTitle: "Dia Real em Versalhes",
+            themeIcon: "👑🌳",
+            themeDescription: "Uma imersão na opulência do Palácio de Versalhes e na vastidão dos seus jardins históricos.",
+            mainPlan: {
+                fullDay: "👑 Palácio de Versalhes e Jardins: Dedicar o dia inteiro a explorar este magnífico Património Mundial. Manhã: Visita aos Grandes Apartamentos do Rei e da Rainha, e à deslumbrante Galeria dos Espelhos. Tarde: Explorar os vastos Jardins à la française (desenhados por Le Nôtre), utilizando o pequeno comboio ou alugando um carrinho de golfe (útil para maior conforto nos vastos jardins) para cobrir mais terreno e visitar o Domínio de Maria Antonieta (Petit Trianon, Grand Trianon e Hameau de la Reine). Almoço: Opções incluem o restaurante La Flottille no Grand Canal, Angelina no Palácio, ou fazer um piquenique nos jardins (em áreas designadas).", 
+                evening: "Regresso a Paris. Jantar relaxado perto do Hotel Havane, talvez experimentando um restaurante local diferente.",
+                transport: `<h6>Como Chegar (Hotel Havane → Palácio de Versalhes):</h6>
+                    <p><strong>Opção 1 (RER C - Clássica):</strong></p>
+                    <p>   🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>   🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Opéra</strong> (3 paradas).</p>
+                    <p>   🔄 Mude para o <strong>RER A</strong> (sentido Boissy-St-Léger/Marne-la-Vallée) até <strong>Charles de Gaulle - Étoile</strong> (2 paradas).</p>
+                    <p>   🔄 Mude para o <strong>RER C5</strong> (sentido Versailles Château - Rive Gauche) até ao terminal <strong>Versailles Château - Rive Gauche</strong> (~30-40 min). (Verificar se o comboio tem este destino final específico).</p>
+                    <p>   🚶‍♀️ Da estação Versailles Château - Rive Gauche, caminhe ~10-15 min até à entrada do Palácio.</p>
+                    <p>   <em>Nota:</em> Serviços de assistência como Assist'enGare podem ser úteis para quem necessita de apoio nas estações.</p>
+                    <p><strong>Opção 2 (Metro + Autocarro 171 - Alternativa Cénica):</strong></p>
+                    <p>   🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>   🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas).</p>
+                    <p>   🔄 Mude para a <strong>Linha 9</strong> (sentido Pont de Sèvres) até ao terminal <strong>Pont de Sèvres</strong> (~25 min).</p>
+                    <p>   🚌 Na estação de autocarros de Pont de Sèvres, apanhe o <strong>Autocarro 171</strong> (sentido Versailles Château) até à paragem <strong>Château de Versailles</strong> (viagem de autocarro ~30 min, deixa mesmo em frente aos portões).</p>
+                    <h6>Transporte dentro de Versalhes:</h6>
+                    <p>🚂 Pequeno Comboio (Le Petit Train): Faz paragens nos principais pontos dos jardins e Trianon.</p>
+                    <p>🚗 Carrinhos de Golfe Elétricos: Aluguer disponível para explorar os jardins ao seu ritmo (reservar com antecedência, especialmente os adaptados para PMR).</p>`
+            },
+            considerations: "Dia longo e potencialmente cansativo. Usar calçado muito confortável. Reservar bilhetes e transporte interno (carrinho de golfe) com antecedência. Carrinhos de golfe, incluindo modelos acessíveis, são recomendados para explorar os jardins confortavelmente. Verificar horários dos espetáculos das Fontes Musicais ou Jardins Musicais, se estiverem a decorrer e quiserem assistir (requer bilhete específico).",
+            alternativePlan: {
+                title: "Castelo de Fontainebleau e Floresta",
+                fullDay: "🏰 Visita ao Château de Fontainebleau: Um dos maiores castelos reais franceses, com mais de 1500 divisões, testemunha de séculos de história francesa. Menos lotado que Versalhes, oferece uma experiência igualmente grandiosa. Passeio pelos seus pátios e jardins. Se o tempo e a disposição permitirem, um breve passeio pela vasta Floresta de Fontainebleau adjacente (ideal para amantes da natureza).",
+                evening: "Regresso a Paris. Jantar perto do Hotel Havane.",
+                transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Château de Fontainebleau):</h6>
+                    <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) até à estação <strong>Gare de Lyon</strong> (10 paradas, ~15-20 min).</p>
+                    <p>🚂 Na Gare de Lyon (Hall 1 ou 2, verificar painéis), apanhe um comboio <strong>Transilien Linha R</strong> (sentido Montargis Sens ou Montereau) até à estação <strong>Fontainebleau-Avon</strong> (~40 min).</p>
+                    <p>🚌 Da estação Fontainebleau-Avon, apanhe o <strong>Autocarro Linha 1</strong> (sentido Les Lilas) até à paragem <strong>Château</strong> (~10-15 min).</p>`,
+                notes: "Uma alternativa majestosa a Versalhes, oferecendo uma imersão profunda na história francesa com um ambiente ligeiramente diferente e a possibilidade de contacto com a natureza."
+            }
+        },
+        "23/07": { 
+            day: "Quarta", 
+            mainTitle: "Elegância, Arte e Doces: Musée Jacquemart-André e Opções",
+            themeIcon: "🏛️🍰",
+            themeDescription: "Um dia de requinte, explorando uma mansão histórica e sua arte, com pausas para delícias parisienses.",
+            mainPlan: {
+                morning_afternoon_options: `
+                    <p><strong>Atividade Principal do Dia (Escolher horário):</strong></p>
+                    <p>   🏛️ Visita ao <strong>Musée Jacquemart-André</strong> (158 Boulevard Haussmann, 8º). Explore a magnífica mansão do século XIX e a sua coleção de arte italiana renascentista, mestres flamengos e mobiliário francês.</p>
+                    <p>   🍽️☕ <em>Opção 1:</em> Visitar de manhã e desfrutar de um almoço no elegante <strong>Café Jacquemart-André</strong> (um dos mais belos salões de chá de Paris).</p>
+                    <p>   ☕🍰 <em>Opção 2:</em> Visitar a partir das 15h e deliciar-se com um chá da tarde no <strong>Café Jacquemart-André</strong>.</p>
+                    <br>
+                    <p><strong>Combinar com (escolher 1-2, dependendo do horário da visita ao Jacquemart-André e do ritmo da família):</strong></p>
+                    <p>   🌳 <strong>Parc Monceau:</strong> Um passeio relaxante neste elegante parque, muito próximo ao museu.</p>
+                    <p>   👗 <strong>Foco Moda (Nicole):</strong> Deslocamento para o Musée de la Mode (Palais Galliera) ou Musée des Arts Decoratifs (MAD).</p>
+                    <p>   🏛️ <strong>Arte Adicional:</strong> Visita ao Petit Palais (coleção permanente gratuita, perto da área dos Champs-Élysées).</p>
+                    <p>   🧁 <strong>Doçura Parisiense:</strong> Visita à Patisserie Pierre Hermé para macarons e outras delícias.</p>
+                `,
+                evening: "Jantar (casual, ex: Özlem Kebab – verificar adequação, ou outra opção dependendo da área da atividade da tarde).",
+                transport: `<h6>Como Chegar (Hotel Havane → Musée Jacquemart-André):</h6>
+                    <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas).</p>
+                    <p>🔄 Mude para a <strong>Linha 9</strong> (sentido Pont de Sèvres) até <strong>Saint-Augustin</strong> (3 paradas) ou <strong>Miromesnil</strong> (2 paradas).</p>
+                    <p>🚶‍♀️ De Saint-Augustin, caminhe ~7-10 min. De Miromesnil, caminhe ~5-8 min até o Musée Jacquemart-André.</p>
+                    <h6>Como Chegar (Atividades Combinadas - exemplos):</h6>
+                    <p>   🚶‍♀️ <strong>Do Jacquemart-André para Parc Monceau:</strong> Caminhada curta de ~5-10 minutos.</p>
+                    <p>   🚇🚌 <strong>Do Jacquemart-André para Musée de la Mode/MAD (Área Alma-Marceau):</strong> De Miromesnil (Linha 9, sentido Pont de Sèvres) até <strong>Alma-Marceau</strong> (2 paradas). Ou autocarros da área do Boulevard Haussmann.</p>
+                    <p>   🚇🚌 <strong>Do Jacquemart-André para Petit Palais:</strong> De Miromesnil (Linha 13, sentido Châtillon-Montrouge) até <strong>Champs-Élysées - Clemenceau</strong> (1 parada).</p>
+                    <p>   🚇🚌 <strong>Do Jacquemart-André para Pierre Hermé (ex: boutique em Saint-Germain):</strong> De Miromesnil (Linha 13, sentido Châtillon) até <strong>Duroc</strong>, mudar para Linha 10 (sentido Gare d'Austerlitz) até <strong>Mabillon</strong>. Ou autocarros.</p>`
+            },
+            considerations: "Musée Jacquemart-André: verificar horários de abertura e se é necessário reservar bilhetes/mesa no café. É um museu mais íntimo e pode ser uma boa pausa dos grandes museus. Parc Monceau é ideal para um momento de tranquilidade. Coordenar os horários das outras atividades escolhidas.",
+            alternativePlan: {
+                title: "Jardin d'Acclimatation e Fundação Louis Vuitton",
+                morning: "🎠 Jardin d'Acclimatation: Localizado no Bois de Boulogne, este parque de diversões histórico oferece atrações para todas as idades, desde carrosséis clássicos a pequenas montanhas-russas, um pequeno zoo e áreas de recreio. Ideal para as crianças.",
+                afternoon: "🖼️ Fundação Louis Vuitton (adjacente ao Jardin d'Acclimatation): Para os adultos e Nicole, uma visita a este impressionante edifício de Frank Gehry para apreciar a arquitetura e as exposições de arte contemporânea. Almoço num dos cafés do Jardin d'Acclimatation ou no restaurante da Fundação.",
+                evening: "Jantar no 16º arrondissement (área elegante perto do Bois de Boulogne) ou regressar ao centro de Paris para uma opção mais central.",
+                transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Jardin d'Acclimatation/Fondation Louis Vuitton):</h6>
+                    <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas).</p>
+                    <p>🔄 Mude para a <strong>Linha 9</strong> (sentido Pont de Sèvres) até à estação <strong>La Muette</strong> (8 paradas).</p>
+                    <p>🚶‍♀️ De La Muette, caminhe ~15-20 min através de uma parte do Bois de Boulogne até à entrada do Jardin d'Acclimatation.</p>
+                    <p><em>Alternativa mais direta para a Fundação (pode envolver o shuttle da Fundação):</em></p>
+                    <p>   🚇 Metro até <strong>Charles de Gaulle - Étoile</strong>. Apanhe o <strong>Shuttle da Fundação Louis Vuitton</strong> (verificar horários e ponto de partida exato perto do Arco do Triunfo).</p>
+                    <p>   <em>Ou:</em> Metro Linha 1 até <strong>Les Sablons</strong>. Caminhe ~10-15 min até à Fundação/Jardin. O Petit Train parte de fora da estação Les Sablons para o Jardin d'Acclimatation.</p>`,
+                notes: "Uma excelente combinação de diversão para as crianças e cultura/arquitetura de vanguarda para os adultos. O Bois de Boulogne oferece um ambiente verdejante."
+            }
+        },
+         "24/07": { 
+            day: "Quinta", 
+            mainTitle: "Arte Moderna e Sonhos de Chocolate",
+            themeIcon: "🎨🍫",
+            themeDescription: "Um mergulho na arte moderna do Centre Pompidou, seguido por uma doce aventura no mundo do chocolate.",
+            mainPlan: {
+                morning: "🎨 Centre Pompidou: Explorar o Museu Nacional de Arte Moderna (coleções permanentes e temporárias). Apreciar as vistas panorâmicas de Paris a partir do terraço superior. Papai Marcello pode apreciar a estrutura arquitetónica única. A Galeria das Crianças oferece atividades interativas para Valentina e Clara.", 
+                afternoon: "🍫 Choco Story Paris (Musée du Chocolat): Mergulhar na história do cacau e do chocolate, ver demonstrações de fabrico e, claro, participar em degustações. Almoço: No Le Georges (restaurante no topo do Centre Pompidou, com vistas) ou num dos muitos cafés e bistrôs no charmoso bairro do Marais, nas proximidades.", 
+                evening: "Jantar no Le Marais, aproveitando a atmosfera vibrante do bairro, com as suas ruas históricas, boutiques e galerias.",
+                transport: `<h6>Como Chegar (Hotel Havane → Centre Pompidou):</h6>
+                     <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                     <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) até à estação <strong>Châtelet</strong> (6 paradas, ~10-12 min).</p>
+                     <p>🚶‍♀️ De Châtelet, siga as indicações para o Centre Pompidou (saída Rambuteau ou Pompidou), caminhada de ~5-7 min.</p>
+                     <h6>Como Chegar (Centre Pompidou → Choco Story Paris - 28 Bd de Bonne Nouvelle):</h6>
+                     <p>🚶‍♀️ Caminhada de ~15-20 minutos em direção norte/noroeste, passando por Les Halles e subindo em direção aos Grands Boulevards.</p>
+                     <p>🚇 <em>Alternativa Metro:</em></p>
+                     <p>   Da estação <strong>Rambuteau</strong> (Linha 11, perto do Pompidou), apanhe a <strong>Linha 11</strong> (sentido Mairie des Lilas) até <strong>Arts et Métiers</strong> (1 parada).</p>
+                     <p>   🔄 Mude para a <strong>Linha 4</strong> (sentido Porte de Clignancourt) até <strong>Strasbourg - Saint-Denis</strong> (1 parada).</p>
+                     <p>   🚶‍♀️ Caminhe ~3-5 min até o Choco Story Paris.</p>`
+            },
+            considerations: "Centre Pompidou: acessível, verificar exposições temporárias. Choco Story: divertido para todas as idades, workshops podem necessitar de reserva. Le Marais é excelente para passear à noite.",
+            alternativePlan: {
+                title: "Musée de l'Orangerie, Cruzeiro e Saint-Germain",
+                morning: "🖼️ Musée de l'Orangerie: Contemplar os painéis monumentais dos Nenúfares de Monet, uma experiência imersiva e serena. Explorar também a coleção Jean Walter e Paul Guillaume no piso inferior.",
+                afternoon: "🧺 Piquenique no Jardin des Tuileries, adjacente ao museu. 🚢 Se ainda não fizeram um cruzeiro no Sena, ou se quiserem uma experiência diferente (ex: ao pôr do sol, ou com uma empresa diferente como Vedettes du Pont Neuf para um barco mais pequeno), esta é uma boa oportunidade.",
+                evening: "Jantar no elegante bairro de Saint-Germain-des-Prés, conhecido pelos seus cafés literários (Les Deux Magots, Café de Flore - talvez apenas para uma bebida e observar o ambiente) e restaurantes sofisticados.",
+                transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Musée de l'Orangerie):</h6>
+                    <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) até à estação <strong>Concorde</strong> (5 paradas, ~10 min).</p>
+                    <p>🚶‍♀️ Da estação Concorde, caminhe ~5 min através da Place de la Concorde em direção ao Jardin des Tuileries, onde se encontra o museu.</p>
+                    <h6>Como Chegar (Alternativa - Musée de l'Orangerie → Saint-Germain-des-Prés para jantar):</h6>
+                    <p>🚶‍♀️ Caminhada agradável de ~15-20 minutos, atravessando a Pont Royal ou Pont du Carrousel.</p>
+                    <p>🚇 <em>Alternativa Metro:</em> De Concorde (Linha 12) até Sèvres-Babylone (3 paradas), depois caminhe ou mude para Linha 10 até Mabillon ou Odéon.</p>`,
+                notes: "Uma experiência artística mais intimista e um clássico parisiense no Sena, seguido de um jantar num dos bairros mais chiques de Paris."
+            }
+        },
+        "25/07": { 
+            day: "Sexta", 
+            mainTitle: "Torre Eiffel e Champs-Élysées",
+            themeIcon: "🗼✨",
+            themeDescription: "Um dia icónico, subindo à Torre Eiffel e passeando pela glamorosa Champs-Élysées.",
+            mainPlan: {
+                morning: "🗼 Torre Eiffel (bilhetes para o 1º e 2º andares pré-reservados para um horário específico!): Subir para apreciar as vistas panorâmicas de Paris. Tempo para fotos e explorar os diferentes níveis.", 
+                afternoon: "🍽️ Almoço na Madame Brasserie (1º andar da Torre Eiffel - reserva essencial e com muita antecedência!). Após o almoço, passeio pela Avenue des Champs-Élysées, observando as lojas de luxo e o movimento. Visita ao Arco do Triunfo (subida opcional para vistas, elevador disponível para PMR até um certo nível).", 
+                evening: "🥂 Jantar especial: Le Fouquet's nos Champs-Élysées para uma experiência parisiense clássica e luxuosa (Vovó Lúcia irá adorar). Requer reserva antecipada.",
+                transport: `<h6>Como Chegar (Hotel Havane → Torre Eiffel):</h6>
+                    <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Opéra</strong> (3 paradas).</p>
+                    <p>🔄 Mude para a <strong>Linha 8</strong> (sentido Balard) até <strong>École Militaire</strong> (6 paradas).</p>
+                    <p>🚶‍♀️ Caminhe ~10-12 min através do Champ de Mars até à Torre Eiffel.</p>
+                    <p><em>Alternativa com vista icónica na chegada (menos caminhada da estação final):</em></p>
+                    <p>   🚇 Linha 7 de Cadet até <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas).</p>
+                    <p>   🔄 Mude para a <strong>Linha 9</strong> (sentido Pont de Sèvres) até <strong>Trocadéro</strong> (6 paradas).</p>
+                    <p>   🚶‍♀️ Saia em Trocadéro para vistas espetaculares da Torre Eiffel e depois caminhe descendo os jardins até à Torre (~10 min).</p>
+                    <h6>Como Chegar (Torre Eiffel → Champs-Élysées/Arco do Triunfo):</h6>
+                    <p>🚶‍♀️ Caminhe pelo Champ de Mars e atravesse a Pont d'Iéna. Pode apanhar o <strong>Autocarro 42</strong> (sentido Gare Saint-Lazare) da paragem Tour Eiffel ou Rapp - La Bourdonnais, que sobe os Champs-Élysées.</p>
+                    <p>🚇 Da estação <strong>Bir-Hakeim</strong> (Linha 6, perto da Torre), apanhe a <strong>Linha 6</strong> (sentido Charles de Gaulle - Étoile) até ao terminal <strong>Charles de Gaulle - Étoile</strong> (5 paradas), que fica no Arco do Triunfo e no topo dos Champs-Élysées.</p>`
+            },
+            considerations: "Torre Eiffel: Cimeira não acessível para PMR. Madame Brasserie e Le Fouquet's: reservar com MUITA antecedência e informar sobre necessidades alimentares. O Arco do Triunfo tem elevador para acesso assistido.",
+            alternativePlan: {
+                title: "Palais Garnier, Grands Magasins e Passagens Cobertas",
+                morning: "🎭 Visita guiada (ou áudio-guia) à Opéra Garnier (Palais Garnier): Explorar o interior deslumbrante, incluindo a grande escadaria, o auditório (se não houver ensaios) e os salões opulentos. Uma joia da arquitetura do Segundo Império.",
+                afternoon: "🛍️ Compras ou simples 'lèche-vitrines' (ver montras) nas Galeries Lafayette e Printemps Haussmann. Subir aos terraços panorâmicos de ambos os armazéns para vistas gratuitas de Paris, incluindo a Opéra e a Torre Eiffel. Almoço numa das muitas opções de restauração dentro dos grandes armazéns.",
+                evening: "Explorar as históricas Passages Couverts de Paris (ex: Galerie Vivienne, Passage des Panoramas, Passage Jouffroy) perto dos Grands Boulevards, com as suas lojas encantadoras e atmosfera de outrora. Jantar num restaurante tradicional numa das passagens ou na área da Opéra/Grands Boulevards (ex: Bouillon Chartier, se ainda não foram).",
+                transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Opéra Garnier):</h6>
+                    <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) diretamente até à estação <strong>Opéra</strong> (3 paradas, ~5-7 min).</p>
+                    <p>🚶‍♀️ A Opéra Garnier fica em frente à saída do metro.</p>
+                    <h6>Como Chegar (Alternativa - Opéra Garnier ↔ Galeries Lafayette/Printemps ↔ Passages Couverts):</h6>
+                    <p>🚶‍♀️ Todas estas localizações estão a uma curta distância a pé umas das outras (5-15 minutos entre elas), na área dos Grands Boulevards.</p>`,
+                notes: "Foco em arquitetura opulenta, na experiência de compras parisiense clássica e no charme histórico das passagens cobertas. Mais relaxado em termos de deslocamentos longos."
+            }
+        },
+        "26/07": { 
+            day: "Sábado", 
+            mainTitle: "Dia de Escolha: Arredores ou Paris",
+            themeIcon: "🗺️🤔",
+            themeDescription: "Um dia flexível para explorar os arredores de Paris (Giverny/Chartres) ou desfrutar de um ritmo mais relaxado na cidade.",
+            mainPlan: {
+                fullDay: `
+                    <p><strong>Opção 1: 🌸 Giverny (Casa e Jardins de Monet)</strong> - Mergulhe no mundo impressionista de Claude Monet, visitando a sua casa colorida e os famosos jardins de nenúfares e a ponte japonesa que inspiraram tantas das suas obras-primas.</p>
+                    <p><strong>Opção 2: ⛪ Catedral de Chartres</strong> - Faça uma viagem a uma das mais belas catedrais góticas da Europa, famosa pelos seus vitrais medievais incrivelmente preservados e pela sua arquitetura imponente.</p>
+                    <p><strong>Opção 3: 🌳 Paris Relaxado</strong> - Desfrute de um dia mais tranquilo em Paris: um longo passeio pelo Jardin du Luxembourg (com os seus barcos à vela, marionetas e ambiente familiar), seguido de uma visita ao divertido e interativo Paradox Museum, que irá encantar todas as idades com as suas ilusões de ótica.</p>
+                `, 
+                evening: "Jantar temático relacionado com a escolha do dia (ex: cozinha normanda se foram a Giverny) ou um restaurante favorito da família em Paris.",
+                transport: `<h6>Transporte para Giverny (Opção 1):</h6>
+                    <p>1. 🚶‍♀️ Hotel Havane → Gare Saint-Lazare:</p>
+                    <p>   🚇 Metro Cadet (Linha 7, sentido La Courneuve) até <strong>Opéra</strong> (3 paradas). Mudar para <strong>Linha 3</strong> (sentido Pont de Levallois) ou <strong>Linha 14</strong> (sentido Saint-Denis Pleyel) ou <strong>Linha 12</strong> (sentido Mairie d'Issy) até <strong>Saint-Lazare</strong> (1-2 paradas).</p>
+                    <p>2. 🚂 Comboio SNCF da <strong>Gare Saint-Lazare</strong> para <strong>Vernon-Giverny</strong> (~50-75 min). Comprar bilhetes com antecedência.</p>
+                    <p>3. 🚌 De Vernon-Giverny: Shuttle (navette) sincronizado com os comboios ou táxi até Giverny (~15 min).</p>
+                    <h6>Transporte para Chartres (Opção 2):</h6>
+                    <p>1. 🚶‍♀️ Hotel Havane → Gare Montparnasse:</p>
+                    <p>   🚇 Metro Cadet (Linha 7, sentido La Courneuve) até <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas). Mudar para <strong>Linha 9</strong> (sentido Pont de Sèvres) até <strong>Montparnasse-Bienvenüe</strong> (9 paradas).</p>
+                    <p>2. 🚂 Comboio SNCF da <strong>Gare Montparnasse</strong> para <strong>Chartres</strong> (~1h - 1h15 min). Comprar bilhetes com antecedência.</p>
+                    <h6>Transporte para Paris Relaxado (Opção 3 - Jardin du Luxembourg):</h6>
+                    <p>🚶‍♀️ Hotel Havane → Jardin du Luxembourg:</p>
+                    <p>   🚇 Metro Cadet (Linha 7, sentido La Courneuve) até <strong>Opéra</strong> (3 paradas). Mudar para <strong>RER B</strong> (sentido Robinson/St-Rémy-lès-Chevreuse) até <strong>Luxembourg</strong> (3 paradas). Saída direta para o jardim.</p>
+                    <p>   <em>Para o Paradox Museum (97 Rue du Bac, 75007):</em> Do Jardin du Luxembourg, pode ser uma caminhada agradável de ~20-25 min ou apanhar o Metro Linha 12 de Rennes até Rue du Bac.</p>`
+            },
+            considerations: "Escolher com base na energia e interesse da família. Giverny: Casa não acessível para PMR, jardins parcialmente; verificar acessibilidade do shuttle. Chartres: Catedral acessível (rés-do-chão). Paris Relaxado é uma opção de baixo stress.",
+            alternativePlan: {
+                title: "Exploração Aprofundada do Marais e Place des Vosges",
+                morning: "🛍️ Manhã no Marais: Começar pela Place des Vosges, uma das praças mais antigas e charmosas de Paris. Visitar as galerias de arte e lojas sob as arcadas. Explorar as ruas históricas como a Rue des Francs-Bourgeois e a Rue des Rosiers (antigo bairro judeu).",
+                afternoon: "🖼️ Visita ao Musée Carnavalet - História de Paris (entrada gratuita para coleções permanentes) para aprender mais sobre a cidade. Almoço num dos muitos cafés ou bistrôs do Marais, ou no Marché des Enfants Rouges para uma experiência multicultural.",
+                evening: "Jantar no Marais, talvez experimentando um restaurante com um pátio interior ou um ambiente mais íntimo.",
+                transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Le Marais / Place des Vosges):</h6>
+                    <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Châtelet</strong> (6 paradas).</p>
+                    <p>🔄 Mude para a <strong>Linha 1</strong> (sentido Château de Vincennes) até <strong>Saint-Paul</strong> (2 paradas, ideal para o coração do Marais e perto da Place des Vosges).</p>
+                    <p>🚶‍♀️ Da estação Saint-Paul, caminhe ~5-10 min até a Place des Vosges ou outras partes do Marais.</p>
+                    <h6>Transporte dentro do Marais:</h6>
+                    <p>🚶‍♀️ O Marais é melhor explorado a pé.</p>`,
+                notes: "Uma imersão mais profunda num dos bairros mais fascinantes de Paris, combinando história, cultura, compras e gastronomia."
+            }
+        },
+        "27/07": {
+            day: "Domingo",
+            mainTitle: "Arte Moderna, Despedida de Clara e Marais",
+            themeIcon: "🎨👋",
+            themeDescription: "Um dia de arte contemporânea, seguido de momentos especiais de despedida e o charme do Marais.",
+            mainPlan: {
+                morning: "🌆 Centre Pompidou: Visita à coleção permanente de arte moderna e contemporânea. Explorar a área infantil interativa no mezzanino (ideal para Valentina). Subir ao terraço para vistas panorâmicas de Paris.",
+                afternoon: "🎨 Musée Picasso Paris (Marais): Imersão na obra de Pablo Picasso, com pinturas, esculturas e cadernos. 🍦Lanche de despedida com Clara no Marais (Sugestões: Ladurée para macarons ou Glace Bachir para sorvete libanês, com opções sem lactose para Helda).",
+                evening: "🎈 Tempo livre para fotos, afeto e um último passeio pelo Marais com Clara antes da sua partida para a programação separada. O resto da família pode desfrutar de um jantar no Marais ou regressar perto do hotel.",
+                transport: `<h6>Como Chegar (Hotel Havane → Centre Pompidou):</h6>
+                    <p>🚶‍♀️ Caminhe até a estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>🚇 Pegue a <strong>Linha 7</strong> (sentido Villejuif - Louis Aragon ou Mairie d'Ivry) até a estação <strong>Châtelet</strong> (~6 paradas, 10-12 min).</p>
+                    <p>🚶‍♀️ Da estação Châtelet, siga as indicações para o Centre Pompidou (saída Rambuteau ou Pompidou), caminhada de ~6 min.</p>
+                    <h6>Como Chegar (Centre Pompidou → Musée Picasso Paris - 5 Rue de Thorigny):</h6>
+                    <p>🚶‍♀️ Caminhada tranquila de ~10-15 min através do bairro do Marais.</p>
+                    <p>🚇 <em>Alternativa Metrô:</em></p>
+                    <p>   Da estação <strong>Rambuteau</strong> (Linha 11, perto do Pompidou), apanhe a <strong>Linha 11</strong> (sentido Mairie des Lilas) até <strong>Arts et Métiers</strong> (1 parada).</p>
+                    <p>   🔄 Mude para a <strong>Linha 3</strong> (sentido Gallieni) até <strong>Saint-Sébastien - Froissart</strong> (2 paradas).</p>
+                    <p>   🚶‍♀️ Caminhe ~5 min até o Musée Picasso.</p>
+                    <p>   <em>Ou:</em> Da estação <strong>Hôtel de Ville</strong> (Linha 1, perto do Pompidou), apanhe a <strong>Linha 1</strong> (sentido Château de Vincennes) até <strong>Saint-Paul</strong> (1 parada). Caminhe ~5-7 min até o Musée Picasso.</p>`
+            },
+            considerations: "Centre Pompidou: Aberto das 11h às 21h (fecha às terças). Musée Picasso: Aberto das 9h30 às 18h (fecha às segundas). Confirmar horários, pois podem variar. Glace Bachir é uma excelente opção para quem tem intolerância à lactose.",
+            alternativePlan: {
+                title: "Marché des Enfants Rouges, Place des Vosges e Compras no Marais",
+                morning: "🛍️ Visita ao Marché des Enfants Rouges (o mercado coberto mais antigo de Paris, no Marais): Explorar as bancas de comida de todo o mundo, produtos frescos e flores. Ótimo para um almoço informal e multicultural.",
+                afternoon: "🌳 Passeio pela Place des Vosges (uma das praças mais antigas e bonitas de Paris). Visitar as galerias de arte e lojas sob as arcadas. Tempo para compras no Marais, focando nas boutiques independentes e lojas de design que a Nicole poderá apreciar.",
+                evening: "Jantar de despedida em família (sem Clara, que tem a sua programação) num restaurante charmoso do Marais.",
+                transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Marché des Enfants Rouges/Marais):</h6>
+                    <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas).</p>
+                    <p>🔄 Mude para a <strong>Linha 9</strong> (sentido Mairie de Montreuil) até <strong>Oberkampf</strong> (5 paradas).</p>
+                    <p>🔄 Mude para a <strong>Linha 5</strong> (sentido Place d'Italie) até <strong>Richard-Lenoir</strong> (1 parada) e caminhe ~7 min, ou continue na Linha 9 até <strong>Saint-Ambroise</strong> e caminhe ~10 min.</p>
+                    <p><em>Alternativa para o coração do Marais (ex: Saint-Paul):</em></p>
+                    <p>   🚇 Linha 7 de Cadet até <strong>Châtelet</strong>. Mude para <strong>Linha 1</strong> (sentido Château de Vincennes) até <strong>Saint-Paul</strong> (2 paradas).</p>
+                    <h6>Como Chegar (Alternativa - Transporte dentro do Marais):</h6>
+                    <p>🚶‍♀️ O Marais é melhor explorado a pé.</p>`,
+                notes: "Uma opção focada na atmosfera vibrante do Marais, com gastronomia, história e compras. O Marché des Enfants Rouges é uma experiência local autêntica."
+            }
+        },
+        "28/07": { 
+            day: "Segunda", 
+            mainTitle: "Au Revoir, Paris! Retorno ao Brasil",
+            themeIcon: "✈️🇧🇷",
+            themeDescription: "Despedida de Paris e preparativos para a viagem de regresso ao Brasil.",
+            mainPlan: {
+                morning: "🥐 Pequeno-almoço tranquilo no hotel ou numa boulangerie próxima. Últimas arrumações das malas. Check-out do Hotel Havane (verificar horário limite).", 
+                afternoon: "✈️ Translado ao Aeroporto Charles de Gaulle (CDG). Recomenda-se sair do hotel com pelo menos 3h30 a 4h de antecedência em relação ao horário do voo, considerando o check-in, segurança e potencial trânsito.",
+                evening: "(Viagem de regresso ao Brasil)",
+                transport: `<h6>Como Chegar (Hotel Havane → Aeroporto Charles de Gaulle - CDG):</h6>
+                    <p>🚕 <strong>Opção 1 (Recomendada para conforto e grupo):</strong> Transfer privado pré-reservado (van). Tempo estimado: ~45-75 min, dependendo do trânsito.</p>
+                    <p>🚕 <strong>Opção 2 (Táxi):</strong> Pedir na receção do hotel ou usar uma app. Podem ser necessários dois táxis para o grupo e bagagens. Tempo estimado similar ao transfer privado.</p>
+                    <p>🚇🚆 <strong>Opção 3 (Transporte Público - Mais Económica, Menos Confortável com Bagagem):</strong></p>
+                    <p>   1. 🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
+                    <p>   2. 🚇 Apanhe a <strong>Linha 7</strong> (sentido La Courneuve) até à estação <strong>Gare de l'Est</strong> (3 paradas, ~5-7 min).</p>
+                    <p>   3. 🚶‍♀️ Na Gare de l'Est, siga as indicações para a <strong>Gare du Nord</strong> (caminhada interna de ~5-7 minutos, pode ser um pouco confuso com sinalização para RER B).</p>
+                    <p>   4. 🚆 Na Gare du Nord, apanhe o comboio <strong>RER B</strong> (direção Aéroport Charles de Gaulle 2 TGV) diretamente até o aeroporto (~35-40 min). Certifique-se de que o comboio vai para o CDG (nem todos os RER B vão).</p>
+                    <p>   ⏳ Tempo total estimado via RER B: ~1h10 - 1h30 (considerar tempo de espera, caminhadas entre estações e plataformas, e o desafio de gerir bagagens em comboios potencialmente lotados e com escadas em algumas estações).</p>`
+            },
+            considerations: "Confirmar o horário do voo e o terminal de partida no CDG. Se aplicável, tratar do reembolso de IVA (Détaxe) no aeroporto, o que pode levar tempo adicional. Pesar as malas no hotel, se possível, para evitar surpresas no aeroporto.",
+            alternativePlan: null
+        }
+    };
+
+    const pointsOfInterestData = [
+        { name: "Museu do Louvre", icon: "🖼️", category: "Museu", notes: "Um dos maiores e mais famosos museus do mundo. Alberga obras-primas como a Mona Lisa e a Vénus de Milo. A sua pirâmide de vidro é um ícone moderno. Oferece guias e recursos para visitantes com TEA.", link: "https://www.louvre.fr/en", imagePlaceholder: "https://placehold.co/300x200/A9A9A9/FFFFFF?text=Louvre" },
+        { name: "Museu D’Orsay", icon: "🖼️", category: "Museu", notes: "Instalado numa impressionante antiga estação de comboio, exibe arte impressionista e pós-impressionista de mestres como Monet, Van Gogh e Renoir. A arquitetura do edifício é uma atração por si só.", link: "https://www.musee-orsay.fr/fr", imagePlaceholder: "https://placehold.co/300x200/C2B280/FFFFFF?text=Musée+D'Orsay" },
+        { name: "Centre Pompidou", icon: "🖼️", category: "Museu", notes: "Centro cultural com arquitetura arrojada 'de dentro para fora'. Alberga o Museu Nacional de Arte Moderna, uma vasta biblioteca pública e oferece vistas panorâmicas de Paris a partir do seu terraço.", link: "https://www.centrepompidou.fr/en/", imagePlaceholder: "https://placehold.co/300x200/87CEEB/FFFFFF?text=Centre+Pompidou" },
+        { name: "Grande Galerie de l’Évolution", icon: "🐘", category: "Museu", notes: "Parte do Muséum National d'Histoire Naturelle, esta galeria espetacular exibe uma vasta coleção de animais taxidermizados que representam a diversidade da vida na Terra, num cenário arquitetónico impressionante. Localizada no Jardin des Plantes.", link: "https://www.mnhn.fr/fr/grande-galerie-de-l-evolution", imagePlaceholder: "https://placehold.co/300x200/228B22/FFFFFF?text=Grande+Galerie"},
+        { name: "Museu da Moda (Palais Galliera)", icon: "👗", category: "Museu", notes: "Dedicado à história da moda, desde o século XVIII até aos dias de hoje. Apresenta exposições temporárias temáticas ou monográficas de grandes criadores. Um palácio elegante com belos jardins.", link: "https://www.palaisgalliera.paris.fr/en", imagePlaceholder: "https://placehold.co/300x200/FFC0CB/FFFFFF?text=Palais+Galliera" },
+        { name: "Musée Jacquemart-André", icon: "🏛️", category: "Museu/Mansão Histórica", notes: "Uma suntuosa mansão do século XIX transformada em museu, exibindo a coleção de arte italiana renascentista, mestres flamengos e mobiliário francês do casal Édouard André e Nélie Jacquemart. O Café Jacquemart-André é um dos mais belos salões de chá de Paris.", link: "https://www.musee-jacquemart-andre.com/", imagePlaceholder: "https://placehold.co/300x200/DDA0DD/FFFFFF?text=Jacquemart-André" },
+        { name: "Petit Palais", icon: "🏛️", category: "Museu", notes: "Museu de Belas Artes da Cidade de Paris, com uma coleção eclética que abrange desde a antiguidade até ao início do século XX. A entrada para a coleção permanente é gratuita. O edifício em si é uma joia da arquitetura de 1900, com um pátio interior encantador.", link: "https://www.petitpalais.paris.fr/en", imagePlaceholder: "https://placehold.co/300x200/FFD700/FFFFFF?text=Petit+Palais" },
+        { name: "Museu das Artes Decorativas (MAD)", icon: "🏺", category: "Museu", notes: "Localizado numa ala do Palácio do Louvre, explora as artes decorativas, o design e a moda através dos séculos. Coleções ricas em mobiliário, joalharia, cerâmica e têxteis.", link: "https://madparis.fr/en", imagePlaceholder: "https://placehold.co/300x200/C41E3A/FFFFFF?text=MAD+Paris" },
+        { name: "Choco Story Paris", icon: "🍫", category: "Museu", notes: "Um museu delicioso que conta a história do cacau e do chocolate. Oferece demonstrações de fabrico de chocolate, exposições interativas e, claro, degustações. Divertido para todas as idades.", link: "https://www.museeduchocolat.fr/?lang=en", imagePlaceholder: "https://placehold.co/300x200/800080/FFFFFF?text=Choco+Story" },
+        { name: "Paradox Museum de Paris", icon: "🌀", category: "Museu", notes: "Um museu interativo e divertido, cheio de ilusões de ótica e instalações que desafiam a perceção. Ótimo para fotos criativas e uma experiência diferente em família.", link: "https://www.paradoxmuseumparis.com/", imagePlaceholder: "https://placehold.co/300x200/4169E1/FFFFFF?text=Paradox+Museum" },
+        { name: "Musée Rodin", icon: "🗿", category: "Museu", notes: "Dedicado às obras do escultor Auguste Rodin. A mansão do século XVIII e os seus belos jardins exibem obras icónicas como 'O Pensador' e 'O Beijo'. Um oásis de tranquilidade.", link: "http://www.musee-rodin.fr/en", imagePlaceholder: "https://placehold.co/300x200/A9A9A9/FFFFFF?text=Musée+Rodin"},
+        { name: "Musée de l'Orangerie", icon: "🖼️", category: "Museu", notes: "Famoso por albergar os grandes painéis dos Nenúfares de Claude Monet, oferecendo uma experiência artística imersiva. Também possui uma excelente coleção de obras impressionistas e pós-impressionistas de Jean Walter e Paul Guillaume.", link: "https://www.musee-orangerie.fr/en", imagePlaceholder: "https://placehold.co/300x200/87CEEB/FFFFFF?text=L'Orangerie"},
+        { name: "Musée Picasso Paris", icon: "🎨", category: "Museu", notes: "Instalado no histórico Hôtel Salé no Marais, possui a maior coleção pública do mundo de obras de Pablo Picasso, abrangendo todas as suas fases criativas.", link: "https://www.museepicassoparis.fr/en", imagePlaceholder: "https://placehold.co/300x200/C41E3A/FFFFFF?text=Musée+Picasso"},
+        { name: "Musée Carnavalet - Histoire de Paris", icon: "🏛️", category: "Museu", notes: "Dedicado à história da cidade de Paris, desde as suas origens até aos dias de hoje. Instalado em duas mansões históricas no Marais, com pátios e jardins encantadores.", link: "https://www.carnavalet.paris.fr/en", imagePlaceholder: "https://placehold.co/300x200/C2B280/FFFFFF?text=Carnavalet"},
+        { name: "Fondation Louis Vuitton", icon: "🏢", category: "Museu", notes: "Um edifício espetacular desenhado por Frank Gehry, localizado no Bois de Boulogne. Apresenta exposições de arte contemporânea e oferece vistas panorâmicas a partir dos seus terraços.", link: "https://www.fondationlouisvuitton.fr/en", imagePlaceholder: "https://placehold.co/300x200/FFD700/FFFFFF?text=Fondation+LV"},
+        { name: "Torre Eiffel", icon: "🗼", category: "Monumento", notes: "O símbolo mais icónico de Paris. Oferece vistas panorâmicas deslumbrantes da cidade a partir dos seus diferentes níveis. Subir é uma experiência imperdível.", link: "https://www.toureiffel.paris/en", imagePlaceholder: "https://placehold.co/300x200/4169E1/FFFFFF?text=Torre+Eiffel" },
+        { name: "Arco do Triunfo", icon: "🏛️", category: "Monumento", notes: "Imponente arco encomendado por Napoleão, situado no topo da Champs-Élysées. É possível subir ao terraço para vistas espetaculares, incluindo o alinhamento das 12 avenidas que irradiam da praça.", link: "https://www.paris-arc-de-triomphe.fr/en", imagePlaceholder: "https://placehold.co/300x200/DDA0DD/FFFFFF?text=Arco+do+Triunfo" },
+        { name: "Catedral de Notre Dame", icon: "⛪", category: "Monumento", notes: "Obra-prima da arquitetura gótica, atualmente em restauração após o incêndio. A sua fachada e presença majestosa continuam a impressionar. Reabertura prevista para dezembro de 2024.", link: "https://www.notredamedeparis.fr/en/", imagePlaceholder: "https://placehold.co/300x200/A9A9A9/FFFFFF?text=Notre+Dame" },
+        { name: "Ópera Garnier (Palais Garnier)", icon: "🎭", category: "Monumento", notes: "Uma das casas de ópera mais famosas e opulentas do mundo. A sua arquitetura Beaux-Arts, a grande escadaria, os frescos de Chagall no teto do auditório e os salões ricamente decorados são deslumbrantes.", link: "https://www.operadeparis.fr/en/visits/palais-garnier", imagePlaceholder: "https://placehold.co/300x200/FFD700/2F2F2F?text=Opéra+Garnier" },
+        { name: "Sacré-Coeur de Montmartre", icon: "⛪", category: "Monumento", notes: "Basílica branca imaculada que coroa a colina de Montmartre. Oferece vistas panorâmicas de Paris e tem um interior impressionante com mosaicos dourados.", link: "http://www.sacre-coeur-montmartre.com/english/", imagePlaceholder: "https://placehold.co/300x200/87CEEB/FFFFFF?text=Sacré-Coeur" },
+        { name: "Sainte-Chapelle", icon: "⛪", category: "Monumento", notes: "Uma joia da arquitetura gótica na Île de la Cité, famosa pelos seus extraordinários vitrais do século XIII que inundam o interior de luz e cor, contando histórias bíblicas.", link: "http://www.sainte-chapelle.fr/en/", imagePlaceholder: "https://placehold.co/300x200/4169E1/FFFFFF?text=Sainte-Chapelle"},
+        { name: "Conciergerie", icon: "🏰", category: "Monumento", notes: "Parte do antigo Palais de la Cité, serviu como palácio real e mais tarde como prisão durante a Revolução Francesa, onde Maria Antonieta esteve detida. Um local carregado de história.", link: "http://www.paris-conciergerie.fr/en/", imagePlaceholder: "https://placehold.co/300x200/800080/FFFFFF?text=Conciergerie"},
+        { name: "Les Invalides (Musée de l'Armée, Túmulo de Napoleão)", icon: "🏛️", category: "Monumento", notes: "Complexo imponente que alberga o Museu do Exército, com vastas coleções de história militar, e o Dôme des Invalides, onde repousa o túmulo de Napoleão Bonaparte.", link: "https://www.musee-armee.fr/en/", imagePlaceholder: "https://placehold.co/300x200/C2B280/FFFFFF?text=Les+Invalides"},
+        { name: "Palácio de Versalhes", icon: "🏰", category: "Palácio", notes: "Antiga residência dos reis de França, símbolo do absolutismo e da opulência. Explore os Grandes Apartamentos, a Galeria dos Espelhos e os vastos jardins à francesa.", link: "https://en.chateauversailles.fr/", imagePlaceholder: "https://placehold.co/300x200/FFD700/2F2F2F?text=Versalhes" },
+        { name: "Château de Fontainebleau", icon: "🏰", category: "Palácio", notes: "Um dos maiores castelos reais franceses, habitado por soberanos durante oito séculos. Oferece uma viagem pela história da França através dos seus apartamentos ricamente decorados e vastos terrenos.", link: "https://www.chateaudefontainebleau.fr/en/", imagePlaceholder: "https://placehold.co/300x200/228B22/FFFFFF?text=Fontainebleau"},
+        { name: "Champs-Élysées", icon: "🛣️", category: "Área", notes: "A avenida mais famosa de Paris, que se estende do Arco do Triunfo à Place de la Concorde. Ladeada por lojas de luxo, cinemas, cafés e teatros. Ótima para passear e observar o movimento.", link: "https://parisjetaime.com/eng/discover-paris/districts-and-arrondissements/champs-elysees-golden-triangle-p1174", imagePlaceholder: "https://placehold.co/300x200/C41E3A/FFFFFF?text=Champs-Élysées" },
+        { name: "Montmartre", icon: "🏘️", category: "Área", notes: "Bairro boémio e artístico numa colina, com ruas de paralelepípedos, a Place du Tertre (praça dos artistas), a Basílica do Sacré-Cœur e vistas encantadoras da cidade.", link: "https://parisjetaime.com/eng/discover-paris/districts-and-arrondissements/montmartre-p1176", imagePlaceholder: "https://placehold.co/300x200/DDA0DD/FFFFFF?text=Montmartre" },
+        { name: "Quartier Latin", icon: "📚", category: "Área", notes: "Bairro histórico e estudantil, com a Universidade Sorbonne, livrarias icónicas (Shakespeare & Company), ruas medievais, o Panthéon e uma atmosfera vibrante.", link: "https://parisjetaime.com/eng/discover-paris/districts-and-arrondissements/latin-quarter-p1177", imagePlaceholder: "https://placehold.co/300x200/87CEEB/FFFFFF?text=Quartier+Latin" },
+        { name: "Le Marais", icon: "🛍️", category: "Área", notes: "Bairro histórico e trendy, com mansões do século XVII (hôtels particuliers), a Place des Vosges, museus (Picasso, Carnavalet), boutiques da moda, galerias de arte e uma animada vida noturna.", link: "https://parisjetaime.com/eng/discover-paris/districts-and-arrondissements/marais-p1175", imagePlaceholder: "https://placehold.co/300x200/4169E1/FFFFFF?text=Le+Marais"},
+        { name: "Canal Saint-Martin", icon: "🛶", category: "Área", notes: "Canal pitoresco com pontes de ferro, eclusas e margens arborizadas. Popular para passeios de barco, piqueniques e frequentar os cafés e bares da moda nas suas margens.", link: "https://parisjetaime.com/eng/discover-paris/districts-and-arrondissements/canal-saint-martin-p1179", imagePlaceholder: "https://placehold.co/300x200/228B22/FFFFFF?text=Canal+St-Martin"},
+        { name: "Jardin des Tuileries", icon: "🌳", category: "Parque", notes: "Jardim formal à francesa, que se estende do Louvre à Place de la Concorde. Ideal para passear, relaxar junto às fontes, admirar as esculturas e desfrutar de vistas magníficas.", link: "https://www.louvre.fr/en/visit/tuileries-garden", imagePlaceholder: "https://placehold.co/300x200/FFC0CB/FFFFFF?text=Jardin+Tuileries" },
+        { name: "Jardin du Luxembourg", icon: "🌳", category: "Parque", notes: "Um dos parques mais populares de Paris, com o Palácio do Luxemburgo (Senado). Oferece vastos relvados, canteiros de flores, um lago onde as crianças podem alugar barcos à vela, um coreto e muitas cadeiras para relaxar.", link: "https://www.senat.fr/visiter/jardin/", imagePlaceholder: "https://placehold.co/300x200/C2B280/FFFFFF?text=Jardin+Luxembourg" },
+        { name: "Jardin des Plantes", icon: "🌿", category: "Parque", notes: "O principal jardim botânico de França, com estufas históricas, roseiral, jardim alpino e vários museus de história natural, incluindo a Grande Galerie de l'Évolution.", link: "https://www.jardindesplantesdeparis.fr/fr", imagePlaceholder: "https://placehold.co/300x200/228B22/FFFFFF?text=Jardin+des+Plantes" },
+        { name: "Parc Monceau", icon: "🌳", category: "Parque", notes: "Parque elegante e tranquilo no 8º arrondissement, conhecido pelas suas 'folies' arquitetónicas (pequenas construções pitorescas como uma pirâmide egípcia, colunas romanas), estátuas e ambiente sereno.", link: "https://www.paris.fr/lieux/parc-monceau-1806", imagePlaceholder: "https://placehold.co/300x200/DDA0DD/FFFFFF?text=Parc+Monceau" },
+        { name: "Parc Buttes-Chaumont", icon: "🌳", category: "Parque", notes: "Um dos maiores e mais originais parques de Paris, com terreno acidentado, uma gruta, uma cascata, um lago com uma ilha rochosa coroada pelo Templo da Sibila e uma ponte suspensa.", link: "https://www.paris.fr/lieux/parc-des-buttes-chaumont-1757", imagePlaceholder: "https://placehold.co/300x200/87CEEB/FFFFFF?text=Buttes-Chaumont"},
+        { name: "Parc de la Villette", icon: "🔬", category: "Parque", notes: "Grande parque cultural e de lazer, com a Cité des Sciences et de l'Industrie, a Philharmonie de Paris, a Géode, jardins temáticos, áreas de recreio e espaços para eventos.", link: "https://lavillette.com/en/", imagePlaceholder: "https://placehold.co/300x200/800080/FFFFFF?text=Parc+Villette"},
+        { name: "Jardin d'Acclimatation", icon: "🎠", category: "Parque Temático", notes: "Parque de diversões histórico e charmoso no Bois de Boulogne, com atrações para crianças, um pequeno zoo, áreas de recreio e um ambiente familiar.", link: "https://www.jardindacclimatation.fr/en", imagePlaceholder: "https://placehold.co/300x200/FFC0CB/FFFFFF?text=Jardin+Acclimatation"},
+        { name: "Marché aux Puces de Saint-Ouen", icon: "🛋️", category: "Mercado", notes: "O maior mercado de antiguidades e velharias do mundo. Um labirinto de diferentes mercados, cada um com a sua especialidade, desde mobiliário antigo a bugigangas vintage.", link: "https://www.pucesdeparissaintouen.com/", imagePlaceholder: "https://placehold.co/300x200/A9A9A9/FFFFFF?text=Marché+Puces" },
+        { name: "Marché aux Fleurs Reine Elizabeth II", icon: "💐", category: "Mercado", notes: "Mercado de flores e pássaros encantador na Île de la Cité, um oásis de cor e perfume no coração de Paris.", link: "https://www.paris.fr/lieux/marche-aux-fleurs-reine-elizabeth-ii-7517", imagePlaceholder: "https://placehold.co/300x200/DDA0DD/FFFFFF?text=Marché+Fleurs"},
+        { name: "Casa de Monet em Giverny", icon: "🌸", category: "Fora de Paris", notes: "A antiga casa e os deslumbrantes jardins de Claude Monet, que inspiraram as suas famosas pinturas de nenúfares. Uma imersão no mundo do Impressionismo.", link: "https://fondation-monet.com/en/", imagePlaceholder: "https://placehold.co/300x200/228B22/FFFFFF?text=Giverny" },
+        { name: "Catedral de Chartres", icon: "⛪", category: "Fora de Paris", notes: "Uma das mais bem preservadas catedrais góticas da Europa, Património Mundial da UNESCO, famosa pelos seus vitrais medievais originais e pela sua arquitetura imponente.", link: "http://www.cathedrale-chartres.org/", imagePlaceholder: "https://placehold.co/300x200/4169E1/FFFFFF?text=Chartres" },
+        { name: "Disneyland Paris", icon: "🏰", category: "Parque Temático", notes: "O reino da magia, com dois parques (Disneyland Park e Walt Disney Studios Park) que oferecem atrações, espetáculos, paradas e encontros com personagens Disney.", link: "https://www.disneylandparis.com/en-usd/", imagePlaceholder: "https://placehold.co/300x200/FFD700/2F2F2F?text=Disneyland" },
+        { name: "Madame Brasserie", icon: "🍽️", category: "Restaurante", notes: "Restaurante contemporâneo no primeiro andar da Torre Eiffel, oferecendo cozinha francesa moderna com vistas espetaculares. Reservar com muita antecedência!", link: "https://www.restaurants-toureiffel.com/en/madame-brasserie.html", imagePlaceholder: "https://placehold.co/300x200/C2B280/FFFFFF?text=Madame+Brasserie"},
+        { name: "Pierre Hermé", icon: "🧁", category: "Patisserie", notes: "Renomado mestre pastelei
