@@ -8,14 +8,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Visualization & Content Choices:
-        - Daily Itinerary: Transport instructions formatted as step-by-step guides. Grande Galerie de l'Évolution added to Day 21/07. Musée Jacquemart-André added to Day 23/07 with flexible timing. Daily theme icons and descriptions added. Parc Astérix alternative for 26/07 replaced.
-        - Points of Interest: Enhanced textual descriptions, Unicode icons, and image placeholders (using placehold.co), and "Vamos lá!" (Google Maps) buttons. Angelina, Grande Galerie de l'Évolution, and Musée Jacquemart-André added. Parc Astérix removed.
-        - Culinary: Specific dietary information removed, restaurant list remains.
-        - Transport & Tips: Mentions of Vovô Marco's specific mobility restrictions rephrased for general comfort or removed.
-        - Supabase: Client initialized with correct URL and user-provided public anon key. Example section for comments remains. Added checks for Supabase client and table.
-        - No actual map rendering, but textual "map-like" directions for transport.
-        - CONFIRMING NO SVG/Mermaid. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -213,7 +205,7 @@
         .poi-category { 
             color: #87CEEB; 
         }
-        .maps-button {
+        .maps-button { 
             background-color: #228B22; /* Garden Green */
             color: #F5F5F5; /* Marble White */
             padding: 0.5rem 1rem;
@@ -222,9 +214,36 @@
             display: inline-block;
             margin-top: 0.75rem;
             transition: background-color 0.3s ease;
+            border: none; 
+            cursor: pointer;
         }
         .maps-button:hover {
-            background-color: #3CB371; /* MediumSeaGreen - slightly lighter green */
+            background-color: #3CB371; 
+        }
+        .gemini-button { 
+            background-color: #6A0DAD; /* Purple for Gemini */
+            color: white;
+            padding: 0.4rem 0.8rem; 
+            font-size: 0.85em; 
+            margin-top: 0.5rem; 
+        }
+        .gemini-button:hover {
+            background-color: #8A2BE2; 
+        }
+        .gemini-button:disabled {
+            background-color: #A9A9A9; 
+            color: #F5F5F5;
+            cursor: not-allowed;
+        }
+        .poi-curiosities, .kid-activities-results, #dish-description-output { 
+            background-color: #F0E6FA; 
+            padding: 0.75rem;
+            border-radius: 0.25rem;
+            margin-top: 0.75rem; 
+            border-left: 3px solid #6A0DAD; 
+            color: #2F2F2F; 
+            font-size: 0.9em;
+            line-height: 1.5;
         }
         footer {
             border-top: 1px solid #A9A9A9; 
@@ -243,26 +262,26 @@
         #comments-section {
             margin-top: 2rem;
             padding: 1.5rem;
-            background-color: #FFF0F5; /* Soft Blush */
+            background-color: #FFF0F5; 
             border-radius: 0.5rem;
-            border: 1px solid #DDA0DD; /* Lavender Blossom */
+            border: 1px solid #DDA0DD; 
         }
         #comments-section h3 {
-            color: #800080; /* Nightlife Purple */
+            color: #800080; 
             margin-bottom: 1rem;
         }
         #comments-section textarea {
             width: 100%;
             padding: 0.5rem;
             border-radius: 0.25rem;
-            border: 1px solid #A9A9A9; /* Parisian Gray */
+            border: 1px solid #A9A9A9; 
             margin-bottom: 0.5rem;
             min-height: 80px;
             color: #2F2F2F;
         }
         #comments-section button {
-            background-color: #228B22; /* Garden Green */
-            color: #F5F5F5; /* Marble White */
+            background-color: #228B22; 
+            color: #F5F5F5; 
             padding: 0.5rem 1rem;
             border-radius: 0.375rem;
             transition: background-color 0.3s ease;
@@ -271,11 +290,11 @@
             background-color: #3CB371;
         }
         #comments-list div {
-            background-color: #F5F5F5; /* Marble White */
+            background-color: #F5F5F5; 
             padding: 0.75rem;
             border-radius: 0.25rem;
             margin-bottom: 0.5rem;
-            border: 1px solid #C2B280; /* Cobblestone Beige */
+            border: 1px solid #C2B280; 
         }
 
     </style>
@@ -342,6 +361,12 @@
                 <div id="culinary-info" class="space-y-4">
                     <h3 class="text-2xl font-semibold mt-6 mb-3">Sugestões de Restaurantes (Resumo)</h3>
                     <ul id="restaurant-suggestions" class="list-disc pl-5 space-y-2"></ul>
+                    <div class="mt-6">
+                        <h4 class="text-xl font-semibold mb-2" style="color: #C41E3A;">✨ Curioso sobre um prato francês?</h4>
+                        <input type="text" id="french-dish-input" placeholder="Digite o nome do prato (ex: Coq au Vin)" class="w-full md:w-2/3 p-2 border rounded-md mb-2" style="border-color: #A9A9A9;">
+                        <button id="describe-dish-button" class="gemini-button maps-button">Descrever Prato</button>
+                        <div id="dish-description-output" class="kid-activities-results mt-2" style="display: none;"></div>
+                    </div>
                 </div>
             </section>
 
@@ -362,13 +387,6 @@
             <section id="trip-comments" class="content-section">
                 <h2 class="text-3xl font-semibold mb-6">📝 Comentários da Viagem</h2>
                 <p class="mb-6">Deixe aqui as suas memórias, dicas ou momentos favoritos da viagem para partilhar com a família!</p>
-                <!--  INSTRUÇÃO PARA O UTILIZADOR: Para que os comentários funcionem, crie uma tabela chamada 'comentarios' no seu projeto Supabase com as seguintes colunas:
-                      - id (bigint, primary key, auto-incrementing)
-                      - created_at (timestamp with time zone, default now())
-                      - author (text)
-                      - text (text)
-                      Certifique-se também de que as Row Level Security (RLS) policies permitem a inserção e leitura anónima, ou configure-as conforme a sua necessidade.
-                -->
                 <div id="comments-section">
                     <h3>Deixe o seu Comentário:</h3>
                     <textarea id="comment-author" placeholder="O seu nome" class="mb-2"></textarea>
@@ -395,30 +413,15 @@
 
     let supabase = null;
     try {
-        if (SUPABASE_URL && SUPABASE_ANON_KEY && SUPABASE_ANON_KEY !== 'SUA_CHAVE_ANONIMA_PUBLICA_SUPABASE_AQUI') { 
+        if (SUPABASE_URL && SUPABASE_ANON_KEY && SUPABASE_ANON_KEY !== 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxkd3htd2V6Y3JnYXFxbmNkeGR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwMDIzMDYsImV4cCI6MjA2MzU3ODMwNn0.xDxvmlWt5S61NJQb7KTpn_xIGCH8Sx9ssI6qpl9eMOU') { 
             supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             console.log('Supabase client initialized.');
         } else {
             console.warn('Supabase Chave Anónima (anon public) não configurada corretamente. Funcionalidades de base de dados estarão desativadas. Por favor, insira a sua chave anônima pública.');
-            // Atualizar a UI para informar o utilizador
-            const commentsList = document.getElementById('comments-list');
-            if (commentsList) {
-                commentsList.innerHTML = '<p>A funcionalidade de comentários está desativada. Por favor, configure as credenciais do Supabase corretamente no código.</p>';
-            }
-            const submitCommentButton = document.getElementById('submit-comment');
-            if (submitCommentButton) {
-                submitCommentButton.disabled = true;
-                submitCommentButton.style.backgroundColor = '#A9A9A9'; // Parisian Gray para indicar desativado
-            }
         }
     } catch (error) {
         console.error('Erro ao inicializar o cliente Supabase:', error);
-        const commentsList = document.getElementById('comments-list');
-        if (commentsList) {
-            commentsList.innerHTML = '<p>Erro ao conectar com a base de dados de comentários.</p>';
-        }
     }
-
 
     const itineraryData = {
         "14/07": { 
@@ -691,7 +694,7 @@
                 morning_afternoon_options: `
                     <p><strong>Atividade Principal do Dia (Escolher horário):</strong></p>
                     <p>   🏛️ Visita ao <strong>Musée Jacquemart-André</strong> (158 Boulevard Haussmann, 8º). Explore a magnífica mansão do século XIX e a sua coleção de arte italiana renascentista, mestres flamengos e mobiliário francês.</p>
-                    <p>   🍽️☕ <em>Opção 1:</em> Visitar de manhã e desfrutar de um almoço no elegante <strong>Café Jacquemart-André</strong> (um dos mais belos salões de chá de Paris).</p>
+                    <p>   �️☕ <em>Opção 1:</em> Visitar de manhã e desfrutar de um almoço no elegante <strong>Café Jacquemart-André</strong> (um dos mais belos salões de chá de Paris).</p>
                     <p>   ☕🍰 <em>Opção 2:</em> Visitar a partir das 15h e deliciar-se com um chá da tarde no <strong>Café Jacquemart-André</strong>.</p>
                     <br>
                     <p><strong>Combinar com (escolher 1-2, dependendo do horário da visita ao Jacquemart-André e do ritmo da família):</strong></p>
@@ -951,4 +954,604 @@
         { name: "Catedral de Chartres", icon: "⛪", category: "Fora de Paris", notes: "Uma das mais bem preservadas catedrais góticas da Europa, Património Mundial da UNESCO, famosa pelos seus vitrais medievais originais e pela sua arquitetura imponente.", link: "http://www.cathedrale-chartres.org/", imagePlaceholder: "https://placehold.co/300x200/4169E1/FFFFFF?text=Chartres" },
         { name: "Disneyland Paris", icon: "🏰", category: "Parque Temático", notes: "O reino da magia, com dois parques (Disneyland Park e Walt Disney Studios Park) que oferecem atrações, espetáculos, paradas e encontros com personagens Disney.", link: "https://www.disneylandparis.com/en-usd/", imagePlaceholder: "https://placehold.co/300x200/FFD700/2F2F2F?text=Disneyland" },
         { name: "Madame Brasserie", icon: "🍽️", category: "Restaurante", notes: "Restaurante contemporâneo no primeiro andar da Torre Eiffel, oferecendo cozinha francesa moderna com vistas espetaculares. Reservar com muita antecedência!", link: "https://www.restaurants-toureiffel.com/en/madame-brasserie.html", imagePlaceholder: "https://placehold.co/300x200/C2B280/FFFFFF?text=Madame+Brasserie"},
-        { name: "Pierre Hermé", icon: "🧁", category: "Patisserie", notes: "Renomado mestre pastelei
+        { name: "Pierre Hermé", icon: "🧁", category: "Patisserie", notes: "Renomado mestre pasteleiro, famoso pelos seus macarons com sabores inovadores e outras criações de pastelaria requintadas. Várias boutiques em Paris.", link: "https://www.pierreherme.com/", imagePlaceholder: "https://placehold.co/300x200/FFC0CB/FFFFFF?text=Pierre+Hermé"},
+        { name: "Angelina", icon: "☕", category: "Salão de Chá/Patisserie", notes: "Famoso salão de chá parisiense, conhecido pelo seu chocolate quente africano 'L'Africain' e pelo doce Mont-Blanc. Ambiente Belle Époque.", link: "https://www.angelina-paris.fr", imagePlaceholder: "https://placehold.co/300x200/DDA0DD/FFFFFF?text=Angelina"},
+        { name: "Le Fouquet's", icon: "🥂", category: "Restaurante", notes: "Brasserie parisiense icónica e luxuosa nos Champs-Élysées, frequentada por celebridades e conhecida pelo seu ambiente elegante e cozinha francesa clássica.", link: "https://www.hotelsbarriere.com/en/paris/le-fouquets/restaurants-and-bars/fouquets.html", imagePlaceholder: "https://placehold.co/300x200/FFD700/2F2F2F?text=Le+Fouquet's"},
+        { name: "Özlem (Kébab)", icon: "🥙", category: "Restaurante", notes: "Kebab popular e autêntico no 10º arrondissement, conhecido pelo seu pão caseiro e carnes saborosas. Pode ter filas, ideal para uma refeição rápida e informal.", link: "", imagePlaceholder: "https://placehold.co/300x200/A9A9A9/FFFFFF?text=Özlem+Kebab"} 
+    ];
+    const restaurantData = [
+        { name: "Madame Brasserie (Torre Eiffel)", type: "Francesa Moderna", price: "€€€€", notes: "Reservar com muita antecedência. Menu infantil. Informar alergias." },
+        { name: "Le Fouquet's (Champs-Élysées)", type: "Brasserie Francesa Luxo", price: "€€€€€", notes: "Luxuoso, para ocasiões especiais. Reservar." },
+        { name: "Bouillon Chartier (Grands Boulevards)", type: "Francesa Tradicional", price: "€-€€", notes: "Clássicos, bom preço. Fila provável, não aceita reservas." },
+        { name: "Crêperie Breizh Café (várias)", type: "Crepes e Galettes", price: "€€", notes: "Galettes de trigo sarraceno (sem lactose). Bom para todos." },
+        { name: "Pizzeria Popolare (ou similar)", type: "Italiana", price: "€€-€€€", notes: "Pizza/Massa. Bom para comedores seletivos." },
+        { name: "L'As du Fallafel (Le Marais)", type: "Médio Oriente", price: "€", notes: "Fallafel famoso. Takeaway, fila." },
+        { name: "Özlem Kebab (10º arr.)", type: "Turca (Kebab)", price: "€", notes: "Bem conceituado, pão caseiro. Pequeno, filas." },
+        { name: "Le Relais de l'Entrecôte (várias)", type: "Francesa (Steak Frites)", price: "€€€", notes: "Apenas steak frites. Fila provável." },
+        { name: "Pierre Hermé (Cafés)", type: "Patisserie de Luxo", price: "€€€", notes: "Macarons, pastelaria. Alguns locais com café." },
+        { name: "Angelina", type: "Salão de Chá/Patisserie", price: "€€€", notes: "Chocolate quente africano e Mont-Blanc. Ambiente clássico.", link: "https://www.angelina-paris.fr"},
+        { name: "Ladurée Le Marais", type: "Patisserie/Salão de Chá", price: "€€€", notes: "Macarons icónicos, ambiente elegante.", link: "https://www.laduree.fr/"},
+        { name: "Glace Bachir", type: "Sorveteria Libanesa", price: "€€", notes: "Sorvetes artesanais, incluindo opções sem lactose (sorbets) e o famoso Achta com pistácio.", link: "https://bachir.fr/"}
+    ];
+    const transportData = [
+        {
+            title: "Chegada: Aeroporto CDG para Disneyland Paris (14/15 Julho)",
+            content: "<strong>Recomendação:</strong> Transfer privado pré-reservado em van (Viator, GetYourGuide, Magical Shuttle). Essencial devido ao Dia da Bastilha (trânsito, multidões). Magical Shuttle oferece veículos adaptados (reservar com antecedência). TGV é rápido (12 min de CDG para Marne-la-Vallée), mas implica gerir bagagem em estações movimentadas."
+        },
+        {
+            title: "Transfer: Disneyland Paris para Hotel Havane (18 Julho)",
+            content: "<strong>Opções:</strong><br>1. <strong>RER A:</strong> Mais direto e económico (Marne-la-Vallée/Chessy para Châtelet-Les Halles ou Auber, depois táxi/metro para hotel). Aprox. 40-50 min.<br>2. <strong>Transfer Privado:</strong> Mais confortável, porta-a-porta. Recomendado para facilitar com bagagens e para maior conforto do grupo."
+        },
+        {
+            title: "Navegar por Paris (18-28 Julho) - Resumo Geral",
+            content: `<strong>Metro:</strong> Extenso, rápido. Muitas estações antigas SEM elevadores. Linha 14 e partes da Linha 4 são acessíveis. Hotel Havane perto de Cadet/Poissonnière (Linha 7). Usar com cautela, pois nem todas as estações são totalmente acessíveis.<br>
+                     <strong>RER:</strong> Bom para distâncias longas (ex: Versalhes - RER C). Acessibilidade variável. Para RER C (Versalhes), serviços como Assist'enGare podem ser reservados para apoio nas estações. Evitar Saint-Michel Notre-Dame (RER C) se for necessário acesso sem degraus.<br>
+                     <strong>Autocarro (Ônibus):</strong> Geralmente o MAIS ACESSÍVEL para PMR (rampas em todos os autocarros). Permite ver a cidade. Mais lento. Algumas paragens podem não ser totalmente acessíveis.<br>
+                     <strong>Táxi/VTC (Uber, etc.):</strong> Confortável, porta-a-porta. Mais caro. Pedir veículo maior ('Van') para 8 pessoas. G7 tem frota 'Access'.<br>
+                     <strong>A Pé:</strong> Ótimo para descobrir, mas dosear esforço. Cuidado com paralelepípedos em áreas antigas.`
+        },
+        {
+            title: "Transporte para Excursões de Um Dia - Resumo Geral",
+            content: `<strong>Versalhes:</strong> RER C para Versailles Château Rive Gauche. Serviços como Assist'enGare podem ser reservados. Alternativa: Autocarro 171 de Pont de Sèvres.<br>
+                     <strong>Giverny (Casa de Monet):</strong> Comboio (Paris Gare Saint-Lazare para Vernon-Giverny), depois shuttle/táxi. <strong>CRÍTICO:</strong> Acessibilidade PMR do shuttle de Vernon para Giverny é INCERTA. Verificar diretamente com SNgo ou pré-reservar Handi'Bus Agglo.<br>
+                     <strong>Chartres:</strong> Comboio (Paris Montparnasse para Chartres). Estação de Chartres tem funcionalidades de acessibilidade.<br>
+                     <strong>Fontainebleau:</strong> Comboio (Gare de Lyon para Fontainebleau-Avon), depois autocarro Linha 1.<br>
+                     <strong>Parc Astérix:</strong> Shuttles dedicados de Paris (Louvre/CDG).`
+        },
+        {
+            title: "Partida: Hotel Havane para Aeroporto CDG (28 Julho)",
+            content: "<strong>Recomendação:</strong> Transfer privado pré-reservado em van para conveniência e fiabilidade. Alternativa económica: Metro + RER B (ver detalhes no roteiro do dia 28/07)."
+        }
+    ];
+    const usefulTipsData = [
+        {
+            title: "A Fazer as Malas 🎒",
+            content: "Roupa leve, sapatos de caminhada confortáveis (essencial!), chapéus de sol, protetor solar, garrafas de água reutilizáveis. Um guarda-chuva/casaco de chuva leve. Roupas um pouco mais formais para algumas refeições (ex: Madame Brasserie). Medicação (EpiPen para Clara), remédios para enjoo. Adaptadores e carregadores. Específico Disney: trajes temáticos, cadernos de autógrafos."
+        },
+        {
+            title: "Comunicação e Conectividade 📱",
+            content: "Considerar planos de roaming internacional, cartões SIM locais (compráveis em aeroportos/lojas Relay) ou hotspots Wi-Fi portáteis. Hotel Havane e Disneyland Paris oferecem WiFi gratuito."
+        },
+        {
+            title: "Reservas Essenciais 🎟️",
+            content: "<strong>Atrações:</strong> Torre Eiffel, Louvre, Museu d'Orsay, Versalhes DEVEM ser reservados online com antecedência.<br><strong>Disneyland Paris:</strong> Reservas para parques são essenciais. Considerar Disney Premier Access.<br><strong>Restaurantes:</strong> Para jantares em grupo ou locais procurados (Madame Brasserie, Le Fouquet's), reservar com semanas/meses de antecedência.<br><strong>Passeios/Excursões:</strong> Pré-reservar para garantir disponibilidade."
+        },
+        {
+            title: "Compras para Nicole (Moda e Brechós) 🛍️",
+            content: `<strong>Luxo:</strong> Avenue Montaigne, Rue du Faubourg Saint-Honoré, Galeries Lafayette, Printemps.<br>
+                     <strong>Le Marais:</strong> Boutiques, lojas conceito, brechós (Free'p'star, Vintage Désir, Kilo Shop, Come on Eileen).<br>
+                     <strong>Quartier Latin:</strong> Mais brechós (Kilo Shop, Hippy Market).<br>
+                     <strong>Inspiração:</strong> Musée de la Mode, MAD.`
+        },
+        {
+            title: "Lembranças para a Família 🎁",
+            content: "Lojas de museus, produtos gourmet (macarons Pierre Hermé, chocolates Choco Story), livros (Shakespeare & Company), arte de rua (Montmartre). Evitar souvenirs genéricos."
+        },
+        {
+            title: "Marché aux Puces de Saint-Ouen (Domingos) 蚤",
+            content: "Maior mercado de antiguidades. Vasto, pode ser avassalador. Focar em mercados específicos (Vernaison, Dauphine, Paul Bert Serpette). Cuidado com carteiristas. Ir cedo."
+        },
+        {
+            title: "Paris Perfeita para Fotos 📸",
+            content: `<strong>Torre Eiffel:</strong> Trocadéro, Champ de Mars, Ponte Bir-Hakeim.<br>
+                     <strong>Louvre:</strong> Pirâmide (dia/noite), Cour Napoléon.<br>
+                     <strong>Montmartre:</strong> Ruas, La Maison Rose, Place du Tertre.<br>
+                     <strong>Le Marais:</strong> Place des Vosges.<br>
+                     <strong>Parques:</strong> Jardin du Luxembourg (Fonte Médicis), Jardin des Tuileries, Palais Royal (Colunas de Buren).<br>
+                     <strong>Pontes:</strong> Pont Alexandre III.<br>
+                     <strong>Cafés:</strong> Clássicos com toldos vermelhos.<br>
+                     <strong>Passagens Cobertas:</strong> Galerie Vivienne, Passage des Panoramas.`
+        },
+         {
+            title: "Conforto e Cuidado (Resumo) ❤️",
+            content: `<strong>Para membros do grupo que prefiram um ritmo mais lento:</strong> considerar pausas frequentes, utilizar táxis ou autocarros acessíveis, e priorizar atrações com boas instalações (elevadores, rampas). Aluguer de cadeira de rodas/scooter pode ser uma opção de conforto. Serviços como Assist'enGare podem ser úteis para viagens de RER.<br>
+                     <strong>Papai Marcello (TEA):</strong> Louvre: usar PDF "Espaces conseillés : confort" para rotas mais calmas. Centre Pompidou: visitas adaptadas. Visitar atrações em horários mais calmos. Auscultadores com cancelamento de ruído (se desejar).<br>
+                     <strong>Crianças:</strong> Variedade (cultura + diversão), elementos interativos, guloseimas. Clara: minimizar filas (bilhetes pré-reservados/Premier Access), envolvê-la com fotografia.<br>
+                     <strong>Nicole (Ansiedade):</strong> Planos claros, tempo para se arranjar, incluir seus interesses.<br>
+                     <strong>Todos:</strong> Tempo de inatividade, hidratação, lanches, flexibilidade.`
+        }
+    ];
+
+    async function callGeminiAPI(prompt) {
+        const apiKey = ""; // Chave da API será injetada pelo ambiente de produção (ex: função serverless)
+        // Se estiver a testar localmente e quiser que funcione, precisa de uma chave e de uma forma de a fornecer aqui.
+        // No entanto, para um site estático publicado, a chave NÃO PODE estar no código do cliente.
+        if (!apiKey && !window.location.hostname.includes('netlify.app') && !window.location.hostname.includes('vercel.app')) {
+             console.warn("Chave da API Gemini não configurada para ambiente local. As funcionalidades da IA estarão limitadas.");
+            return "Funcionalidade IA não disponível em ambiente local sem configuração de chave API ou proxy.";
+        }
+
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+        
+        const payload = {
+            contents: [{ role: "user", parts: [{ text: prompt }] }]
+        };
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) {
+                const errorBody = await response.text();
+                console.error(`API request failed with status ${response.status}: ${errorBody}`);
+                return `Erro na API: ${response.status}. Detalhes no console.`;
+            }
+            const result = await response.json();
+            if (result.candidates && result.candidates.length > 0 &&
+                result.candidates[0].content && result.candidates[0].content.parts &&
+                result.candidates[0].content.parts.length > 0) {
+                return result.candidates[0].content.parts[0].text;
+            } else {
+                console.error("Resposta da API inesperada:", result);
+                 let errorMessage = "Não foi possível obter uma resposta da IA ou a resposta está vazia.";
+                if (result.promptFeedback && result.promptFeedback.blockReason) {
+                    errorMessage = `Conteúdo bloqueado pela API: ${result.promptFeedback.blockReason}. Tente uma pergunta diferente.`;
+                } else if (result.error) {
+                    errorMessage = `Erro da API: ${result.error.message}. Verifique o console para mais detalhes.`;
+                }
+                return errorMessage;
+            }
+        } catch (error) {
+            console.error('Erro ao chamar a API Gemini:', error);
+            return `Erro ao comunicar com a IA: ${error.message}`;
+        }
+    }
+
+    async function generatePoiCuriosities(poiName, buttonElement) {
+        const resultDivId = `curiosities-${poiName.replace(/\s+/g, '-').toLowerCase().replace(/'/g, '')}`;
+        const resultDiv = document.getElementById(resultDivId);
+        if (!resultDiv) {
+            console.error(`Div de resultado não encontrada: ${resultDivId}`);
+            return;
+        }
+
+        resultDiv.innerHTML = 'A carregar curiosidades... ✨';
+        resultDiv.style.display = 'block';
+        buttonElement.disabled = true;
+
+        const prompt = `Conte-me 2-3 curiosidades interessantes e pouco conhecidas sobre "${poiName}" em Paris. As curiosidades devem ser adequadas para uma família com crianças e adolescentes (idades entre 8 e 14 anos) e escritas em português do Brasil. Apresente cada curiosidade como um item de uma lista (ex: - Curiosidade 1...).`;
+        
+        const responseText = await callGeminiAPI(prompt);
+        resultDiv.innerHTML = responseText.replace(/\n/g, '<br>');
+        buttonElement.disabled = false;
+    }
+
+    async function suggestKidActivities(dateKey, buttonElement) {
+        const resultDivId = `kid-activities-${dateKey.replace(/\//g, '-')}`; // Garante ID válido
+        const resultDiv = document.getElementById(resultDivId);
+         if (!resultDiv) {
+            console.error(`Div de resultado não encontrada: ${resultDivId}`);
+            return;
+        }
+
+        const dayData = itineraryData[dateKey];
+        if (!dayData || !dayData.mainPlan) {
+            resultDiv.innerHTML = 'Dados do dia não encontrados para gerar sugestões.';
+            resultDiv.style.display = 'block';
+            return;
+        }
+
+        resultDiv.innerHTML = 'A procurar atividades divertidas... ✨';
+        resultDiv.style.display = 'block';
+        buttonElement.disabled = true;
+
+        const morningPlan = dayData.mainPlan.morning || "N/A";
+        const afternoonPlan = dayData.mainPlan.afternoon || "N/A";
+        const eveningPlan = dayData.mainPlan.evening || "N/A";
+
+        const prompt = `Considerando o seguinte plano para um dia em Paris: Manhã - "${morningPlan}"; Tarde - "${afternoonPlan}"; Noite - "${eveningPlan}". Sugira 2 ou 3 atividades ou locais divertidos e adequados para crianças e adolescentes (entre 8 e 14 anos) que sejam próximos ou de fácil acesso a partir das áreas mencionadas. As sugestões devem ser diferentes das atividades já planejadas e apresentadas em português do Brasil, em formato de lista com marcadores (bullet points). Para cada sugestão, adicione uma breve justificativa (1-2 frases) do porquê seria interessante para essa faixa etária.`;
+        
+        const responseText = await callGeminiAPI(prompt);
+        resultDiv.innerHTML = responseText.replace(/\n/g, '<br>');
+        buttonElement.disabled = false;
+    }
+    
+    async function describeFrenchDish(buttonElement) {
+        const inputElement = document.getElementById('french-dish-input');
+        const outputDiv = document.getElementById('dish-description-output');
+        const dishName = inputElement.value.trim();
+
+        if (!dishName) {
+            outputDiv.innerHTML = 'Por favor, digite o nome de um prato francês.';
+            outputDiv.style.display = 'block';
+            return;
+        }
+
+        outputDiv.innerHTML = `A pesquisar sobre "${dishName}"... ✨`;
+        outputDiv.style.display = 'block';
+        buttonElement.disabled = true;
+        inputElement.disabled = true;
+
+        const prompt = `Descreva o prato francês "${dishName}" em português do Brasil. Inclua seus ingredientes principais, uma breve história ou origem (se conhecida), e como ele é tipicamente servido ou apreciado. A descrição deve ser informativa e apetitosa.`;
+        
+        const responseText = await callGeminiAPI(prompt);
+        outputDiv.innerHTML = responseText.replace(/\n/g, '<br>');
+        buttonElement.disabled = false;
+        inputElement.disabled = false;
+    }
+
+    async function addComment(author, text) {
+        if (!supabase) {
+            const commentsList = document.getElementById('comments-list');
+            if(commentsList) commentsList.innerHTML = '<p style="color: #C41E3A;">Erro: A ligação com a base de dados (Supabase) não está configurada. Não é possível adicionar comentários.</p>' + (commentsList.firstChild && commentsList.firstChild.nodeName === 'P' && commentsList.firstChild.textContent.startsWith('A carregar') ? '' : commentsList.innerHTML);
+            return;
+        }
+        try {
+            const { data, error } = await supabase
+                .from('comentarios') 
+                .insert([{ author: author, text: text, created_at: new Date() }])
+                .select(); 
+            
+            if (error) {
+                console.error('Erro Supabase ao adicionar comentário:', error);
+                const commentsList = document.getElementById('comments-list');
+                if (error.message.includes('relation "public.comentarios" does not exist')) {
+                   if(commentsList) commentsList.innerHTML = '<p style="color: #C41E3A;">Erro: A tabela "comentarios" não existe na base de dados. Por favor, crie a tabela no painel do Supabase.</p>';
+                } else {
+                   if(commentsList) commentsList.innerHTML = `<p style="color: #C41E3A;">Erro ao adicionar comentário: ${error.message}</p>`;
+                }
+                return; 
+            }
+            
+            console.log('Comentário adicionado:', data);
+            loadComments(); 
+            document.getElementById('comment-author').value = '';
+            document.getElementById('comment-text').value = '';
+        } catch (error) {
+            console.error('Erro inesperado ao adicionar comentário:', error.message);
+            const commentsList = document.getElementById('comments-list');
+            if(commentsList) commentsList.innerHTML = `<p style="color: #C41E3A;">Erro inesperado ao adicionar comentário: ${error.message}</p>`;
+        }
+    }
+
+    async function loadComments() {
+        const commentsList = document.getElementById('comments-list');
+        if (!supabase) {
+            if(commentsList) commentsList.innerHTML = '<p>Funcionalidade de comentários desativada (Supabase não configurado).</p>';
+            return;
+        }
+        try {
+            if(commentsList) commentsList.innerHTML = '<p>A carregar comentários...</p>';
+            let { data: comentarios, error } = await supabase
+                .from('comentarios')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                 console.error('Erro Supabase ao carregar comentários:', error);
+                if (error.message.includes('relation "public.comentarios" does not exist')) {
+                    if(commentsList) commentsList.innerHTML = '<p style="color: #C41E3A;">Erro: A tabela "comentarios" não existe na base de dados. Por favor, crie a tabela no painel do Supabase para ativar os comentários.</p>';
+                } else {
+                    if(commentsList) commentsList.innerHTML = '<p style="color: #C41E3A;">Erro ao carregar comentários: ' + error.message + '</p>';
+                }
+                return; 
+            }
+
+            if (comentarios && comentarios.length > 0) {
+                if(commentsList) commentsList.innerHTML = ''; 
+                comentarios.forEach(comment => {
+                    const commentDiv = document.createElement('div');
+                    const authorStrong = document.createElement('strong');
+                    authorStrong.textContent = comment.author || 'Anónimo';
+                    const dateSpan = document.createElement('span');
+                    dateSpan.textContent = ` - ${new Date(comment.created_at).toLocaleString('pt-PT')}`;
+                    dateSpan.style.fontSize = '0.8em';
+                    dateSpan.style.color = '#A9A9A9'; 
+                    
+                    const textP = document.createElement('p');
+                    textP.textContent = comment.text;
+                    textP.style.marginTop = '0.25rem';
+
+                    commentDiv.appendChild(authorStrong);
+                    commentDiv.appendChild(dateSpan);
+                    commentDiv.appendChild(textP);
+                    if(commentsList) commentsList.appendChild(commentDiv);
+                });
+            } else {
+                if(commentsList) commentsList.innerHTML = '<p>Ainda não há comentários. Seja o primeiro!</p>';
+            }
+        } catch (error) {
+            console.error('Erro inesperado ao carregar comentários:', error.message);
+            if(commentsList) commentsList.innerHTML = '<p>Erro inesperado ao carregar comentários.</p>';
+        }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const navButtons = document.querySelectorAll('.nav-button');
+        const contentSections = document.querySelectorAll('.content-section');
+        const daySelector = document.getElementById('day-selector');
+        const itineraryDetails = document.getElementById('itinerary-details');
+        const poiList = document.getElementById('poi-list');
+        const restaurantSuggestions = document.getElementById('restaurant-suggestions');
+        const transportInfoContainer = document.getElementById('transport-info');
+        const usefulTipsContainer = document.getElementById('useful-tips-content');
+        const submitCommentButton = document.getElementById('submit-comment');
+        const describeDishButton = document.getElementById('describe-dish-button');
+
+
+        if (submitCommentButton) {
+            submitCommentButton.addEventListener('click', () => {
+                const author = document.getElementById('comment-author').value.trim();
+                const text = document.getElementById('comment-text').value.trim();
+                if (text) {
+                    addComment(author || 'Anónimo', text);
+                } else {
+                    const commentTextarea = document.getElementById('comment-text');
+                    commentTextarea.placeholder = "Por favor, escreva um comentário antes de enviar.";
+                    commentTextarea.style.borderColor = '#C41E3A'; // Café Rouge for error
+                    setTimeout(() => {
+                        commentTextarea.placeholder = "Escreva o seu comentário aqui...";
+                        commentTextarea.style.borderColor = '#A9A9A9'; // Parisian Gray
+                    }, 3000);
+                }
+            });
+        }
+        
+        const tripCommentsSection = document.getElementById('trip-comments');
+        if (tripCommentsSection) { 
+             if (supabase) {
+                loadComments();
+             } else {
+                const commentsList = document.getElementById('comments-list');
+                if(commentsList) commentsList.innerHTML = '<p>Funcionalidade de comentários desativada. Verifique a configuração do Supabase no código (URL e Chave Anónima Pública).</p>';
+                if(submitCommentButton) {
+                    submitCommentButton.disabled = true;
+                    submitCommentButton.title = "Supabase não configurado";
+                }
+             }
+        }
+        
+        if (describeDishButton) {
+            describeDishButton.addEventListener('click', () => describeFrenchDish(describeDishButton));
+        }
+
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                contentSections.forEach(section => section.classList.remove('active'));
+                const targetSection = document.getElementById(button.dataset.target);
+                if (targetSection) {
+                     targetSection.classList.add('active');
+                }
+                if (button.dataset.target === 'trip-comments' && supabase) {
+                    loadComments(); 
+                }
+            });
+        });
+
+        Object.keys(itineraryData).forEach((dateKey, index) => {
+            const dayData = itineraryData[dateKey];
+            const button = document.createElement('button');
+            button.className = 'nav-button px-3 py-1.5 rounded-md text-sm'; 
+            if (index === 0 && !daySelector.querySelector('.nav-button.active')) { 
+                 button.classList.add('active'); 
+            }
+            button.textContent = `${dateKey} (${dayData.day.substring(0,3)}) ${dayData.disney ? '🏰' : '🏙️'}`;
+            button.addEventListener('click', () => {
+                displayItineraryForDay(dateKey);
+                daySelector.querySelectorAll('button').forEach(btn => btn.classList.remove('active')); 
+                button.classList.add('active');
+            });
+            daySelector.appendChild(button);
+        });
+        
+        function displayItineraryForDay(dateKey) {
+            const day = itineraryData[dateKey];
+            let html = `<div class="day-card"> 
+                            <h3 class="text-2xl font-bold main-title"><span class="day-theme-icon">${day.themeIcon || '📅'}</span>${day.mainTitle} - ${dateKey} (${day.day})</h3>`;
+            if(day.themeDescription) {
+                html += `<p class="day-theme-description">${day.themeDescription}</p>`;
+            }
+
+            if (day.mainPlan) {
+                html += `<div class="plan-section">
+                            <h4 class="plan-subtitle">📋 Plano Principal</h4>`;
+                if (day.mainPlan.fullDay) {
+                    html += `<div><h5>Dia Inteiro:</h5><p>${day.mainPlan.fullDay}</p></div>`;
+                } else if (day.mainPlan.morning_afternoon_options) { 
+                     html += `<div>${day.mainPlan.morning_afternoon_options}</div>`;
+                }
+                else {
+                    if (day.mainPlan.morning) html += `<div><h5>Manhã ☀️:</h5><p>${day.mainPlan.morning}</p></div>`;
+                    if (day.mainPlan.lunch) html += `<div><h5>Almoço 🍽️:</h5><p>${day.mainPlan.lunch}</p></div>`;
+                    if (day.mainPlan.afternoon) html += `<div><h5>Tarde 🏙️:</h5><p>${day.mainPlan.afternoon}</p></div>`;
+                    if (day.mainPlan.tea_time) html += `<div><h5>Chá da Tarde ☕:</h5><p>${day.mainPlan.tea_time}</p></div>`;
+                }
+                if (day.mainPlan.evening) html += `<div><h5>Noite 🌙:</h5><p>${day.mainPlan.evening}</p></div>`;
+                
+                const kidActivityDivId = `kid-activities-${dateKey.replace(/\//g, '-')}`;
+                html += `<button class="gemini-button maps-button mt-3" onclick="suggestKidActivities('${dateKey.replace(/'/g, "\\'")}', this)">✨ Sugerir Atividades Infantis Próximas</button>`;
+                html += `<div id="${kidActivityDivId}" class="kid-activities-results mt-2" style="display: none;"></div>`;
+
+                if (day.mainPlan.transport) html += `<div class="transport-details mt-4"><h6>Como Chegar:</h6>${day.mainPlan.transport}</div>`;
+                html += `</div>`;
+            }
+            
+            if (day.considerations) html += `<div class="mt-4 pt-4 border-t" style="border-color: #A9A9A9;"><h5 class="font-semibold text-lg" style="color: #4A5568;">Considerações Especiais 💡:</h5><p style="color: #2F2F2F;">${day.considerations}</p></div>`;
+
+            if (day.alternativePlan) {
+                html += `<div class="alternative-plan-container mt-6">
+                            <h4 class="plan-subtitle">✨ Plano Alternativo: ${day.alternativePlan.title}</h4>
+                            <div class="plan-section">`;
+                if (day.alternativePlan.fullDay) {
+                    html += `<div><h5>Dia Inteiro:</h5><p>${day.alternativePlan.fullDay}</p></div>`;
+                } else {
+                    if (day.alternativePlan.morning) html += `<div><h5>Manhã ☀️:</h5><p>${day.alternativePlan.morning}</p></div>`;
+                    if (day.alternativePlan.afternoon) html += `<div><h5>Tarde 🏙️:</h5><p>${day.alternativePlan.afternoon}</p></div>`;
+                }
+                if (day.alternativePlan.evening) html += `<div><h5>Noite 🌙:</h5><p>${day.alternativePlan.evening}</p></div>`;
+                if (day.alternativePlan.transport) html += `<div class="transport-details mt-4"><h6>Como Chegar (Alternativa):</h6>${day.alternativePlan.transport}</div>`;
+                if (day.alternativePlan.notes) html += `<div class="mt-3 pt-3 border-t" style="border-color: #DDA0DD;"><h5 class="font-semibold" style="color: #4A5568;">Notas da Alternativa:</h5><p class="text-sm">${day.alternativePlan.notes}</p></div>`;
+                html += `   </div>
+                         </div>`;
+            }
+            html += `</div>`;
+            itineraryDetails.innerHTML = html;
+        }
+        
+        if (Object.keys(itineraryData).length > 0) {
+            const firstDayKey = Object.keys(itineraryData)[0];
+            displayItineraryForDay(firstDayKey);
+            const firstDayButton = daySelector.querySelector('button'); 
+            if (firstDayButton) {
+                 daySelector.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                 firstDayButton.classList.add('active');
+            }
+        }
+
+
+        pointsOfInterestData.forEach(poi => {
+            const item = document.createElement('div');
+            item.className = 'poi-item'; 
+            let nameHtml = poi.name;
+            if (poi.link) {
+                nameHtml = `<a href="${poi.link}" target="_blank" rel="noopener noreferrer">${poi.name}</a>`;
+            } else {
+                nameHtml = `<span>${poi.name}</span>`;
+            }
+            
+            const mapsQuery = encodeURIComponent(`${poi.name}, Paris, France`);
+            const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`; 
+            const curiositiesDivId = `curiosities-${poi.name.replace(/\s+/g, '-').toLowerCase().replace(/'/g, '')}`;
+
+
+            item.innerHTML = `
+                <div class="poi-image-container">
+                    <img src="${poi.imagePlaceholder}" alt="Imagem de ${poi.name}" onerror="this.alt='Imagem de placeholder para ${poi.name}'; this.src='https://placehold.co/300x200/E0E0E0/2F2F2F?text=Imagem+Indisponível';">
+                </div>
+                <div class="poi-details">
+                    <h4><span class="poi-icon">${poi.icon || '📍'}</span>${nameHtml} <span class="poi-category">(${poi.category})</span></h4>
+                    <p class="text-sm mt-1">${poi.notes}</p>
+                    <a href="${mapsUrl}" target="_blank" class="maps-button">Vamos lá! 🚀</a>
+                    <button class="gemini-button maps-button" onclick="generatePoiCuriosities('${poi.name.replace(/'/g, "\\'")}', this)">✨ Gerar Curiosidades</button>
+                    <div id="${curiositiesDivId}" class="poi-curiosities" style="display: none;"></div>
+                </div>
+            `;
+            poiList.appendChild(item);
+        });
+        
+        restaurantData.forEach(r => {
+            const li = document.createElement('li');
+            let nameHtml = `<strong>${r.name}</strong>`;
+            if (r.link) {
+                 nameHtml = `<a href="${r.link}" target="_blank" rel="noopener noreferrer" style="color: #4169E1; text-decoration: underline;"><strong>${r.name}</strong></a>`;
+            }
+            li.innerHTML = `${nameHtml} (${r.type}, ${r.price}): ${r.notes}`;
+            restaurantSuggestions.appendChild(li);
+        });
+
+        transportData.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'border rounded-lg overflow-hidden mb-4'; 
+            div.style.borderColor = '#A9A9A9'; 
+            div.innerHTML = `
+                <button class="accordion-toggle transport-accordion">
+                    ${item.title} <span class="float-right transform transition-transform duration-300">▾</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="p-4">${item.content}</div>
+                </div>
+            `;
+            transportInfoContainer.appendChild(div);
+        });
+        
+        usefulTipsData.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'border rounded-lg overflow-hidden mb-4'; 
+            div.style.borderColor = '#A9A9A9'; 
+            div.innerHTML = `
+                <button class="accordion-toggle tips-accordion">
+                    ${item.title} <span class="float-right transform transition-transform duration-300">▾</span>
+                </button>
+                <div class="accordion-content">
+                     <div class="p-4">${item.content}</div>
+                </div>
+            `;
+            usefulTipsContainer.appendChild(div);
+        });
+
+        document.querySelectorAll('.accordion-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const arrow = button.querySelector('span');
+                const isOpen = content.style.maxHeight && content.style.maxHeight !== "0px";
+                
+                document.querySelectorAll('.accordion-content.open').forEach(openContent => {
+                    if (openContent !== content) {
+                        openContent.style.maxHeight = "0px";
+                        openContent.classList.remove('open');
+                        const openArrow = openContent.previousElementSibling.querySelector('span');
+                        if (openArrow) openArrow.style.transform = "rotate(0deg)";
+                    }
+                });
+
+                if (isOpen) {
+                    content.style.maxHeight = "0px";
+                    if(arrow) arrow.style.transform = "rotate(0deg)";
+                    content.classList.remove('open');
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    if(arrow) arrow.style.transform = "rotate(180deg)";
+                    content.classList.add('open');
+                }
+            });
+        });
+        
+        const ctx = document.getElementById('tripPhaseChart').getContext('2d');
+        if (ctx) { 
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Disneyland Paris', 'Paris (Cidade)'],
+                    datasets: [{
+                        label: 'Noites',
+                        data: [3, 10],
+                        backgroundColor: [
+                            '#87CEEB', 
+                            '#228B22'  
+                        ],
+                        borderColor: [
+                            '#4169E1', 
+                            '#C41E3A'   
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Número de Noites', color: '#2F2F2F' },
+                            ticks: { color: '#2F2F2F' },
+                            grid: { color: '#A9A9A9' }
+                        },
+                        y: {
+                           ticks: { color: '#2F2F2F' },
+                           grid: { color: '#A9A9A9' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Duração das Fases da Viagem (em noites)', font: {size: 16}, color: '#C41E3A'}
+                    }
+                }
+            });
+        }
+        
+        window.generatePoiCuriosities = generatePoiCuriosities;
+        window.suggestKidActivities = suggestKidActivities;
+
+    });
+</script>
+</body>
+</html>
+�
