@@ -1052,13 +1052,46 @@
         }
     ];
 
-    async function callGeminiAPI(prompt) {
-        const apiKey = ""; // Chave da API será injetada pelo ambiente de produção (ex: função serverless)
-        // Se estiver a testar localmente e quiser que funcione, precisa de uma chave e de uma forma de a fornecer aqui.
-        // No entanto, para um site estático publicado, a chave NÃO PODE estar no código do cliente.
-        if (!apiKey && !window.location.hostname.includes('netlify.app') && !window.location.hostname.includes('vercel.app')) {
-             console.warn("Chave da API Gemini não configurada para ambiente local. As funcionalidades da IA estarão limitadas.");
-            return "Funcionalidade IA não disponível em ambiente local sem configuração de chave API ou proxy.";
+ async function callGeminiAPI(prompt) {
+        // ESTE é o URL que o seu site no Vercel deve chamar.
+        // Ele aponta para a sua função serverless 'gemini.js' dentro da pasta 'api'.
+        const serverlessFunctionUrl = '/api/gemini'; 
+
+        // A verificação da apiKey e do ambiente local que você tinha pode ser removida
+        // ou ajustada, pois agora a lógica de chamar a API da Gemini com a chave
+        // está DENTRO da função serverless (api/gemini.js), e não aqui.
+        // A apiKey = ""; no código do cliente é esperado quando se usa uma função serverless.
+
+        try {
+            // Fazemos um pedido POST para a nossa função serverless
+            const response = await fetch(serverlessFunctionUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                // Enviamos o 'prompt' no corpo do pedido para a nossa função serverless
+                body: JSON.stringify({ prompt: prompt }) 
+            });
+    
+            if (!response.ok) {
+                // Se a nossa função serverless retornar um erro (ex: 404, 500)
+                let errorBody;
+                try {
+                    errorBody = await response.json();
+                } catch (e) {
+                    errorBody = { error: await response.text() };
+                }
+                console.error(`Chamada à função serverless falhou com status ${response.status}:`, errorBody);
+                return `Erro na chamada à função: ${errorBody.error || response.statusText}. Verifique os logs da função no Vercel.`;
+            }
+    
+            const result = await response.json();
+            // A nossa função serverless (api/gemini.js) deve retornar um objeto como: { response: "texto da IA" }
+            return result.response; 
+    
+        } catch (error) {
+            console.error('Erro ao chamar a função serverless Gemini (no index.html):', error);
+            return `Erro ao comunicar com a IA via função: ${error.message}`;
+        }
+    }
         }
 
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
