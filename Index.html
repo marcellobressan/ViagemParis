@@ -173,15 +173,15 @@
             margin-top: 0.75rem; 
             display: flex;
             flex-wrap: wrap;
-            gap: 0.75rem; /* Aumentar um pouco o espaçamento */
+            gap: 0.75rem; 
         }
         .itinerary-poi-image {
-            width: 100px; /* Tamanho um pouco maior */
+            width: 100px; 
             height: 75px;
             object-fit: cover;
             border-radius: 0px; 
             border: 2px solid #B08D57; 
-            padding: 2px; /* Pequeno padding interno */
+            padding: 2px; 
             background-color: #FFFDD0;
         }
 
@@ -276,11 +276,16 @@
         .gemini-button:hover {
             background-color: #6A5ACD; 
         }
-        .poi-curiosities, .kid-activities-results, #dish-description-output { 
+        .poi-curiosities, .kid-activities-results, #dish-description-output,
+        .boulangeries-results, .shops-markets-results, .pharmacies-results { 
             background-color: #F5F5DC; 
-            border-left-color: #B08D57; 
+            border-left: 3px solid #B08D57; 
             border-radius: 0px;
             padding: 1rem;
+            margin-top: 0.75rem; 
+            color: #3B322C; 
+            font-size: 0.9em;
+            line-height: 1.5;
         }
         
         /* Timeline Styles Art Deco Refined */
@@ -1428,6 +1433,82 @@
         }
     }
 
+    // Novas funções para sugestões
+    async function suggestBoulangeries(dateKey, buttonElement) {
+        const resultDivId = `boulangeries-results-${dateKey.replace(/\//g, '-')}`;
+        const resultDiv = document.getElementById(resultDivId);
+        if (!resultDiv) { console.error(`Div de resultado não encontrada: ${resultDivId}`); return; }
+
+        const dayData = itineraryData[dateKey];
+        if (!dayData || !dayData.mainPlan) {
+            resultDiv.innerHTML = 'Dados do dia não encontrados para gerar sugestões.';
+            resultDiv.style.display = 'block';
+            return;
+        }
+        resultDiv.innerHTML = 'A procurar boulangeries/pâtisseries... 🥐';
+        resultDiv.style.display = 'block';
+        buttonElement.disabled = true;
+
+        const morningPlan = dayData.mainPlan.morning || "N/A";
+        const afternoonPlan = dayData.mainPlan.afternoon || "N/A";
+        const eveningPlan = dayData.mainPlan.evening || "N/A";
+        const prompt = `Considerando o seguinte plano para um dia em Paris: Manhã - "${morningPlan}"; Tarde - "${afternoonPlan}"; Noite - "${eveningPlan}". Sugira 2 ou 3 boulangeries ou pâtisseries charmosas e bem avaliadas que sejam próximas ou de fácil acesso a partir das áreas mencionadas. As sugestões devem ser apresentadas em português do Brasil, em formato de lista com marcadores. Para cada sugestão, adicione uma breve descrição (1-2 frases) do seu diferencial ou especialidade.`;
+        
+        const responseText = await callGeminiAPI(prompt);
+        resultDiv.innerHTML = responseText.replace(/\n/g, '<br>');
+        buttonElement.disabled = false;
+    }
+
+    async function suggestShopsMarkets(dateKey, buttonElement) {
+        const resultDivId = `shops-markets-results-${dateKey.replace(/\//g, '-')}`;
+        const resultDiv = document.getElementById(resultDivId);
+        if (!resultDiv) { console.error(`Div de resultado não encontrada: ${resultDivId}`); return; }
+        
+        const dayData = itineraryData[dateKey];
+        if (!dayData || !dayData.mainPlan) {
+            resultDiv.innerHTML = 'Dados do dia não encontrados para gerar sugestões.';
+            resultDiv.style.display = 'block';
+            return;
+        }
+        resultDiv.innerHTML = 'A procurar lojas/mercados... 🛍️';
+        resultDiv.style.display = 'block';
+        buttonElement.disabled = true;
+
+        const morningPlan = dayData.mainPlan.morning || "N/A";
+        const afternoonPlan = dayData.mainPlan.afternoon || "N/A";
+        const eveningPlan = dayData.mainPlan.evening || "N/A";
+        const prompt = `Considerando o seguinte plano para um dia em Paris: Manhã - "${morningPlan}"; Tarde - "${afternoonPlan}"; Noite - "${eveningPlan}". Sugira 2 ou 3 lojas interessantes (ex: souvenirs, especialidades locais, artesanato) ou mercados próximos ou de fácil acesso a partir das áreas mencionadas. As sugestões devem ser apresentadas em português do Brasil, em formato de lista com marcadores. Para cada sugestão, adicione uma breve descrição (1-2 frases) do tipo de produtos que podem ser encontrados.`;
+        
+        const responseText = await callGeminiAPI(prompt);
+        resultDiv.innerHTML = responseText.replace(/\n/g, '<br>');
+        buttonElement.disabled = false;
+    }
+
+    async function suggestPharmacies(dateKey, buttonElement) {
+        const resultDivId = `pharmacies-results-${dateKey.replace(/\//g, '-')}`;
+        const resultDiv = document.getElementById(resultDivId);
+        if (!resultDiv) { console.error(`Div de resultado não encontrada: ${resultDivId}`); return; }
+
+        const dayData = itineraryData[dateKey];
+        if (!dayData || !dayData.mainPlan) {
+            resultDiv.innerHTML = 'Dados do dia não encontrados para gerar sugestões.';
+            resultDiv.style.display = 'block';
+            return;
+        }
+        resultDiv.innerHTML = 'A procurar farmácias... ⚕️';
+        resultDiv.style.display = 'block';
+        buttonElement.disabled = true;
+
+        const morningPlan = dayData.mainPlan.morning || "N/A";
+        const afternoonPlan = dayData.mainPlan.afternoon || "N/A";
+        const eveningPlan = dayData.mainPlan.evening || "N/A";
+        const prompt = `Considerando o seguinte plano para um dia em Paris: Manhã - "${morningPlan}"; Tarde - "${afternoonPlan}"; Noite - "${eveningPlan}". Indique 1 ou 2 farmácias próximas ou de fácil acesso a partir das áreas mencionadas, que provavelmente estariam abertas em horários convenientes (incluindo talvez alguma com horário estendido, se aplicável). Apresente em português do Brasil, em formato de lista. Se possível, mencione o nome e uma referência de localização (ex: perto de qual estação de metrô ou ponto turístico).`;
+        
+        const responseText = await callGeminiAPI(prompt);
+        resultDiv.innerHTML = responseText.replace(/\n/g, '<br>');
+        buttonElement.disabled = false;
+    }
+
 
     document.addEventListener('DOMContentLoaded', () => {
         const navButtons = document.querySelectorAll('.nav-button');
@@ -1566,7 +1647,7 @@
                             html += imagesContainer.outerHTML;
                         }
                         html += `   </div> 
-                                 </div>`; // Fechar itinerary-step-content e itinerary-step
+                                 </div>`; 
                     }
                 });
                  if (day.mainPlan.morning_afternoon_options) { 
@@ -1600,15 +1681,31 @@
                             html += imagesContainer.outerHTML;
                         }
                         html += `   </div>
-                                 </div>`; // Fechar itinerary-step-content e itinerary-step
+                                 </div>`; 
                 }
 
                 const kidActivityDivId = `kid-activities-${dateKey.replace(/\//g, '-')}`;
-                html += `<button class="gemini-button maps-button mt-4" onclick="suggestKidActivities('${dateKey.replace(/'/g, "\\'")}', this)">✨ Sugerir Atividades Infantis Próximas</button>`;
-                html += `<div id="${kidActivityDivId}" class="kid-activities-results mt-2" style="display: none;"></div>`;
+                const boulangeriesDivId = `boulangeries-results-${dateKey.replace(/\//g, '-')}`;
+                const shopsMarketsDivId = `shops-markets-results-${dateKey.replace(/\//g, '-')}`;
+                const pharmaciesDivId = `pharmacies-results-${dateKey.replace(/\//g, '-')}`;
+
+                html += `<div class="mt-4 space-y-2">`; // Container para os botões Gemini
+                html += `    <button class="gemini-button maps-button" onclick="suggestKidActivities('${dateKey.replace(/'/g, "\\'")}', this)">✨ Sugerir Atividades Infantis Próximas</button>`;
+                html += `    <div id="${kidActivityDivId}" class="kid-activities-results mt-2" style="display: none;"></div>`;
+                
+                html += `    <button class="gemini-button maps-button" onclick="suggestBoulangeries('${dateKey.replace(/'/g, "\\'")}', this)">🥐 Sugerir Boulangeries/Pâtisseries</button>`;
+                html += `    <div id="${boulangeriesDivId}" class="boulangeries-results mt-2" style="display: none;"></div>`;
+
+                html += `    <button class="gemini-button maps-button" onclick="suggestShopsMarkets('${dateKey.replace(/'/g, "\\'")}', this)">🛍️ Sugerir Lojas/Mercados</button>`;
+                html += `    <div id="${shopsMarketsDivId}" class="shops-markets-results mt-2" style="display: none;"></div>`;
+                
+                html += `    <button class="gemini-button maps-button" onclick="suggestPharmacies('${dateKey.replace(/'/g, "\\'")}', this)">⚕️ Sugerir Farmácias Próximas</button>`;
+                html += `    <div id="${pharmaciesDivId}" class="pharmacies-results mt-2" style="display: none;"></div>`;
+                html += `</div>`;
+
 
                 if (day.mainPlan.transport) html += `<div class="transport-details mt-4"><h6>Como Chegar:</h6>${day.mainPlan.transport}</div>`;
-                html += `</div>`; // Fechar plan-section
+                html += `</div>`; 
             }
             
             if (day.considerations) html += `<div class="mt-4 pt-4 border-t border-[#B08D57]" style="border-color: #B08D57;"><h5 class="font-semibold text-lg" style="color: #8B4513;">Considerações Especiais 💡:</h5><p style="color: #3B322C;">${day.considerations}</p></div>`;
@@ -1629,7 +1726,7 @@
                 html += `   </div>
                          </div>`;
             }
-            html += `</div>`; // Fechar day-card
+            html += `</div>`; 
             itineraryDetails.innerHTML = html;
         }
         
@@ -1749,8 +1846,8 @@
                         label: 'Noites',
                         data: [3, 10], 
                         backgroundColor: [
-                            'rgba(218, 165, 32, 0.7)', /* Goldenrod com opacidade */
-                            'rgba(0, 95, 95, 0.7)'    /* Azul Petróleo com opacidade */
+                            'rgba(218, 165, 32, 0.7)', 
+                            'rgba(0, 95, 95, 0.7)'    
                         ],
                         borderColor: [
                             '#B08D57', 
@@ -1785,6 +1882,10 @@
         
         window.generatePoiCuriosities = generatePoiCuriosities;
         window.suggestKidActivities = suggestKidActivities;
+        window.suggestBoulangeries = suggestBoulangeries; // Expor novas funções
+        window.suggestShopsMarkets = suggestShopsMarkets;
+        window.suggestPharmacies = suggestPharmacies;
+
 
     });
 </script>
