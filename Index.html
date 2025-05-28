@@ -296,6 +296,125 @@
             margin-bottom: 0.5rem;
             border: 1px solid #C2B280; 
         }
+        /* Timeline Styles */
+        .timeline {
+            position: relative;
+            max-width: 90%;
+            margin: 3rem auto;
+            padding: 1rem 0;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #C2B280; /* Cobblestone Beige */
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        .timeline-container::after { /* The circles on the timeline */
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -14px; /* Adjusted for new circle size */
+            background-color: #F5F5F5; /* Marble White */
+            border: 4px solid #FFD700; /* Gilded Gold */
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .timeline-left {
+            left: 0;
+        }
+        .timeline-right {
+            left: 50%;
+        }
+        .timeline-left::before { /* Arrow pointing to the line */
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid #DDA0DD; /* Lavender Blossom */
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #DDA0DD;
+        }
+        .timeline-right::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid #DDA0DD; /* Lavender Blossom */
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #DDA0DD transparent transparent;
+        }
+        .timeline-right::after {
+            left: -14px;  /* Adjusted for new circle size */
+        }
+        .timeline-content {
+            padding: 15px 20px;
+            background-color: #FFF0F5; /* Soft Blush */
+            position: relative;
+            border-radius: 8px;
+            border: 1px solid #DDA0DD; /* Lavender Blossom */
+        }
+        .timeline-content h4 {
+            color: #C41E3A; /* Café Rouge */
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .timeline-content p {
+            font-size: 0.9em;
+            color: #2F2F2F; /* Twilight Black */
+            line-height: 1.5;
+        }
+        .timeline-date {
+            font-size: 0.8em;
+            color: #A9A9A9; /* Parisian Gray */
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .timeline-icon {
+            margin-right: 5px;
+        }
+
+        /* Responsive adjustments for timeline */
+        @media screen and (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+            .timeline-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-container::before {
+                left: 60px;
+                border: medium solid #DDA0DD;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent #DDA0DD transparent transparent;
+            }
+            .timeline-left::after, .timeline-right::after {
+                left: 15px;
+            }
+            .timeline-right {
+                left: 0%;
+            }
+        }
 
     </style>
 </head>
@@ -336,7 +455,77 @@
                 <div class="chart-container">
                     <canvas id="tripPhaseChart"></canvas>
                 </div>
-                 <p class="mt-6 text-sm">Este é um resumo visual da divisão da vossa estadia. Utilizem os botões de navegação acima para explorar cada secção em detalhe.</p>
+                <p class="mt-6 text-sm">Este é um resumo visual da divisão da vossa estadia.</p>
+                
+                <div class="mt-10">
+                    <h3 class="text-2xl font-semibold mb-6 text-center" style="color: #C41E3A;">Linha do Tempo da Viagem</h3>
+                    <div class="timeline">
+                        <div class="timeline-container timeline-left">
+                            <div class="timeline-content">
+                                <span class="timeline-date">14 de Julho</span>
+                                <h4><span class="timeline-icon">✈️</span>Chegada e Dia da Bastilha</h4>
+                                <p>Início da aventura com a chegada a Paris e instalação no hotel Disney.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-container timeline-right">
+                            <div class="timeline-content">
+                                <span class="timeline-date">15 de Julho</span>
+                                <h4><span class="timeline-icon">🏰</span>Início na Disneyland Paris</h4>
+                                <p>Primeiro dia de magia nos parques da Disney.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-container timeline-left">
+                            <div class="timeline-content">
+                                 <span class="timeline-date">18 de Julho</span>
+                                <h4><span class="timeline-icon">🏙️</span>Bonjour, Paris!</h4>
+                                <p>Transfer para o hotel em Paris e primeiro contacto com a cidade.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-container timeline-right">
+                            <div class="timeline-content">
+                                <span class="timeline-date">20 de Julho</span>
+                                <h4><span class="timeline-icon">🖼️</span>Destaque Paris: Louvre</h4>
+                                <p>Exploração das obras-primas do Museu do Louvre.</p>
+                            </div>
+                        </div>
+                         <div class="timeline-container timeline-left">
+                            <div class="timeline-content">
+                                <span class="timeline-date">22 de Julho</span>
+                                <h4><span class="timeline-icon">👑</span>Excursão: Palácio de Versalhes</h4>
+                                <p>Um dia dedicado à grandiosidade de Versalhes e seus jardins.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-container timeline-right">
+                            <div class="timeline-content">
+                                <span class="timeline-date">25 de Julho</span>
+                                <h4><span class="timeline-icon">🗼</span>Destaque Paris: Torre Eiffel</h4>
+                                <p>Visita ao ícone de Paris e passeio pelos Champs-Élysées.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-container timeline-left">
+                            <div class="timeline-content">
+                                <span class="timeline-date">26 de Julho</span>
+                                <h4><span class="timeline-icon">⛪</span>Dia de Escolha: Chartres/Giverny</h4>
+                                <p>Opção de visita à Catedral de Chartres, Jardins de Monet ou um dia relaxante em Paris.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-container timeline-right">
+                            <div class="timeline-content">
+                                <span class="timeline-date">27 de Julho</span>
+                                <h4><span class="timeline-icon">👋</span>Despedida de Clara & Marais</h4>
+                                <p>Momentos especiais e exploração do charmoso bairro do Marais.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-container timeline-left">
+                            <div class="timeline-content">
+                                <span class="timeline-date">28 de Julho</span>
+                                <h4><span class="timeline-icon">✈️</span>Retorno ao Brasil</h4>
+                                <p>Fim da aventura parisiense e viagem de volta para casa.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <p class="mt-6 text-sm">Utilizem os botões de navegação acima para explorar cada secção em detalhe.</p>
             </section>
 
             <section id="daily-itinerary" class="content-section">
@@ -915,8 +1104,8 @@
     };
 
     const pointsOfInterestData = [
-        { name: "Museu do Louvre", icon: "🖼️", category: "Museu", notes: "Um dos maiores e mais famosos museus do mundo. Alberga obras-primas como a Mona Lisa e a Vénus de Milo. A sua pirâmide de vidro é um ícone moderno. Oferece guias e recursos para visitantes com TEA.", link: "https://www.louvre.fr/en", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Louvre_Courtyard%2C_Looking_West.jpg/800px-Louvre_Courtyard%2C_Looking_West.jpg" },
-        { name: "Museu D’Orsay", icon: "🖼️", category: "Museu", notes: "Instalado numa impressionante antiga estação de comboio, exibe arte impressionista e pós-impressionista de mestres como Monet, Van Gogh e Renoir. A arquitetura do edifício é uma atração por si só.", link: "https://www.musee-orsay.fr/fr", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Musee_d%27Orsay_and_Pont_Royal%2C_North-West_view_140402_1.jpg/800px-Musee_d%27Orsay_and_Pont_Royal%2C_North-West_view_140402_1.jpg" },
+        { name: "Museu do Louvre", icon: "🖼️", category: "Museu", notes: "Um dos maiores e mais famosos museus do mundo. Alberga obras-primas como a Mona Lisa e a Vénus de Milo. A sua pirâmide de vidro é um ícone moderno. Oferece guias e recursos para visitantes com TEA.", link: "https://www.louvre.fr/en", imagePlaceholder: "https://images.pexels.com/photos/2363/france-landmark-lights-night.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" },
+        { name: "Museu D’Orsay", icon: "🖼️", category: "Museu", notes: "Instalado numa impressionante antiga estação de comboio, exibe arte impressionista e pós-impressionista de mestres como Monet, Van Gogh e Renoir. A arquitetura do edifício é uma atração por si só.", link: "https://www.musee-orsay.fr/fr", imagePlaceholder: "https://images.pexels.com/photos/25946392/pexels-photo-25946392/free-photo-of-franca-ponto-de-referencia-ponto-historico-paris.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" },
         { name: "Centre Pompidou", icon: "🖼️", category: "Museu", notes: "Centro cultural com arquitetura arrojada 'de dentro para fora'. Alberga o Museu Nacional de Arte Moderna, uma vasta biblioteca pública e oferece vistas panorâmicas de Paris a partir do seu terraço.", link: "https://www.centrepompidou.fr/en/", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Panorama_of_the_Centre_Pompidou_3.jpg/640px-Panorama_of_the_Centre_Pompidou_3.jpg" },
         { name: "Grande Galerie de l’Évolution", icon: "🐘", category: "Museu", notes: "Parte do Muséum National d'Histoire Naturelle, esta galeria espetacular exibe uma vasta coleção de animais taxidermizados que representam a diversidade da vida na Terra, num cenário arquitetónico impressionante. Localizada no Jardin des Plantes.", link: "https://www.mnhn.fr/fr/grande-galerie-de-l-evolution", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Grande_galerie_de_l%27%C3%A9volution_panorama.jpg/640px-Grande_galerie_de_l%27%C3%A9volution_panorama.jpg"},
         { name: "Museu da Moda (Palais Galliera)", icon: "👗", category: "Museu", notes: "Dedicado à história da moda, desde o século XVIII até aos dias de hoje. Apresenta exposições temporárias temáticas ou monográficas de grandes criadores. Um palácio elegante com belos jardins.", link: "https://www.palaisgalliera.paris.fr/en", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/P1030817_Paris_XVI_square_Brignole-Galli%C3%A9ra_mus%C3%A9e_Galli%C3%A8ra_rwk.JPG/640px-P1030817_Paris_XVI_square_Brignole-Galli%C3%A9ra_mus%C3%A9e_Galli%C3%A8ra_rwk.JPG" },
@@ -1028,7 +1217,7 @@
                      <strong>Inspiração:</strong> Musée de la Mode, MAD.`
         },
         {
-            title: "Lembranças para a Família 🎁",
+            title: "Lembranças para a Família �",
             content: "Lojas de museus, produtos gourmet (macarons Pierre Hermé, chocolates Choco Story), livros (Shakespeare & Company), arte de rua (Montmartre). Evitar souvenirs genéricos."
         },
         {
@@ -1410,7 +1599,7 @@
 
             item.innerHTML = `
                 <div class="poi-image-container">
-                    <img src="${poi.imagePlaceholder}" alt="Imagem de ${poi.name}" onerror="this.alt='Imagem de placeholder para ${poi.name}'; this.src='https://placehold.co/250x180/E0E0E0/777777?text=Indisponível';">
+                    <img src="${poi.imagePlaceholder}" alt="Imagem de ${poi.name}" onerror="this.onerror=null; this.src='https://placehold.co/250x180/E0E0E0/777777?text=Imagem+Indisponível'; this.alt='Imagem de placeholder para ${poi.name}';">
                 </div>
                 <div class="poi-details">
                     <h4><span class="poi-icon">${poi.icon || '📍'}</span>${nameHtml} <span class="poi-category">(${poi.category})</span></h4>
@@ -1541,3 +1730,4 @@
 </script>
 </body>
 </html>
+�
