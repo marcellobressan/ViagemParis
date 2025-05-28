@@ -1061,7 +1061,7 @@
     async function callGeminiAPI(prompt) {
         // O URL da sua função serverless no Vercel (ou Netlify se estiver a usar Netlify)
         // Se estiver a usar Netlify, o caminho seria '/.netlify/functions/gemini-proxy'
-        const serverlessFunctionUrl = '/api/gemini'; 
+        const serverlessFunctionUrl = '/.netlify/functions/gemini-proxy';
 
         try {
             const response = await fetch(serverlessFunctionUrl, {
@@ -1075,7 +1075,7 @@
             if (!response.ok) {
                 // Se a resposta não for OK (ex: 404, 500, 400 da sua função serverless)
                 console.error(`Chamada à função serverless falhou com status ${response.status}:`, result.error || response.statusText);
-                return `Erro ao comunicar com a IA: ${result.error || response.statusText}. Verifique os logs da função no Vercel/Netlify.`;
+                return `Erro ao comunicar com a IA: ${result.error || response.statusText}. Verifique os logs da função no Netlify.`;
             }
             
             // A sua função serverless (api/gemini.js) deve retornar um objeto como: { response: "texto da IA" }
