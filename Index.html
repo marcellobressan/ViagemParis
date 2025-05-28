@@ -117,7 +117,7 @@
         .day-card {
             border-bottom: 1px dashed #B08D57;
             padding-bottom: 1.5rem;
-            margin-bottom: 2rem; /* Adiciona espaço entre os dias */
+            margin-bottom: 2rem; 
         }
         .day-card:last-child {
             border-bottom: none;
@@ -145,23 +145,23 @@
              margin-bottom: 1rem;
         }
         .itinerary-step {
-            margin-bottom: 1.5rem; /* Espaço entre Manhã/Tarde/Noite */
+            margin-bottom: 1.5rem; 
             padding: 1rem;
-            background-color: #FFF8DC; /* Cornsilk */
-            border: 1px solid #EEDC82; /* LightGoldenrod */
-            border-left: 5px solid #B08D57; /* Dourado Envelhecido para destaque */
-            border-radius: 0px; /* Cantos retos */
+            background-color: #FFF8DC; 
+            border: 1px solid #EEDC82; 
+            border-left: 5px solid #B08D57; 
+            border-radius: 0px; 
         }
         .itinerary-step-title {
             font-family: 'Playfair Display', serif;
             font-size: 1.25rem;
-            color: #8B4513; /* SaddleBrown */
+            color: #8B4513; 
             font-weight: 700;
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
         }
-        .itinerary-step-title span { /* Para o emoji */
+        .itinerary-step-title span { 
             font-size: 1.5em;
             margin-right: 0.5rem;
         }
@@ -173,7 +173,13 @@
             margin-top: 0.75rem; 
             display: flex;
             flex-wrap: wrap;
-            gap: 0.75rem; 
+            gap: 1rem; /* Aumentado para dar mais espaço entre os POIs */
+        }
+        .itinerary-poi-entry { /* Novo container para agrupar imagem e botão do POI no roteiro */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem; /* Espaço entre imagem e botão */
         }
         .itinerary-poi-image {
             width: 100px; 
@@ -1616,30 +1622,44 @@
                         else if (partKey === 'evening') { title = 'Noite'; icon = '🌙'; }
                         else if (partKey === 'fullDay') { title = 'Dia Inteiro'; icon = '🗓️'; }
 
-                        html += `<div class="itinerary-step mb-6 p-4 border border-[#D2B48C] bg-[#FAF0E6] shadow-md"> 
-                                    <h5 class="itinerary-step-title text-lg font-semibold text-[#800000] mb-2 flex items-center">
-                                        <span class="text-2xl mr-2">${icon}</span>${title}:
+                        html += `<div class="itinerary-step"> 
+                                    <h5 class="itinerary-step-title">
+                                        <span>${icon}</span>${title}:
                                     </h5>
-                                    <div class="itinerary-step-content pl-8">
-                                        <p class="text-[#3B322C] mb-3">${day.mainPlan[partKey]}</p>`;
+                                    <div class="itinerary-step-content">
+                                        <p>${day.mainPlan[partKey]}</p>`;
                         
                         const imagesContainer = document.createElement('div');
-                        imagesContainer.className = 'itinerary-images-container flex flex-wrap gap-2 mt-2';
+                        imagesContainer.className = 'itinerary-images-container';
                         let imagesFoundInPart = false;
                         const planTextLower = day.mainPlan[partKey].toLowerCase();
 
                         pointsOfInterestData.forEach(poi => {
                             if (planTextLower.includes(poi.name.toLowerCase())) {
+                                const poiEntryDiv = document.createElement('div');
+                                poiEntryDiv.className = 'itinerary-poi-entry';
+
                                 const img = document.createElement('img');
                                 img.src = poi.imagePlaceholder;
                                 img.alt = `Imagem de ${poi.name}`;
                                 img.className = 'itinerary-poi-image';
                                 img.onerror = function() { 
                                     this.onerror=null; 
-                                    this.src='https://placehold.co/120x80/E0E0E0/777777?text=Indisponível'; 
-                                    this.alt='Imagem de placeholder para ${poi.name}';
+                                    this.src='https://placehold.co/100x75/E0E0E0/777777?text=Indisponível'; 
+                                    this.alt=`Placeholder para ${poi.name}`;
                                 };
-                                imagesContainer.appendChild(img);
+                                poiEntryDiv.appendChild(img);
+
+                                const mapsQuery = encodeURIComponent(`${poi.name}, Paris, France`);
+                                const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
+                                const link = document.createElement('a');
+                                link.href = mapsUrl;
+                                link.target = '_blank';
+                                link.className = 'maps-button text-xs px-2 py-0.5 mt-1'; // Botão menor
+                                link.textContent = 'Vamos lá! 🚀';
+                                poiEntryDiv.appendChild(link);
+
+                                imagesContainer.appendChild(poiEntryDiv);
                                 imagesFoundInPart = true;
                             }
                         });
@@ -1651,29 +1671,43 @@
                     }
                 });
                  if (day.mainPlan.morning_afternoon_options) { 
-                     html += `<div class="itinerary-step mb-6 p-4 border border-[#D2B48C] bg-[#FAF0E6] shadow-md">
-                                <h5 class="itinerary-step-title text-lg font-semibold text-[#800000] mb-2 flex items-center">
-                                    <span class="text-2xl mr-2">🕰️</span>Manhã / Tarde (Opções Flexíveis):
+                     html += `<div class="itinerary-step">
+                                <h5 class="itinerary-step-title">
+                                    <span>🕰️</span>Manhã / Tarde (Opções Flexíveis):
                                 </h5>
-                                <div class="itinerary-step-content pl-8">
-                                    <p class="text-[#3B322C] mb-3">${day.mainPlan.morning_afternoon_options}</p>`;
+                                <div class="itinerary-step-content">
+                                    <p>${day.mainPlan.morning_afternoon_options}</p>`;
                         const imagesContainer = document.createElement('div');
-                        imagesContainer.className = 'itinerary-images-container flex flex-wrap gap-2 mt-2';
+                        imagesContainer.className = 'itinerary-images-container';
                         let imagesFoundInOptions = false;
                         const planTextLower = day.mainPlan.morning_afternoon_options.toLowerCase();
 
                         pointsOfInterestData.forEach(poi => {
                             if (planTextLower.includes(poi.name.toLowerCase())) {
+                                const poiEntryDiv = document.createElement('div');
+                                poiEntryDiv.className = 'itinerary-poi-entry';
+                                
                                 const img = document.createElement('img');
                                 img.src = poi.imagePlaceholder;
                                 img.alt = `Imagem de ${poi.name}`;
                                 img.className = 'itinerary-poi-image';
                                 img.onerror = function() { 
                                     this.onerror=null; 
-                                    this.src='https://placehold.co/120x80/E0E0E0/777777?text=Indisponível'; 
-                                    this.alt='Imagem de placeholder para ${poi.name}';
+                                    this.src='https://placehold.co/100x75/E0E0E0/777777?text=Indisponível'; 
+                                    this.alt=`Placeholder para ${poi.name}`;
                                 };
-                                imagesContainer.appendChild(img);
+                                poiEntryDiv.appendChild(img);
+
+                                const mapsQuery = encodeURIComponent(`${poi.name}, Paris, France`);
+                                const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
+                                const link = document.createElement('a');
+                                link.href = mapsUrl;
+                                link.target = '_blank';
+                                link.className = 'maps-button text-xs px-2 py-0.5 mt-1';
+                                link.textContent = 'Vamos lá! 🚀';
+                                poiEntryDiv.appendChild(link);
+                                
+                                imagesContainer.appendChild(poiEntryDiv);
                                 imagesFoundInOptions = true;
                             }
                         });
@@ -1689,17 +1723,17 @@
                 const shopsMarketsDivId = `shops-markets-results-${dateKey.replace(/\//g, '-')}`;
                 const pharmaciesDivId = `pharmacies-results-${dateKey.replace(/\//g, '-')}`;
 
-                html += `<div class="mt-4 space-y-2">`; // Container para os botões Gemini
-                html += `    <button class="gemini-button maps-button" onclick="suggestKidActivities('${dateKey.replace(/'/g, "\\'")}', this)">✨ Sugerir Atividades Infantis Próximas</button>`;
+                html += `<div class="mt-4 space-y-3">`; 
+                html += `    <button class="gemini-button maps-button w-full sm:w-auto" onclick="suggestKidActivities('${dateKey.replace(/'/g, "\\'")}', this)">✨ Sugerir Atividades Infantis Próximas</button>`;
                 html += `    <div id="${kidActivityDivId}" class="kid-activities-results mt-2" style="display: none;"></div>`;
                 
-                html += `    <button class="gemini-button maps-button" onclick="suggestBoulangeries('${dateKey.replace(/'/g, "\\'")}', this)">🥐 Sugerir Boulangeries/Pâtisseries</button>`;
+                html += `    <button class="gemini-button maps-button w-full sm:w-auto" onclick="suggestBoulangeries('${dateKey.replace(/'/g, "\\'")}', this)">🥐 Sugerir Boulangeries/Pâtisseries</button>`;
                 html += `    <div id="${boulangeriesDivId}" class="boulangeries-results mt-2" style="display: none;"></div>`;
 
-                html += `    <button class="gemini-button maps-button" onclick="suggestShopsMarkets('${dateKey.replace(/'/g, "\\'")}', this)">🛍️ Sugerir Lojas/Mercados</button>`;
+                html += `    <button class="gemini-button maps-button w-full sm:w-auto" onclick="suggestShopsMarkets('${dateKey.replace(/'/g, "\\'")}', this)">🛍️ Sugerir Lojas/Mercados</button>`;
                 html += `    <div id="${shopsMarketsDivId}" class="shops-markets-results mt-2" style="display: none;"></div>`;
                 
-                html += `    <button class="gemini-button maps-button" onclick="suggestPharmacies('${dateKey.replace(/'/g, "\\'")}', this)">⚕️ Sugerir Farmácias Próximas</button>`;
+                html += `    <button class="gemini-button maps-button w-full sm:w-auto" onclick="suggestPharmacies('${dateKey.replace(/'/g, "\\'")}', this)">⚕️ Sugerir Farmácias Próximas</button>`;
                 html += `    <div id="${pharmaciesDivId}" class="pharmacies-results mt-2" style="display: none;"></div>`;
                 html += `</div>`;
 
@@ -1882,7 +1916,7 @@
         
         window.generatePoiCuriosities = generatePoiCuriosities;
         window.suggestKidActivities = suggestKidActivities;
-        window.suggestBoulangeries = suggestBoulangeries; // Expor novas funções
+        window.suggestBoulangeries = suggestBoulangeries; 
         window.suggestShopsMarkets = suggestShopsMarkets;
         window.suggestPharmacies = suggestPharmacies;
 
