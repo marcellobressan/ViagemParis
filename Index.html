@@ -113,13 +113,15 @@
             display: block;
         }
         
-        /* Cartões de Dia */
+        /* Cartões de Dia e Etapas do Roteiro */
         .day-card {
             border-bottom: 1px dashed #B08D57;
             padding-bottom: 1.5rem;
+            margin-bottom: 2rem; /* Adiciona espaço entre os dias */
         }
         .day-card:last-child {
             border-bottom: none;
+            margin-bottom: 0;
         }
         .day-card h3.main-title {
              color: #800020; 
@@ -132,19 +134,57 @@
             color: #5A5A5A; 
             font-family: 'Playfair Display', serif;
             font-style: italic;
+            margin-bottom: 1.5rem;
         }
          .day-card h4.plan-subtitle {
              color: #005F5F; 
              border-bottom: 1px solid #B08D57; 
              font-size: 1.4rem;
              font-weight: 700;
+             padding-bottom: 0.4rem;
+             margin-bottom: 1rem;
         }
-        .plan-section h5 { 
-            color: #3B322C; 
-            font-family: 'Raleway', sans-serif;
+        .itinerary-step {
+            margin-bottom: 1.5rem; /* Espaço entre Manhã/Tarde/Noite */
+            padding: 1rem;
+            background-color: #FFF8DC; /* Cornsilk */
+            border: 1px solid #EEDC82; /* LightGoldenrod */
+            border-left: 5px solid #B08D57; /* Dourado Envelhecido para destaque */
+            border-radius: 0px; /* Cantos retos */
+        }
+        .itinerary-step-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            color: #8B4513; /* SaddleBrown */
             font-weight: 700;
-            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
         }
+        .itinerary-step-title span { /* Para o emoji */
+            font-size: 1.5em;
+            margin-right: 0.5rem;
+        }
+        .itinerary-step-content p {
+            margin-bottom: 0.75rem;
+            color: #3B322C;
+        }
+        .itinerary-images-container {
+            margin-top: 0.75rem; 
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem; /* Aumentar um pouco o espaçamento */
+        }
+        .itinerary-poi-image {
+            width: 100px; /* Tamanho um pouco maior */
+            height: 75px;
+            object-fit: cover;
+            border-radius: 0px; 
+            border: 2px solid #B08D57; 
+            padding: 2px; /* Pequeno padding interno */
+            background-color: #FFFDD0;
+        }
+
         .transport-details {
             background-color: #F5F5DC; 
             border: 1px solid #E0DCD1;
@@ -242,27 +282,23 @@
             border-radius: 0px;
             padding: 1rem;
         }
-        .itinerary-poi-image {
-            border: 2px solid #B08D57; 
-            border-radius: 0px;
-        }
-
+        
         /* Timeline Styles Art Deco Refined */
         .timeline {
             position: relative;
-            max-width: 90%; /* Ajustado para melhor visualização em telas menores */
+            max-width: 90%; 
             margin: 3rem auto;
             padding: 1rem 0;
         }
-        .timeline::after { /* Linha vertical central */
+        .timeline::after { 
             content: '';
             position: absolute;
-            width: 4px; /* Mais fina e elegante */
-            background-color: #B08D57; /* Dourado Envelhecido */
+            width: 4px; 
+            background-color: #B08D57; 
             top: 0;
             bottom: 0;
             left: 50%;
-            margin-left: -2px; /* Metade da largura */
+            margin-left: -2px; 
             border-radius: 2px;
         }
         .timeline-container {
@@ -271,57 +307,56 @@
             background-color: inherit;
             width: 50%;
         }
-        .timeline-container::after { /* Círculos/Nós na linha */
+        .timeline-container::after { 
             content: '';
             position: absolute;
-            width: 20px; /* Menor e mais elegante */
+            width: 20px; 
             height: 20px;
-            background-color: #FFFDD0; /* Creme, como o fundo do body */
-            border: 4px solid #800020; /* Bordô, para contraste e sofisticação */
-            top: 20px; /* Ajustar para alinhar com o conteúdo */
+            background-color: #FFFDD0; 
+            border: 4px solid #800020; 
+            top: 20px; 
             border-radius: 50%;
             z-index: 1;
-            box-shadow: 0 0 0 3px #B08D57; /* Anel dourado em volta do bordô */
+            box-shadow: 0 0 0 3px #B08D57; 
         }
         .timeline-left {
             left: 0;
         }
         .timeline-left::after{
-            right: -12px; /* Ajuste para o novo tamanho do círculo */
+            right: -12px; 
         }
         .timeline-right {
             left: 50%;
         }
         .timeline-right::after {
-            left: -12px; /* Ajuste para o novo tamanho do círculo */
+            left: -12px; 
         }
-        /* Linhas horizontais de conexão (substituindo as setas) */
         .timeline-container::before {
             content: '';
             position: absolute;
-            top: 29px; /* Alinhar com o centro do círculo */
-            width: 20px; /* Largura da linha de conexão */
-            height: 2px; /* Espessura da linha */
-            background-color: #B08D57; /* Dourado Envelhecido */
+            top: 29px; 
+            width: 20px; 
+            height: 2px; 
+            background-color: #B08D57; 
             z-index: 0; 
         }
         .timeline-left::before {
-            right: 8px; /* Conecta do conteúdo ao círculo */
+            right: 8px; 
         }
         .timeline-right::before {
-            left: 8px; /* Conecta do conteúdo ao círculo */
+            left: 8px; 
         }
 
         .timeline-content {
             padding: 20px 25px;
-            background-color: #FAF0E6; /* Linen */
+            background-color: #FAF0E6; 
             position: relative;
-            border-radius: 0px; /* Cantos retos */
-            border: 1px solid #D2B48C; /* Tan */
+            border-radius: 0px; 
+            border: 1px solid #D2B48C; 
             box-shadow: 0 5px 10px rgba(0,0,0,0.1);
         }
         .timeline-content h4 {
-            color: #800020; /* Bordô */
+            color: #800020; 
             margin-top: 0;
         }
         .timeline-date {
@@ -335,24 +370,24 @@
         /* Responsividade da Timeline */
         @media screen and (max-width: 768px) {
             .timeline::after {
-                left: 12px; /* Move a linha para a esquerda */
+                left: 12px; 
             }
             .timeline-container {
                 width: 100%;
-                padding-left: 45px; /* Espaço para a linha e o nó */
+                padding-left: 45px; 
                 padding-right: 15px;
             }
-            .timeline-container::after { /* Círculos/Nós */
-                left: 0px; /* Alinha os nós com a linha */
+            .timeline-container::after { 
+                left: 0px; 
             }
             .timeline-left::after, .timeline-right::after {
-                left: 0px; /* Alinha os nós com a linha */
+                left: 0px; 
             }
             .timeline-left, .timeline-right {
-                left: 0%; /* Empilha tudo à esquerda da linha */
+                left: 0%; 
             }
-            .timeline-left::before, .timeline-right::before { /* Linhas de conexão */
-                left: 20px; /* Ajusta a origem da linha de conexão */
+            .timeline-left::before, .timeline-right::before { 
+                left: 20px; 
                 width: 25px; 
             }
         }
@@ -1492,17 +1527,23 @@
                 planParts.forEach(partKey => {
                     if (day.mainPlan[partKey]) {
                         let title = '';
-                        if (partKey === 'morning') title = 'Manhã ☀️:';
-                        else if (partKey === 'lunch') title = 'Almoço 🍽️:';
-                        else if (partKey === 'afternoon') title = 'Tarde 🏙️:';
-                        else if (partKey === 'tea_time') title = 'Chá da Tarde ☕:';
-                        else if (partKey === 'evening') title = 'Noite 🌙:';
-                        else if (partKey === 'fullDay') title = 'Dia Inteiro:';
+                        let icon = '';
+                        if (partKey === 'morning') { title = 'Manhã'; icon = '☀️'; }
+                        else if (partKey === 'lunch') { title = 'Almoço'; icon = '🍽️'; }
+                        else if (partKey === 'afternoon') { title = 'Tarde'; icon = '🏙️'; }
+                        else if (partKey === 'tea_time') { title = 'Chá da Tarde'; icon = '☕'; }
+                        else if (partKey === 'evening') { title = 'Noite'; icon = '🌙'; }
+                        else if (partKey === 'fullDay') { title = 'Dia Inteiro'; icon = '🗓️'; }
 
-                        html += `<div><h5>${title}</h5><p>${day.mainPlan[partKey]}</p>`;
+                        html += `<div class="itinerary-step mb-6 p-4 border border-[#D2B48C] bg-[#FAF0E6] shadow-md"> 
+                                    <h5 class="itinerary-step-title text-lg font-semibold text-[#800000] mb-2 flex items-center">
+                                        <span class="text-2xl mr-2">${icon}</span>${title}:
+                                    </h5>
+                                    <div class="itinerary-step-content pl-8">
+                                        <p class="text-[#3B322C] mb-3">${day.mainPlan[partKey]}</p>`;
                         
                         const imagesContainer = document.createElement('div');
-                        imagesContainer.className = 'itinerary-images-container';
+                        imagesContainer.className = 'itinerary-images-container flex flex-wrap gap-2 mt-2';
                         let imagesFoundInPart = false;
                         const planTextLower = day.mainPlan[partKey].toLowerCase();
 
@@ -1524,13 +1565,19 @@
                         if(imagesFoundInPart) {
                             html += imagesContainer.outerHTML;
                         }
-                        html += `</div>`;
+                        html += `   </div> 
+                                 </div>`; // Fechar itinerary-step-content e itinerary-step
                     }
                 });
                  if (day.mainPlan.morning_afternoon_options) { 
-                     html += `<div>${day.mainPlan.morning_afternoon_options}</div>`;
+                     html += `<div class="itinerary-step mb-6 p-4 border border-[#D2B48C] bg-[#FAF0E6] shadow-md">
+                                <h5 class="itinerary-step-title text-lg font-semibold text-[#800000] mb-2 flex items-center">
+                                    <span class="text-2xl mr-2">🕰️</span>Manhã / Tarde (Opções Flexíveis):
+                                </h5>
+                                <div class="itinerary-step-content pl-8">
+                                    <p class="text-[#3B322C] mb-3">${day.mainPlan.morning_afternoon_options}</p>`;
                         const imagesContainer = document.createElement('div');
-                        imagesContainer.className = 'itinerary-images-container';
+                        imagesContainer.className = 'itinerary-images-container flex flex-wrap gap-2 mt-2';
                         let imagesFoundInOptions = false;
                         const planTextLower = day.mainPlan.morning_afternoon_options.toLowerCase();
 
@@ -1552,35 +1599,37 @@
                         if(imagesFoundInOptions) {
                             html += imagesContainer.outerHTML;
                         }
+                        html += `   </div>
+                                 </div>`; // Fechar itinerary-step-content e itinerary-step
                 }
 
                 const kidActivityDivId = `kid-activities-${dateKey.replace(/\//g, '-')}`;
-                html += `<button class="gemini-button maps-button mt-3" onclick="suggestKidActivities('${dateKey.replace(/'/g, "\\'")}', this)">✨ Sugerir Atividades Infantis Próximas</button>`;
+                html += `<button class="gemini-button maps-button mt-4" onclick="suggestKidActivities('${dateKey.replace(/'/g, "\\'")}', this)">✨ Sugerir Atividades Infantis Próximas</button>`;
                 html += `<div id="${kidActivityDivId}" class="kid-activities-results mt-2" style="display: none;"></div>`;
 
                 if (day.mainPlan.transport) html += `<div class="transport-details mt-4"><h6>Como Chegar:</h6>${day.mainPlan.transport}</div>`;
-                html += `</div>`;
+                html += `</div>`; // Fechar plan-section
             }
             
-            if (day.considerations) html += `<div class="mt-4 pt-4 border-t" style="border-color: #A9A9A9;"><h5 class="font-semibold text-lg" style="color: #4A5568;">Considerações Especiais 💡:</h5><p style="color: #2F2F2F;">${day.considerations}</p></div>`;
+            if (day.considerations) html += `<div class="mt-4 pt-4 border-t border-[#B08D57]" style="border-color: #B08D57;"><h5 class="font-semibold text-lg" style="color: #8B4513;">Considerações Especiais 💡:</h5><p style="color: #3B322C;">${day.considerations}</p></div>`;
 
             if (day.alternativePlan) {
                 html += `<div class="alternative-plan-container mt-6">
                             <h4 class="plan-subtitle">✨ Plano Alternativo: ${day.alternativePlan.title}</h4>
                             <div class="plan-section">`;
                 if (day.alternativePlan.fullDay) {
-                    html += `<div><h5>Dia Inteiro:</h5><p>${day.alternativePlan.fullDay}</p></div>`;
+                    html += `<div class="itinerary-step mb-4 p-3 border-l-4 border-[#6B8E23] bg-[#F0FFF0]"><h5>Dia Inteiro:</h5><p>${day.alternativePlan.fullDay}</p></div>`;
                 } else {
-                    if (day.alternativePlan.morning) html += `<div><h5>Manhã ☀️:</h5><p>${day.alternativePlan.morning}</p></div>`;
-                    if (day.alternativePlan.afternoon) html += `<div><h5>Tarde 🏙️:</h5><p>${day.alternativePlan.afternoon}</p></div>`;
+                    if (day.alternativePlan.morning) html += `<div class="itinerary-step mb-4 p-3 border-l-4 border-[#6B8E23] bg-[#F0FFF0]"><h5>Manhã ☀️:</h5><p>${day.alternativePlan.morning}</p></div>`;
+                    if (day.alternativePlan.afternoon) html += `<div class="itinerary-step mb-4 p-3 border-l-4 border-[#6B8E23] bg-[#F0FFF0]"><h5>Tarde 🏙️:</h5><p>${day.alternativePlan.afternoon}</p></div>`;
                 }
-                if (day.alternativePlan.evening) html += `<div><h5>Noite 🌙:</h5><p>${day.alternativePlan.evening}</p></div>`;
+                if (day.alternativePlan.evening) html += `<div class="itinerary-step mb-4 p-3 border-l-4 border-[#6B8E23] bg-[#F0FFF0]"><h5>Noite 🌙:</h5><p>${day.alternativePlan.evening}</p></div>`;
                 if (day.alternativePlan.transport) html += `<div class="transport-details mt-4"><h6>Como Chegar (Alternativa):</h6>${day.alternativePlan.transport}</div>`;
-                if (day.alternativePlan.notes) html += `<div class="mt-3 pt-3 border-t" style="border-color: #DDA0DD;"><h5 class="font-semibold" style="color: #4A5568;">Notas da Alternativa:</h5><p class="text-sm">${day.alternativePlan.notes}</p></div>`;
+                if (day.alternativePlan.notes) html += `<div class="mt-3 pt-3 border-t border-[#DAA520]"><h5 class="font-semibold" style="color: #8B4513;">Notas da Alternativa:</h5><p class="text-sm">${day.alternativePlan.notes}</p></div>`;
                 html += `   </div>
                          </div>`;
             }
-            html += `</div>`;
+            html += `</div>`; // Fechar day-card
             itineraryDetails.innerHTML = html;
         }
         
@@ -1629,7 +1678,7 @@
             const li = document.createElement('li');
             let nameHtml = `<strong>${r.name}</strong>`;
             if (r.link) {
-                 nameHtml = `<a href="${r.link}" target="_blank" rel="noopener noreferrer" style="color: #4169E1; text-decoration: underline;"><strong>${r.name}</strong></a>`;
+                 nameHtml = `<a href="${r.link}" target="_blank" rel="noopener noreferrer" style="color: #005F5F; text-decoration: underline;"><strong>${r.name}</strong></a>`;
             }
             li.innerHTML = `${nameHtml} (${r.type}, ${r.price}): ${r.notes}`;
             restaurantSuggestions.appendChild(li);
@@ -1637,10 +1686,9 @@
 
         transportData.forEach(item => {
             const div = document.createElement('div');
-            div.className = 'border rounded-lg overflow-hidden mb-4'; 
-            div.style.borderColor = '#A9A9A9'; 
+            div.className = 'mb-4'; 
             div.innerHTML = `
-                <button class="accordion-toggle transport-accordion">
+                <button class="accordion-toggle transport-accordion w-full text-left p-3 font-semibold rounded-t-md">
                     ${item.title} <span class="float-right transform transition-transform duration-300">▾</span>
                 </button>
                 <div class="accordion-content">
@@ -1652,10 +1700,9 @@
         
         usefulTipsData.forEach(item => {
             const div = document.createElement('div');
-            div.className = 'border rounded-lg overflow-hidden mb-4'; 
-            div.style.borderColor = '#A9A9A9'; 
+            div.className = 'mb-4'; 
             div.innerHTML = `
-                <button class="accordion-toggle tips-accordion">
+                <button class="accordion-toggle tips-accordion w-full text-left p-3 font-semibold rounded-t-md">
                     ${item.title} <span class="float-right transform transition-transform duration-300">▾</span>
                 </button>
                 <div class="accordion-content">
@@ -1700,14 +1747,14 @@
                     labels: ['Disneyland Paris', 'Paris (Cidade)'],
                     datasets: [{
                         label: 'Noites',
-                        data: [3, 10], // Ajustado para 3 noites na Disney (chegada 15, saída 18)
+                        data: [3, 10], 
                         backgroundColor: [
-                            '#87CEEB', 
-                            '#228B22'  
+                            'rgba(218, 165, 32, 0.7)', /* Goldenrod com opacidade */
+                            'rgba(0, 95, 95, 0.7)'    /* Azul Petróleo com opacidade */
                         ],
                         borderColor: [
-                            '#4169E1', 
-                            '#C41E3A'   
+                            '#B08D57', 
+                            '#004D4D'   
                         ],
                         borderWidth: 1
                     }]
@@ -1719,18 +1766,18 @@
                     scales: {
                         x: {
                             beginAtZero: true,
-                            title: { display: true, text: 'Número de Noites', color: '#2F2F2F' },
-                            ticks: { color: '#2F2F2F' },
-                            grid: { color: '#A9A9A9' }
+                            title: { display: true, text: 'Número de Noites', color: '#3B322C', font: { family: 'Playfair Display' } },
+                            ticks: { color: '#3B322C', font: { family: 'Lato' } },
+                            grid: { color: 'rgba(176, 141, 87, 0.2)' }
                         },
                         y: {
-                           ticks: { color: '#2F2F2F' },
-                           grid: { color: '#A9A9A9' }
+                           ticks: { color: '#3B322C', font: { family: 'Lato' } },
+                           grid: { color: 'rgba(176, 141, 87, 0.2)' }
                         }
                     },
                     plugins: {
                         legend: { display: false },
-                        title: { display: true, text: 'Duração das Fases da Viagem (em noites)', font: {size: 16}, color: '#C41E3A'}
+                        title: { display: true, text: 'Duração das Fases da Viagem', font: {size: 18, family: 'Playfair Display'}, color: '#800020'}
                     }
                 }
             });
