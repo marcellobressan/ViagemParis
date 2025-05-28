@@ -173,13 +173,13 @@
             margin-top: 0.75rem; 
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem; /* Aumentado para dar mais espaço entre os POIs */
+            gap: 1rem; 
         }
-        .itinerary-poi-entry { /* Novo container para agrupar imagem e botão do POI no roteiro */
+        .itinerary-poi-entry { 
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.25rem; /* Espaço entre imagem e botão */
+            gap: 0.25rem; 
         }
         .itinerary-poi-image {
             width: 100px; 
@@ -900,35 +900,26 @@
         },
         "23/07": { 
             day: "Quarta", 
-            mainTitle: "Elegância, Arte e Doces: Musée Jacquemart-André e Opções",
-            themeIcon: "🏛️🍰",
-            themeDescription: "Um dia de requinte, explorando uma mansão histórica e sua arte, com pausas para delícias parisienses.",
+            mainTitle: "Dia de Alta Costura e Arte: Jacquemart-André & Galerie Dior",
+            themeIcon: "🏛️👗",
+            themeDescription: "Um dia dedicado à elegância parisiense, explorando uma mansão histórica com sua coleção de arte e mergulhando no universo da alta-costura Dior.",
             mainPlan: {
-                morning_afternoon_options: `
-                    <p><strong>Atividade Principal do Dia (Escolher horário):</strong></p>
-                    <p>   🏛️ Visita ao <strong>Musée Jacquemart-André</strong> (158 Boulevard Haussmann, 8º). Explore a magnífica mansão do século XIX e a sua coleção de arte italiana renascentista, mestres flamengos e mobiliário francês.</p>
-                    <p>   🍽️☕ <em>Opção 1:</em> Visitar de manhã e desfrutar de um almoço no elegante <strong>Café Jacquemart-André</strong> (um dos mais belos salões de chá de Paris).</p>
-                    <p>   ☕🍰 <em>Opção 2:</em> Visitar a partir das 15h e deliciar-se com um chá da tarde no <strong>Café Jacquemart-André</strong>.</p>
-                    <br>
-                    <p><strong>Combinar com (escolher 1-2, dependendo do horário da visita ao Jacquemart-André e do ritmo da família):</strong></p>
-                    <p>   🌳 <strong>Parc Monceau:</strong> Um passeio relaxante neste elegante parque, muito próximo ao museu.</p>
-                    <p>   👗 <strong>Interesses em Moda e Design:</strong> Deslocamento para o Musée de la Mode (Palais Galliera) ou Musée des Arts Decoratifs (MAD).</p>
-                    <p>   🏛️ <strong>Arte Adicional:</strong> Visita ao Petit Palais (coleção permanente gratuita, perto da área dos Champs-Élysées).</p>
-                    <p>   🧁 <strong>Doçura Parisiense:</strong> Visita à Patisserie Pierre Hermé para macarons e outras delícias.</p>
-                `,
-                evening: "Jantar (casual, ex: Özlem Kebab – verificar adequação, ou outra opção dependendo da área da atividade da tarde).",
+                morning: "🏛️ Visita ao Musée Jacquemart-André (158 Boulevard Haussmann, 8º). Explore a magnífica mansão do século XIX e a sua coleção de arte italiana renascentista, mestres flamengos e mobiliário francês. Considere um café no seu elegante salão de chá.",
+                afternoon: "👗 Após o almoço (no Café Jacquemart-André ou num bistrô próximo), deslocamento para a Galerie Dior (30 Avenue Montaigne, 8º). Imersão no universo da icónica casa de moda, desde as suas criações históricas até às exposições contemporâneas.",
+                evening: "Jantar na área do 8º arrondissement, talvez explorando opções perto da Avenue Montaigne ou regressando para perto do hotel.",
                 transport: `<h6>Como Chegar (Hotel Havane → Musée Jacquemart-André):</h6>
                     <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                     <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas).</p>
                     <p>🔄 Mude para a <strong>Linha 9</strong> (sentido Pont de Sèvres) até <strong>Saint-Augustin</strong> (3 paradas) ou <strong>Miromesnil</strong> (2 paradas).</p>
                     <p>🚶‍♀️ De Saint-Augustin, caminhe ~7-10 min. De Miromesnil, caminhe ~5-8 min até o Musée Jacquemart-André.</p>
-                    <h6>Como Chegar (Atividades Combinadas - exemplos):</h6>
-                    <p>   🚶‍♀️ <strong>Do Jacquemart-André para Parc Monceau:</strong> Caminhada curta de ~5-10 minutos.</p>
-                    <p>   🚇🚌 <strong>Do Jacquemart-André para Musée de la Mode/MAD (Área Alma-Marceau):</strong> De Miromesnil (Linha 9, sentido Pont de Sèvres) até <strong>Alma-Marceau</strong> (2 paradas). Ou autocarros da área do Boulevard Haussmann.</p>
-                    <p>   🚇🚌 <strong>Do Jacquemart-André para Petit Palais:</strong> De Miromesnil (Linha 13, sentido Châtillon-Montrouge) até <strong>Champs-Élysées - Clemenceau</strong> (1 parada).</p>
-                    <p>   🚇🚌 <strong>Do Jacquemart-André para Pierre Hermé (ex: boutique em Saint-Germain):</strong> De Miromesnil (Linha 13, sentido Châtillon) até <strong>Duroc</strong>, mudar para Linha 10 (sentido Gare d'Austerlitz) até <strong>Mabillon</strong>. Ou autocarros.</p>`
+                    <h6>Como Chegar (Musée Jacquemart-André → Galerie Dior):</h6>
+                    <p>🚶‍♀️ Caminhada de ~20-25 minutos (aproximadamente 1.5-2km) ou:</p>
+                    <p>🚌 Autocarro: Da área do Boulevard Haussmann/Saint-Augustin, procure linhas como a <strong>28</strong> (direção Porte d'Orléans) ou <strong>80</strong> (direção Porte de Versailles) e desça perto da Avenue Montaigne (ex: paragem Alma-Marceau). Verifique os trajetos no local.</p>
+                    <p>🚇 Metro: De Miromesnil (Linha 9 ou 13). Apanhe a <strong>Linha 9</strong> (sentido Pont de Sèvres) até <strong>Alma-Marceau</strong> (2 paradas). Caminhe ~5 min até à Galerie Dior.</p>
+                    <h6>Como Chegar (Galerie Dior → Hotel Havane):</h6>
+                    <p>🚇 De Alma-Marceau (Linha 9, sentido Mairie de Montreuil) até <strong>Chaussée d'Antin - La Fayette</strong> (4 paradas). Mude para a <strong>Linha 7</strong> (sentido La Courneuve) até <strong>Cadet</strong> (2 paradas).</p>`
             },
-            considerations: "Musée Jacquemart-André: verificar horários de abertura e se é necessário reservar bilhetes/mesa no café. É um museu mais íntimo e pode ser uma boa pausa dos grandes museus. Parc Monceau é ideal para um momento de tranquilidade. Coordenar os horários das outras atividades escolhidas.",
+            considerations: "Musée Jacquemart-André: verificar horários e se é necessário reservar bilhetes/mesa no café. Galerie Dior: reserva de bilhetes com horário marcado é altamente recomendada e muitas vezes essencial, devido à popularidade. Verifique o site oficial com antecedência.",
             alternativePlan: {
                 title: "Jardin d'Acclimatation e Fundação Louis Vuitton",
                 morning: "🎠 Jardin d'Acclimatation: Localizado no Bois de Boulogne, este parque de diversões histórico oferece atrações para todas as idades, desde carrosséis clássicos a pequenas montanhas-russas, um pequeno zoo e áreas de recreio. Ideal para as crianças.",
@@ -1126,6 +1117,7 @@
         { name: "Grande Galerie de l’Évolution", icon: "🐘", category: "Museu", notes: "Parte do Muséum National d'Histoire Naturelle, esta galeria espetacular exibe uma vasta coleção de animais taxidermizados que representam a diversidade da vida na Terra, num cenário arquitetónico impressionante. Localizada no Jardin des Plantes.", link: "https://www.mnhn.fr/fr/grande-galerie-de-l-evolution", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Grande_galerie_de_l%27%C3%A9volution_panorama.jpg/640px-Grande_galerie_de_l%27%C3%A9volution_panorama.jpg"},
         { name: "Museu da Moda (Palais Galliera)", icon: "👗", category: "Museu", notes: "Dedicado à história da moda, desde o século XVIII até aos dias de hoje. Apresenta exposições temporárias temáticas ou monográficas de grandes criadores. Um palácio elegante com belos jardins.", link: "https://www.palaisgalliera.paris.fr/en", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/P1030817_Paris_XVI_square_Brignole-Galli%C3%A9ra_mus%C3%A9e_Galli%C3%A8ra_rwk.JPG/640px-P1030817_Paris_XVI_square_Brignole-Galli%C3%A9ra_mus%C3%A9e_Galli%C3%A8ra_rwk.JPG" },
         { name: "Musée Jacquemart-André", icon: "🏛️", category: "Museu/Mansão Histórica", notes: "Uma suntuosa mansão do século XIX transformada em museu, exibindo a coleção de arte italiana renascentista, mestres flamengos e mobiliário francês do casal Édouard André e Nélie Jacquemart. O Café Jacquemart-André é um dos mais belos salões de chá de Paris.", link: "https://www.musee-jacquemart-andre.com/", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/2023-06-07_Musee_Jacquemart-Andre_16.jpg/640px-2023-06-07_Musee_Jacquemart-Andre_16.jpg" },
+        { name: "Galerie Dior", icon: "👗", category: "Museu/Moda", notes: "Uma imersão na história e no legado da casa de moda Christian Dior, com exposições de alta-costura, arquivos e cenografias deslumbrantes. Localizada na icónica Avenue Montaigne.", link: "https://www.galeriedior.com/", imagePlaceholder: "https://placehold.co/250x180/DDA0DD/FFFFFF?text=Galerie+Dior" },
         { name: "Petit Palais", icon: "🏛️", category: "Museu", notes: "Museu de Belas Artes da Cidade de Paris, com uma coleção eclética que abrange desde a antiguidade até ao início do século XX. A entrada para a coleção permanente é gratuita. O edifício em si é uma joia da arquitetura de 1900, com um pátio interior encantador.", link: "https://www.petitpalais.paris.fr/en", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Petit_Palais_Galerie_des_grands_formats.jpg/640px-Petit_Palais_Galerie_des_grands_formats.jpg" },
         { name: "Museu das Artes Decorativas (MAD)", icon: "🏺", category: "Museu", notes: "Localizado numa ala do Palácio do Louvre, explora as artes decorativas, o design e a moda através dos séculos. Coleções ricas em mobiliário, joalharia, cerâmica e têxteis.", link: "https://madparis.fr/en", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Panorama_musee_des_arts_decoratifs.jpg/640px-Panorama_musee_des_arts_decoratifs.jpg" },
         { name: "Choco Story Paris", icon: "🍫", category: "Museu", notes: "Um museu delicioso que conta a história do cacau e do chocolate. Oferece demonstrações de fabrico de chocolate, exposições interativas e, claro, degustações. Divertido para todas as idades.", link: "https://www.museeduchocolat.fr/?lang=en", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Sculpture_en_chocolat_en_chocolat_L%C3%A9onidas_repr%C3%A9sentant_la_Tour_Eiffel%2C_Mus%C3%A9e_du_chocolat_de_Paris.jpg/640px-Sculpture_en_chocolat_en_chocolat_L%C3%A9onidas_repr%C3%A9sentant_la_Tour_Eiffel%2C_Mus%C3%A9e_du_chocolat_de_Paris.jpg" },
