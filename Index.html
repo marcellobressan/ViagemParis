@@ -81,11 +81,15 @@
 
         /* Conteúdo das Secções */
         .content-section {
+            display: none;
             background-color: #FFF8DC; /* Cornsilk - um creme mais quente */
             border: 1px solid #E0DCD1; 
             box-shadow: 0 6px 18px rgba(0,0,0,0.1); /* Sombra mais pronunciada */
             border-radius: 4px; /* Cantos sutis */
             padding: 2rem;
+        }
+        .content-section.active {
+            display: block;
         }
 
         /* Cartões de Dia */
