@@ -29,9 +29,9 @@
         /* Tipografia de Destaque */
         header h1 {
             font-family: 'Cinzel Decorative', cursive;
-            font-size: 2.7rem; /* Ajustado para mobile e desktop */
+            font-size: 2.7rem; 
             color: #800020; /* Bordô */
-            text-shadow: 1px 1px 2px rgba(176, 141, 87, 0.4); /* Sombra dourada sutil */
+            text-shadow: 1px 1px 2px rgba(176, 141, 87, 0.4); 
             font-weight: 900;
             margin-bottom: 0.3rem;
             letter-spacing: 1px;
@@ -58,26 +58,26 @@
         }
          #overview h3, #culinary-info h3, #comments-section h3 {
             font-family: 'Playfair Display', serif;
-            color: #8B4513; /* SaddleBrown, um marrom mais quente para subtítulos de secção */
+            color: #8B4513; 
             font-weight: 700;
         }
 
 
         /* Navegação com Estilo Art Déco */
         nav {
-            border-top: 1px solid #D4AF37; /* Ouro pálido */
+            border-top: 1px solid #D4AF37; 
             border-bottom: 1px solid #D4AF37;
             padding-top: 0.75rem;
             padding-bottom: 0.75rem;
-            background: linear-gradient(to bottom, #FAF0E6, #FFF8DC); /* Gradiente creme suave */
+            background: linear-gradient(to bottom, #FAF0E6, #FFF8DC); 
         }
         .nav-button {
             font-family: 'Raleway', sans-serif;
             font-weight: 600;
             background-color: transparent;
             color: #3B322C; 
-            border: 2px solid #B08D57; /* Dourado Envelhecido */
-            border-radius: 0px; /* Cantos retos - Art Déco */
+            border: 2px solid #B08D57; 
+            border-radius: 0px; 
             padding: 0.6rem 1.1rem;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             box-shadow: 0 2px 3px rgba(0,0,0,0.1);
@@ -87,26 +87,30 @@
             margin: 0.25rem;
         }
         .nav-button.active {
-            background-color: #800020; /* Bordô */
-            color: #FFFDD0; /* Creme */
+            background-color: #800020; 
+            color: #FFFDD0; 
             border-color: #B08D57; 
             box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
         }
         .nav-button:hover:not(.active) {
-            background-color: #B08D57; /* Dourado Envelhecido */
-            color: #FFFDD0; /* Creme */
-            border-color: #800020; /* Bordô */
+            background-color: #B08D57; 
+            color: #FFFDD0; 
+            border-color: #800020; 
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(0,0,0,0.15);
         }
 
         /* Conteúdo das Secções */
         .content-section {
-            background-color: #FAF6F0; /* Um creme mais claro para o conteúdo */
+            display: none;
+            background-color: #FAF6F0; 
             border: 1px solid #E0DCD1; 
             box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
-            border-radius: 0px; /* Cantos retos */
+            border-radius: 0px; 
             padding: 2rem;
+        }
+        .content-section.active {
+            display: block;
         }
         
         /* Cartões de Dia */
@@ -118,11 +122,11 @@
             border-bottom: none;
         }
         .day-card h3.main-title {
-             color: #800020; /* Bordô */
+             color: #800020; 
              font-size: 1.9rem;
         }
         .day-theme-icon {
-            color: #DAA520; /* Goldenrod */
+            color: #DAA520; 
         }
         .day-theme-description {
             color: #5A5A5A; 
@@ -130,8 +134,8 @@
             font-style: italic;
         }
          .day-card h4.plan-subtitle {
-             color: #005F5F; /* Azul Petróleo */
-             border-bottom: 1px solid #B08D57; /* Dourado Envelhecido */
+             color: #005F5F; 
+             border-bottom: 1px solid #B08D57; 
              font-size: 1.4rem;
              font-weight: 700;
         }
@@ -142,24 +146,24 @@
             font-size: 1.05rem;
         }
         .transport-details {
-            background-color: #F5F5DC; /* Beige */
+            background-color: #F5F5DC; 
             border: 1px solid #E0DCD1;
-            border-left: 4px solid #B08D57; /* Dourado Envelhecido */
+            border-left: 4px solid #B08D57; 
             border-radius: 0px;
         }
         .transport-details strong { 
-            color: #800000; /* Maroon */
+            color: #800000; 
             font-weight: 700;
         }
         .alternative-plan-container {
-            background-color: #FFF5EE; /* Seashell */
-            border: 1px dashed #DAA520; /* Goldenrod */
+            background-color: #FFF5EE; 
+            border: 1px dashed #DAA520; 
             border-radius: 0;
             padding: 1.5rem;
         }
         .alternative-plan-container h4.plan-subtitle {
-            color: #6B8E23; /* Verde Oliva */
-            border-bottom-color: #8B4513; /* SaddleBrown */
+            color: #6B8E23; 
+            border-bottom-color: #8B4513; 
         }
 
         /* Acordeões com estilo Art Déco */
@@ -176,7 +180,7 @@
             background: linear-gradient(to bottom, #E6D8C0, #DCDCDC);
         }
         .accordion-content {
-            background-color: #FFFDD0; /* Creme */
+            background-color: #FFFDD0; 
             border: 1px solid #D2B48C;
             border-top: none;
             border-radius: 0;
@@ -185,46 +189,47 @@
              padding: 1.5rem; 
         }
 
+
         /* Pontos de Interesse */
         .poi-item {
-            background-color: #FAF0E6; /* Linen */
-            border: 1px solid #D2B48C; /* Tan */
+            background-color: #FAF0E6; 
+            border: 1px solid #D2B48C; 
             border-radius: 0px;
             box-shadow: 3px 3px 8px rgba(0,0,0,0.1);
         }
         .poi-image-container {
-            border: 2px solid #B08D57; /* Dourado Envelhecido */
+            border: 2px solid #B08D57; 
             padding: 3px;
             background-color: #FFFDD0;
         }
         .poi-details h4 { 
-            color: #800020; /* Bordô */
+            color: #800020; 
             font-size: 1.3rem;
         }
         .poi-details h4 a { 
-            color: #005F5F; /* Azul Petróleo */
+            color: #005F5F; 
         }
          .poi-details h4 a:hover {
-            color: #008080; /* Teal mais claro */
+            color: #008080; 
         }
         .poi-category { 
-            color: #8B4513; /* SaddleBrown */
+            color: #8B4513; 
             font-size: 0.85em;
             font-style: italic;
         }
         .maps-button { 
-            background-color: #6B8E23; /* Verde Oliva */
+            background-color: #6B8E23; 
             color: #FFFDD0; 
             border-radius: 0px;
             font-weight: 600;
-            border: 1px outset #8FBC8F; /* DarkSeaGreen para um efeito de botão */
+            border: 1px outset #8FBC8F; 
         }
         .maps-button:hover {
-            background-color: #556B2F; /* DarkOliveGreen */
+            background-color: #556B2F; 
             box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
         }
         .gemini-button { 
-            background-color: #483D8B; /* DarkSlateBlue */
+            background-color: #483D8B; 
             border-radius: 0px;
             border: 1px outset #6A5ACD;
         }
@@ -232,54 +237,124 @@
             background-color: #6A5ACD; 
         }
         .poi-curiosities, .kid-activities-results, #dish-description-output { 
-            background-color: #F5F5DC; /* Beige */
-            border-left-color: #B08D57; /* Dourado Envelhecido */
+            background-color: #F5F5DC; 
+            border-left-color: #B08D57; 
             border-radius: 0px;
             padding: 1rem;
         }
         .itinerary-poi-image {
-            border: 2px solid #B08D57; /* Dourado Envelhecido */
+            border: 2px solid #B08D57; 
             border-radius: 0px;
         }
 
-        /* Timeline Styles Art Deco */
-        .timeline::after {
-            background-color: #B08D57; /* Dourado Envelhecido */
-            width: 3px;
-            margin-left: -1.5px;
+        /* Timeline Styles Art Deco Refined */
+        .timeline {
+            position: relative;
+            max-width: 90%; /* Ajustado para melhor visualização em telas menores */
+            margin: 3rem auto;
+            padding: 1rem 0;
         }
-        .timeline-container::after { 
-            background-color: #FFFDD0; /* Creme */
-            border: 3px solid #800020; /* Bordô */
-            width: 22px;
-            height: 22px;
-            right: -12px; 
-            box-shadow: 0 0 0 3px #FFFDD0; /* Anel creme em volta */
+        .timeline::after { /* Linha vertical central */
+            content: '';
+            position: absolute;
+            width: 4px; /* Mais fina e elegante */
+            background-color: #B08D57; /* Dourado Envelhecido */
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px; /* Metade da largura */
+            border-radius: 2px;
+        }
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        .timeline-container::after { /* Círculos/Nós na linha */
+            content: '';
+            position: absolute;
+            width: 20px; /* Menor e mais elegante */
+            height: 20px;
+            background-color: #FFFDD0; /* Creme, como o fundo do body */
+            border: 4px solid #800020; /* Bordô, para contraste e sofisticação */
+            top: 20px; /* Ajustar para alinhar com o conteúdo */
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 0 3px #B08D57; /* Anel dourado em volta do bordô */
+        }
+        .timeline-left {
+            left: 0;
+        }
+        .timeline-left::after{
+            right: -12px; /* Ajuste para o novo tamanho do círculo */
+        }
+        .timeline-right {
+            left: 50%;
         }
         .timeline-right::after {
-            left: -12px;
+            left: -12px; /* Ajuste para o novo tamanho do círculo */
         }
-        .timeline-left::before, .timeline-right::before { 
-            border-color: transparent transparent transparent #B08D57;
-            border-width: 8px 0 8px 8px;
-            top: 24px;
+        /* Linhas horizontais de conexão (substituindo as setas) */
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 29px; /* Alinhar com o centro do círculo */
+            width: 20px; /* Largura da linha de conexão */
+            height: 2px; /* Espessura da linha */
+            background-color: #B08D57; /* Dourado Envelhecido */
+            z-index: 0; 
+        }
+        .timeline-left::before {
+            right: 8px; /* Conecta do conteúdo ao círculo */
         }
         .timeline-right::before {
-            border-color: transparent #B08D57 transparent transparent;
-            border-width: 8px 8px 8px 0;
+            left: 8px; /* Conecta do conteúdo ao círculo */
         }
+
         .timeline-content {
+            padding: 20px 25px;
             background-color: #FAF0E6; /* Linen */
+            position: relative;
+            border-radius: 0px; /* Cantos retos */
             border: 1px solid #D2B48C; /* Tan */
-            box-shadow: 0 3px 8px rgba(0,0,0,0.07);
-            border-radius: 0px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
         }
         .timeline-content h4 {
-            color: #800000; /* Bordô */
+            color: #800020; /* Bordô */
+            margin-top: 0;
         }
         .timeline-date {
-            color: #3B322C; /* Marrom Escuro */
+            color: #3B322C; 
             font-weight: 600;
+            font-size: 0.85em;
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Responsividade da Timeline */
+        @media screen and (max-width: 768px) {
+            .timeline::after {
+                left: 12px; /* Move a linha para a esquerda */
+            }
+            .timeline-container {
+                width: 100%;
+                padding-left: 45px; /* Espaço para a linha e o nó */
+                padding-right: 15px;
+            }
+            .timeline-container::after { /* Círculos/Nós */
+                left: 0px; /* Alinha os nós com a linha */
+            }
+            .timeline-left::after, .timeline-right::after {
+                left: 0px; /* Alinha os nós com a linha */
+            }
+            .timeline-left, .timeline-right {
+                left: 0%; /* Empilha tudo à esquerda da linha */
+            }
+            .timeline-left::before, .timeline-right::before { /* Linhas de conexão */
+                left: 20px; /* Ajusta a origem da linha de conexão */
+                width: 25px; 
+            }
         }
         
         /* Ajustes Gerais */
@@ -298,7 +373,7 @@
             color: #800000; 
         }
         #comments-section button {
-            background-color: #6B8E23; /* Verde Oliva */
+            background-color: #6B8E23; 
             color: #FFFDD0;
             border-radius: 0;
             border: 1px outset #8FBC8F;
@@ -307,15 +382,15 @@
             background-color: #556B2F;
         }
         #comments-list div {
-            background-color: #FFFDD0; /* Creme */
+            background-color: #FFFDD0; 
             border-color: #E0DCD1; 
         }
         footer {
-            border-top: 2px solid #B08D57; /* Dourado Envelhecido */
+            border-top: 2px solid #B08D57; 
             color: #5A5A5A;
             padding-top: 1.5rem;
             margin-top: 3rem;
-            background-color: #FAF0E6; /* Linen */
+            background-color: #FAF0E6; 
         }
         .chart-container {
             border: 1px solid #D2B48C;
