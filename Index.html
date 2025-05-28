@@ -460,8 +460,8 @@
                     </div>
                     <div class="bg-sky-100 p-4 rounded-lg">
                         <h3 class="text-xl font-semibold text-sky-700 mb-2">Fases da Viagem</h3>
-                        <p>🏰 Disneyland Paris: 4 dias / 3 noites</p>
-                        <p>🏙️ Paris (cidade): 11 dias / 10 noites</p>
+                        <p>🏰 Disneyland Paris: 4 dias / 3 noites (Chegada à Disney no dia 15/07)</p>
+                        <p>🏙️ Paris (cidade): 10 dias / 10 noites (A partir de 18/07)</p>
                     </div>
                 </div>
                 <div class="chart-container">
@@ -475,22 +475,22 @@
                         <div class="timeline-container timeline-left">
                             <div class="timeline-content">
                                 <span class="timeline-date">14 de Julho</span>
-                                <h4><span class="timeline-icon">✈️</span>Chegada e Dia da Bastilha</h4>
-                                <p>Início da aventura com a chegada a Paris e instalação no hotel Disney.</p>
+                                <h4><span class="timeline-icon">✈️</span>Saída do Brasil / Viagem</h4>
+                                <p>Início da jornada rumo à Cidade Luz.</p>
                             </div>
                         </div>
                         <div class="timeline-container timeline-right">
                             <div class="timeline-content">
                                 <span class="timeline-date">15 de Julho</span>
-                                <h4><span class="timeline-icon">🏰</span>Início na Disneyland Paris</h4>
-                                <p>Primeiro dia de magia nos parques da Disney.</p>
+                                <h4><span class="timeline-icon">🏰</span>Chegada a Paris e Disneyland</h4>
+                                <p>Transfer para o hotel Disney, check-in (~17h) e noite na Disney Village.</p>
                             </div>
                         </div>
                         <div class="timeline-container timeline-left">
                             <div class="timeline-content">
                                  <span class="timeline-date">18 de Julho</span>
                                 <h4><span class="timeline-icon">🏙️</span>Bonjour, Paris!</h4>
-                                <p>Transfer para o hotel em Paris e primeiro contacto com a cidade.</p>
+                                <p>Manhã na Disney, depois transfer para o hotel em Paris e primeiro contacto com a cidade.</p>
                             </div>
                         </div>
                         <div class="timeline-container timeline-right">
@@ -504,7 +504,7 @@
                             <div class="timeline-content">
                                 <span class="timeline-date">20 de Julho</span>
                                 <h4><span class="timeline-icon">🖼️</span>Destaque Paris: Louvre</h4>
-                                <p>Exploração das obras-primas do Museu do Louvre.</p>
+                                <p>Exploração das obras-primas do Museu do Louvre (fecha às 18h).</p>
                             </div>
                         </div>
                         <div class="timeline-container timeline-right">
@@ -636,115 +636,102 @@
     }
 
     const itineraryData = {
-        "14/07": { 
-            day: "Segunda", 
-            mainTitle: "Chegada e Dia da Bastilha", 
-            themeIcon: "🎆",
-            themeDescription: "Chegada emocionante em Paris durante as celebrações do Dia da Bastilha e instalação na magia da Disney.",
+        "14/07": {
+            day: "Segunda",
+            mainTitle: "Saída do Brasil / Viagem para Paris ✈️",
+            themeIcon: "🌍✈️",
+            themeDescription: "Início da jornada rumo à Cidade Luz e ao mundo da magia!",
             mainPlan: {
-                morning: "Chegada ao Aeroporto Charles de Gaulle (CDG). Recolha de bagagem e encontro com o motorista do transfer.", 
-                afternoon: "Transfer para o Hotel Disney. Check-in e instalação nos quartos. Tempo para descanso e os mais novos explorarem as imediações do hotel (se aplicável).", 
-                evening: "Jantar tranquilo no restaurante do hotel ou num dos restaurantes da Disney Village com reserva prévia. Opcional: Se houver visibilidade e disposição, tentar avistar os fogos de artifício da Bastilha à distância (sem sair do complexo Disney).",
-                transport: "<h6>Como Chegar:</h6><p>🚕 <strong>Recomendado:</strong> Transfer privado pré-reservado em van (ex: Viator, GetYourGuide). Essencial devido ao Dia da Bastilha (trânsito intenso, muitas ruas fechadas em Paris, maior procura por serviços). Confirmar com o operador detalhes sobre o ponto de encontro e tempo estimado de viagem.</p><p><em>Alternativa:</em> Magical Shuttle (serviço oficial da Disney - verificar horários e necessidade de reserva para veículos adaptados) ou TGV do Terminal 2 do CDG para Marne-la-Vallée Chessy (estação da Disney - rápido, ~12 min, mas implica gerir bagagem em estações movimentadas).</p>",
+                fullDay: "Embarque no Brasil e voo para Paris. Chegada prevista ao Aeroporto Charles de Gaulle (CDG) em Paris no final da tarde de 14/07 ou manhã/início da tarde de 15/07 (confirmar horários exatos do voo).",
             },
-            considerations: "Dia da Bastilha: Esperar grandes multidões e perturbações nos transportes em Paris. O foco principal é uma chegada e instalação tranquilas no hotel Disney. Evitar deslocações ao centro de Paris neste dia.",
-            alternativePlan: null 
+            considerations: "Descanso durante o voo. Preparativos para a chegada e transfer no dia 15/07. O Dia da Bastilha em Paris (14/07) terá grandes celebrações, mas o foco será a viagem e chegada tranquila.",
+            alternativePlan: null,
+            disney: false 
         },
         "15/07": { 
             day: "Terça", 
             disney: true,
-            mainTitle: "Disney: Primeiro Dia de Magia!", 
-            themeIcon: "🏰✨",
-            themeDescription: "Explorando os encantos clássicos do Disneyland Park, dos contos de fadas às aventuras emocionantes.",
+            mainTitle: "Chegada a Paris (CDG) e Transfer para a Disneyland! ✨", 
+            themeIcon: "✈️🏰",
+            themeDescription: "Chegada ao aeroporto, transfer para o hotel Disney e primeiro contacto com a magia.",
             mainPlan: {
-                morning: "🏰 Disneyland Park: Começar pela Main Street U.S.A. em direção ao Castelo da Bela Adormecida para fotos. Explorar Fantasyland: 'it's a small world', 'Peter Pan's Flight' (usar Premier Access se disponível), 'Dumbo the Flying Elephant'. Seguir para Discoveryland: 'Buzz Lightyear Laser Blast' (se reaberto) ou 'Orbitron'.", 
-                afternoon: "Almoço no parque (ex: Pizzeria Bella Notte). Continuar em Adventureland: 'Pirates of the Caribbean'. Pausa para descanso no hotel a meio da tarde, especialmente para quem precisar e as crianças.", 
-                evening: "Regresso ao Disneyland Park para a 🎆 Disney Stars on Parade (verificar horário e bom local para assistir). Jantar (ex: Plaza Gardens com personagens - reservar com muita antecedência). Show Noturno sobre o Castelo (Fogo de Artifício/Disney Electrical Sky Parade - verificar programação).",
-                transport: "<h6>Como Chegar:</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques (se o hotel não for o Disneyland Hotel, que é na entrada).</p>"
+                morning: "Desembarque no Aeroporto Charles de Gaulle (CDG) (se o voo chegar pela manhã/início da tarde). Recolha de bagagem.",
+                afternoon: "Encontro com o transfer (pré-reservado) e deslocamento para o Hotel Disney. Check-in no hotel previsto por volta das 17h.", 
+                evening: "Instalação no hotel. Jantar tranquilo no hotel ou na Disney Village. Tempo para descansar da viagem, explorar as imediações do hotel ou fazer as primeiras compras na Disney Village. Planear o dia seguinte nos parques!",
+                transport: "<h6>Transporte Aeroporto CDG → Hotel Disney:</h6><p>🚕 <strong>Recomendado:</strong> Transfer privado pré-reservado em van ou Magical Shuttle (serviço oficial da Disney - verificar horários e necessidade de reserva para veículos adaptados). Confirmar com o operador detalhes sobre o ponto de encontro.</p>"
             },
-            considerations: "Gerir alergia da Clara e seletividade da Beatriz nas refeições (consultar guias de alergia e menus). Usar a app Disneyland Paris para horários de shows, filas e reservas de restaurantes. Comprar Disney Premier Access para atrações populares pode ser útil.",
+            considerations: "Dia focado na chegada, instalação e descanso. Evitar atividades muito exigentes devido ao fuso horário e viagem. A prioridade é estar descansado para o primeiro dia completo de parque.",
             alternativePlan: {
-                title: "Foco em Walt Disney Studios e Relax",
-                morning: "🎬 Walt Disney Studios Park: Começar por Worlds of Pixar: 'Crush's Coaster' (para os mais aventureiros, fila pode ser longa), 'Ratatouille: The Adventure'. Explorar Toon Studio.",
-                afternoon: "Almoço no Studios (ex: Bistrot Chez Rémy - reservar!). Assistir ao show 'TOGETHER: A Pixar Musical Adventure'. Regresso ao hotel para descanso prolongado ou aproveitar a piscina.",
-                evening: "Jantar mais cedo e informal na Disney Village (ex: Earl of Sandwich, Five Guys). Noite tranquila no hotel, preparando-se para o dia seguinte.",
-                transport: "<h6>Como Chegar (Alternativa):</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques/Disney Village.</p>",
-                notes: "Ideal se o grupo preferir um ritmo mais lento no primeiro dia completo ou se houver grande interesse nas atrações do Walt Disney Studios Park."
+                title: "Noite Tranquila ou Disney Village",
+                evening: "Se houver energia, um passeio leve pela Disney Village para absorver a atmosfera e talvez um snack. Caso contrário, uma noite de descanso no hotel é ideal." ,
+                notes: "Considerar o cansaço da viagem."
             }
         },
         "16/07": { 
             day: "Quarta", 
             disney: true,
-            mainTitle: "Disney: Walt Disney Studios e Mais Magia",
-            themeIcon: "🎬🦸",
-            themeDescription: "Aventura no Walt Disney Studios com super-heróis e regresso aos clássicos do Disneyland Park.",
+            mainTitle: "Disney: Primeiro Dia Completo de Magia! (Disneyland Park)", 
+            themeIcon: "🏰🌟",
+            themeDescription: "Explorando os encantos clássicos do Disneyland Park, dos contos de fadas às aventuras emocionantes.",
             mainPlan: {
-                morning: "🎬 Walt Disney Studios Park: Explorar o Avengers Campus: 'Spider-Man W.E.B. Adventure', 'Avengers Assemble: Flight Force'. Fotos com Super-Heróis (verificar app).", 
-                afternoon: "Almoço no Avengers Campus (ex: PYM Kitchen - buffet temático). Regresso ao Disneyland Park. Encontro com Mickey Mouse na Main Street, U.S.A. (verificar app para horários e local exato, pode ser necessário fila virtual). Explorar Frontierland: 'Big Thunder Mountain' (se todos se sentirem aventureiros).", 
-                evening: "Jantar na Disney Village (ex: Billy Bob’s Buffet no La Grange - boa variedade para todos). Lojas na Disney Village.",
-                transport: "<h6>Como Chegar:</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques/Disney Village.</p>"
+                morning: "🏰 Disneyland Park: Começar pela Main Street U.S.A. em direção ao Castelo da Bela Adormecida para fotos. Explorar Fantasyland: 'it's a small world', 'Peter Pan's Flight' (usar Premier Access se disponível), 'Dumbo the Flying Elephant'.", 
+                afternoon: "Almoço no parque (ex: Pizzeria Bella Notte). Continuar em Discoveryland: 'Buzz Lightyear Laser Blast' ou 'Star Tours'. Seguir para Adventureland: 'Pirates of the Caribbean'. Pausa para descanso no hotel a meio da tarde, se necessário.", 
+                evening: "Regresso ao Disneyland Park para a 🎆 Disney Stars on Parade (verificar horário). Jantar (ex: Plaza Gardens com personagens - reservar com muita antecedência). Show Noturno sobre o Castelo (verificar programação).",
+                transport: "<h6>Como Chegar:</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques (se aplicável).</p>"
             },
-            considerations: "Verificar horários de shows e encontros com personagens na app. PYM Kitchen é uma experiência divertida, mas pode ser cara; Stark Factory é uma alternativa mais rápida no Avengers Campus.",
-            alternativePlan: {
-                title: "Dia Clássico no Disneyland Park com Foco em Shows",
-                morning: "🏰 Disneyland Park: Main Street U.S.A. e Frontierland: 'Phantom Manor'. Assistir a um dos shows ao ar livre (ex: The Lion King: Rhythms of the Pride Lands - verificar se está em cartaz e horários).",
-                afternoon: "Almoço no parque (ex: Cowboy Cookout Barbecue). Adventureland: 'Indiana Jones et le Temple du Péril' (para os mais corajosos). Discoveryland: 'Star Tours: The Adventures Continue'.",
-                evening: "Jantar temático no Disneyland Park (ex: Captain Jack's - Restaurant des Pirates, mas CUIDADO EXTREMO com a alergia da Clara, verificar menu e falar com o chef). Aproveitar as atrações com menos fila durante o show noturno (se o grupo já o viu).",
-                transport: "<h6>Como Chegar (Alternativa):</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques.</p>",
-                notes: "Para quem prefere a atmosfera clássica do Disneyland Park e quer focar-se também nos espetáculos."
+            considerations: "Gerir alergia da Clara e seletividade da Beatriz nas refeições (consultar guias de alergia e menus). Usar a app Disneyland Paris para horários de shows, filas e reservas. Disney Premier Access pode ser útil.",
+            alternativePlan: { 
+                title: "Foco em Walt Disney Studios e Relax",
+                morning: "🎬 Walt Disney Studios Park: Começar por Worlds of Pixar: 'Crush's Coaster' (para os mais aventureiros, fila pode ser longa), 'Ratatouille: The Adventure'. Explorar Toon Studio.",
+                afternoon: "Almoço no Studios (ex: Bistrot Chez Rémy - reservar!). Assistir ao show 'TOGETHER: A Pixar Musical Adventure'. Regresso ao hotel para descanso prolongado ou aproveitar a piscina.",
+                evening: "Jantar mais cedo e informal na Disney Village (ex: Earl of Sandwich, Five Guys). Noite tranquila no hotel.",
+                transport: "<h6>Como Chegar (Alternativa):</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques/Disney Village.</p>",
+                notes: "Ideal se o grupo preferir um ritmo mais lento ou tiver grande interesse no Walt Disney Studios Park neste dia."
             }
         },
         "17/07": { 
             day: "Quinta", 
             disney: true,
-            mainTitle: "Disney: Favoritos e Despedida",
-            themeIcon: "💖🛍️",
-            themeDescription: "Últimos momentos mágicos, revendo atrações favoritas e um jantar especial de despedida da Disney.",
+            mainTitle: "Disney: Aventura no Walt Disney Studios!",
+            themeIcon: "🎬🚀",
+            themeDescription: "Dia dedicado ao Walt Disney Studios Park, com super-heróis e mundos da Pixar.",
             mainPlan: {
-                morning: "✨ Revisitar as atrações favoritas em qualquer um dos parques. Se houver interesse, Encontros com Personagens no Princess Pavilion (para as meninas - usar app para verificar disponibilidade de fila virtual ou horários).", 
-                afternoon: "🛍️ Compras de souvenirs de última hora. Desfrutar de um snack temático (ex: Mickey Premium Bar). Última oportunidade para ver a Disney Stars on Parade ou um show específico que o grupo tenha gostado.", 
-                evening: "👑 Jantar especial de despedida da Disney. Sugestões: Auberge de Cendrillon (refeição com Princesas Disney) ou Royal Banquet no Disneyland Hotel (refeição com Reis e Rainhas Disney). Ambas requerem reserva com MUITA antecedência.",
+                morning: "🎬 Walt Disney Studios Park: Explorar o Avengers Campus: 'Spider-Man W.E.B. Adventure', 'Avengers Assemble: Flight Force'. Fotos com Super-Heróis (verificar app).", 
+                afternoon: "Almoço no Avengers Campus (ex: PYM Kitchen - buffet temático, ou Stark Factory para opção mais rápida). Explorar Worlds of Pixar: 'Crush's Coaster', 'Ratatouille: The Adventure'.", 
+                evening: "Jantar na Disney Village (ex: Annette's Diner ou Vapiano). Últimas compras ou desfrutar do ambiente.",
                 transport: "<h6>Como Chegar:</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques/Disney Village.</p>"
             },
-            considerations: "Reservar jantares com personagens com meses de antecedência. Se o voo de regresso for no dia seguinte cedo, considerar organizar as malas à noite. Late check-out ou depósito de bagagem no hotel podem ser úteis.",
-            alternativePlan: {
-                title: "Manhã Relaxante, Disney Village e Preparativos",
-                morning: "😴 Manhã mais tranquila, pequeno-almoço sem pressa no hotel. Aproveitar as instalações do hotel (piscina, se houver).",
-                afternoon: "Explorar a Disney Village: World of Disney para compras finais, The LEGO Store. Almoço informal na Disney Village (ex: Annette's Diner para um ambiente anos 50, ou Vapiano para opções italianas).",
-                evening: "Jantar mais cedo e simples na Disney Village. Começar a organizar as malas para a partida de Paris no dia seguinte. Talvez um último gelado ou crepe.",
-                transport: "<h6>Como Chegar (Alternativa):</h6><p>🚌 Shuttles gratuitos do hotel para a Disney Village (se aplicável) ou a pé.</p>",
-                notes: "Bom para um dia mais descansado antes da transição para Paris, ou se o grupo já estiver satisfeito com os parques e preferir um ritmo mais leve."
+            considerations: "Verificar horários de shows e encontros com personagens na app. Algumas atrações podem ter filas longas.",
+            alternativePlan: { 
+                title: "Revisitar o Disneyland Park com Foco em Shows",
+                morning: "🏰 Disneyland Park: Main Street U.S.A. e Frontierland: 'Phantom Manor', 'Big Thunder Mountain'.",
+                afternoon: "Almoço no parque (ex: Cowboy Cookout Barbecue). Assistir a um dos shows ao ar livre (ex: The Lion King: Rhythms of the Pride Lands - verificar horários). Discoveryland: 'Star Tours: The Adventures Continue'.",
+                evening: "Jantar temático no Disneyland Park (ex: Captain Jack's - Restaurant des Pirates - verificar alergias). Aproveitar as atrações com menos fila durante o show noturno.",
+                transport: "<h6>Como Chegar (Alternativa):</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques.</p>",
+                notes: "Para quem prefere a atmosfera clássica do Disneyland Park e quer focar-se também nos espetáculos."
             }
         },
         "18/07": { 
             day: "Sexta", 
-            mainTitle: "Adeus Disney, Bonjour Paris!",
-            themeIcon: "👋🏙️",
-            themeDescription: "Transição da magia da Disney para o charme parisiense, com instalação e primeiro contacto com a cidade.",
+            mainTitle: "Última Manhã Disney / Transfer e Chegada a Paris 🏙️",
+            themeIcon: "🛍️🚐",
+            themeDescription: "Aproveitar as últimas horas na Disney, seguido do transfer para o coração de Paris.",
+            disney: false, // Foco principal já é a transição para Paris
             mainPlan: {
-                morning: "🏰 Manhã: Últimas atividades na Disney (se houver tempo e disposição, talvez uma volta rápida numa atração favorita ou compra de última hora). Check-out do hotel Disney (verificar horário limite).", 
-                afternoon: "Chegada ao Hotel Havane em Paris. Check-in e instalação nos quartos. Tempo para descanso.", 
-                evening: "🚶‍♀️ Passeio de orientação no 9º Arrondissement, perto do hotel. Observar a arquitetura, identificar cafés e lojas locais. Jantar numa brasserie tradicional do bairro para uma primeira experiência parisiense autêntica.",
-                transport: `<h6>Como Chegar (Hotel Disney → Hotel Havane, Paris):</h6>
-                    <p>🚕 <strong>Opção 1 (Recomendada para conforto):</strong> Transfer privado pré-reservado (van para acomodar o grupo e bagagens). Tempo estimado: ~1h a 1h30, dependendo do trânsito.</p>
-                    <p>🚂 <strong>Opção 2 (Transporte Público):</strong></p>
+                morning: "✨ Manhã livre para revisitar atrações favoritas na Disney, fazer as últimas compras de souvenirs ou desfrutar do hotel. Check-out do hotel Disney (verificar horário limite).",
+                afternoon: "🍽️ Almoço na Disney Village ou no hotel. Início da tarde: Transfer privado (pré-reservado) do hotel Disney para o Hotel Havane em Paris.",
+                evening: "Chegada ao Hotel Havane. Check-in e instalação. Passeio de reconhecimento no bairro (9º Arrondissement). Jantar numa brasserie tradicional para a primeira experiência parisiense.",
+                transport: `<h6>Transporte (Hotel Disney → Hotel Havane, Paris):</h6>
+                    <p>🚕 <strong>Recomendado:</strong> Transfer privado pré-reservado (van para acomodar o grupo e bagagens). Tempo estimado: ~1h a 1h30, dependendo do trânsito.</p>
+                    <p>🚂 <strong>Alternativa (Transporte Público):</strong></p>
                     <p>   1. 🚶‍♀️ Do Hotel Disney até à estação Marne-la-Vallée Chessy.</p>
-                    <p>   2. 🚆 Apanhe o <strong>RER A</strong> (sentido Paris - ex: St-Germain-en-Laye, Poissy, Cergy) até à estação <strong>Auber</strong> (~40-45 min).</p>
-                    <p>   3. 🚶‍♀️ De Auber, pode apanhar um táxi até ao Hotel Havane (~10-15 min) ou:</p>
-                    <p>   4. 🚇 Caminhe até à estação Opéra (ligada a Auber) e apanhe a <strong>Linha 7</strong> do Metro (sentido La Courneuve) até à estação <strong>Cadet</strong> (2 paradas, ~5 min).</p>
-                    <p>   5. 🚶‍♀️ Da estação Cadet, caminhe ~2-3 min até ao Hotel Havane (44 rue de Trévise).</p>`
+                    <p>   2. 🚆 Apanhe o <strong>RER A</strong> (sentido Paris - ex: St-Germain-en-Laye) até à estação <strong>Auber</strong> (~40-45 min).</p>
+                    <p>   3. 🚶‍♀️ De Auber, táxi até ao Hotel Havane (~10-15 min) ou: 🚇 Caminhe até Opéra e apanhe a <strong>Linha 7</strong> (sentido La Courneuve) até <strong>Cadet</strong> (~5 min). Caminhada de ~2-3 min até o hotel.</p>`
             },
-            considerations: "Gerir o cansaço da transição. Comprar bilhetes de metro/passe Navigo Découverte se planeiam usar muito o transporte público em Paris. Verificar o Hotel Havane quanto a ar condicionado e potencial ruído.",
-            alternativePlan: {
-                title: "Chegada Tranquila e Jantar Próximo ao Hotel",
-                morning: "Check-out do hotel Disney. Transfer direto para o Hotel Havane.",
-                afternoon: "Instalação e descanso prolongado no Hotel Havane. Crianças podem ter um tempo mais calmo (leitura, jogos eletrónicos).",
-                evening: "Jantar num restaurante muito próximo ao hotel, talvez uma pizzaria ou um bistrô com opções simples para agradar a todos, minimizando o esforço no primeiro dia em Paris.",
-                transport: "<h6>Como Chegar (Alternativa - Hotel Disney → Hotel Havane, Paris):</h6><p>Conforme plano principal.</p>",
-                notes: "Prioriza o descanso e uma transição suave, ideal se a manhã na Disney for cansativa ou se o grupo preferir um início mais calmo em Paris."
-            }
+            considerations: "Coordenar o horário do transfer com o check-out do hotel Disney. Descansar à chegada a Paris para o roteiro intenso que se segue.",
+            alternativePlan: null 
         },
-        "19/07": { 
+        "19/07": { // Antigo 25/07
             day: "Sábado", 
             mainTitle: "Torre Eiffel e Champs-Élysées",
             themeIcon: "🗼✨",
@@ -787,7 +774,7 @@
             themeIcon: "🖼️🌳",
             themeDescription: "Imersão na arte mundialmente famosa do Louvre, seguida de um relaxante passeio pelo histórico Jardin des Tuileries.",
             mainPlan: {
-                morning: "🖼️ Museu do Louvre (horário pré-reservado essencial!). Foco nas obras-primas: Mona Lisa, Vénus de Milo, Vitória de Samotrácia. Explorar a ala das Antiguidades Egípcias. Papai Marcello: aproveitar os recursos de apoio e rotas calmas disponíveis, se desejar.", 
+                morning: "🖼️ Museu do Louvre (horário pré-reservado essencial! Abre às 9h). Foco nas obras-primas: Mona Lisa, Vénus de Milo, Vitória de Samotrácia. Explorar a ala das Antiguidades Egípcias. Papai Marcello: aproveitar os recursos de apoio e rotas calmas disponíveis, se desejar.", 
                 afternoon: "🧺 Almoço: Piquenique no Jardin des Tuileries (comprar iguarias numa boulangerie/fromagerie local) ou num dos cafés do jardim. Passeio pelo Jardin des Tuileries, admirando as esculturas e fontes.", 
                 evening: "🚢 Cruzeiro no Rio Sena ao pôr do sol ou à noite (reservar com antecedência, ex: Bateaux Mouches, Vedettes du Pont Neuf). Ideal para ver os monumentos iluminados de uma perspetiva diferente.",
                 transport: `<h6>Como Chegar (Hotel Havane → Museu do Louvre):</h6>
@@ -803,7 +790,7 @@
                     <p>   🚶‍♀️ Caminhe ~5 min até o cais.</p>
                     <p><em>Para Vedettes du Pont Neuf (Square du Vert-Galant):</em> Caminhada de ~15-20 min do Louvre, atravessando a Pont des Arts e seguindo para a ponta da Île de la Cité.</p>`
             },
-            considerations: "Louvre: Acessibilidade boa. Envolver crianças com 'caça ao tesouro' de obras. Reservar cruzeiro com antecedência, verificando o ponto de partida e acessibilidade do cais.",
+            considerations: "Louvre: Acessibilidade boa. Envolver crianças com 'caça ao tesouro' de obras. O museu fecha às 18h aos Domingos. Reservar cruzeiro com antecedência, verificando o ponto de partida e acessibilidade do cais.",
             alternativePlan: {
                 title: "Musée Rodin, Les Invalides e Bairro Charmoso",
                 morning: "🗿 Musée Rodin: Explorar a coleção de esculturas de Auguste Rodin, incluindo 'O Pensador' e 'O Beijo', dispostas na mansão e nos belos jardins circundantes.",
@@ -978,7 +965,7 @@
                 notes: "Uma experiência artística mais intimista e um clássico parisiense no Sena, seguido de um jantar num dos bairros mais chiques de Paris."
             }
         },
-        "25/07": { 
+        "25/07": { // Antigo 19/07
             day: "Sexta", 
             mainTitle: "Montmartre Artística e Sacré-Cœur",
             themeIcon: "🎨⛪", 
@@ -1256,7 +1243,7 @@
         },
          {
             title: "Conforto e Cuidado (Resumo) ❤️",
-            content: `<strong>Para membros do grupo que prefiram um ritmo mais lento:</strong> considerar pausas frequentes, utilizar táxis ou autocarros acessíveis, e priorizar atrações com boas instalações (elevadores, rampas). Aluguer de cadeira de rodas/scooter pode ser uma opção de conforto. Serviços como Assist'enGare podem ser úteis para viagens de RER.<br>
+            content: `<strong>Para membros do grupo que preferirem um ritmo mais lento:</strong> considerar pausas frequentes, utilizar táxis ou autocarros acessíveis, e priorizar atrações com boas instalações (elevadores, rampas). Aluguer de cadeira de rodas/scooter pode ser uma opção de conforto. Serviços como Assist'enGare podem ser úteis para viagens de RER.<br>
                      <strong>Papai Marcello (TEA):</strong> Louvre: usar PDF "Espaces conseillés : confort" para rotas mais calmas. Centre Pompidou: visitas adaptadas. Visitar atrações em horários mais calmos. Auscultadores com cancelamento de ruído (se desejar).<br>
                      <strong>Crianças:</strong> Variedade (cultura + diversão), elementos interativos, guloseimas. Para a Clara, minimizar filas (bilhetes pré-reservados/Premier Access), envolvê-la com fotografia. Para as meninas em geral, incluir os seus interesses.<br>
                      <strong>Nicole (Ansiedade):</strong> Planos claros, tempo para se arranjar, incluir seus interesses.<br>
@@ -1563,7 +1550,7 @@
                         
                         const imagesContainer = document.createElement('div');
                         imagesContainer.className = 'itinerary-images-container';
-                        let imagesFound = false;
+                        let imagesFoundInPart = false;
                         const planTextLower = day.mainPlan[partKey].toLowerCase();
 
                         pointsOfInterestData.forEach(poi => {
@@ -1578,10 +1565,10 @@
                                     this.alt='Imagem de placeholder para ${poi.name}';
                                 };
                                 imagesContainer.appendChild(img);
-                                imagesFound = true;
+                                imagesFoundInPart = true;
                             }
                         });
-                        if(imagesFound) {
+                        if(imagesFoundInPart) {
                             html += imagesContainer.outerHTML;
                         }
                         html += `</div>`;
@@ -1591,7 +1578,7 @@
                      html += `<div>${day.mainPlan.morning_afternoon_options}</div>`;
                         const imagesContainer = document.createElement('div');
                         imagesContainer.className = 'itinerary-images-container';
-                        let imagesFound = false;
+                        let imagesFoundInOptions = false;
                         const planTextLower = day.mainPlan.morning_afternoon_options.toLowerCase();
 
                         pointsOfInterestData.forEach(poi => {
@@ -1606,10 +1593,10 @@
                                     this.alt='Imagem de placeholder para ${poi.name}';
                                 };
                                 imagesContainer.appendChild(img);
-                                imagesFound = true;
+                                imagesFoundInOptions = true;
                             }
                         });
-                        if(imagesFound) {
+                        if(imagesFoundInOptions) {
                             html += imagesContainer.outerHTML;
                         }
                 }
@@ -1672,7 +1659,7 @@
 
             item.innerHTML = `
                 <div class="poi-image-container">
-                    <img src="${poi.imagePlaceholder}" alt="Imagem de ${poi.name}" onerror="this.onerror=null; this.src='https://placehold.co/250x180/E0E0E0/777777?text=Imagem+Indisponível'; this.alt='Imagem de placeholder para ${poi.name}';">
+                    <img src="${poi.imagePlaceholder}" alt="Imagem de ${poi.name}" onerror="this.onerror=null; this.src='https://placehold.co/250x180/E0E0E0/777777?text=Indisponível'; this.alt='Imagem de placeholder para ${poi.name}';">
                 </div>
                 <div class="poi-details">
                     <h4><span class="poi-icon">${poi.icon || '📍'}</span>${nameHtml} <span class="poi-category">(${poi.category})</span></h4>
@@ -1760,7 +1747,7 @@
                     labels: ['Disneyland Paris', 'Paris (Cidade)'],
                     datasets: [{
                         label: 'Noites',
-                        data: [3, 10],
+                        data: [3, 10], // Ajustar se a duração na Disney mudar
                         backgroundColor: [
                             '#87CEEB', 
                             '#228B22'  
