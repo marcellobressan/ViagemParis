@@ -69,10 +69,14 @@
 
         /* Conteúdo das Secções */
         .content-section {
+            display: none;
             background-color: #FAF6F0; /* Um creme muito claro para o fundo dos cards */
             border: 1px solid #E0DCD1; /* Borda sutil */
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             border-radius: 6px;
+        }
+        .content-section.active {
+            display: block;
         }
 
         /* Cartões de Dia */
@@ -132,6 +136,9 @@
 
         /* Pontos de Interesse */
         .poi-item {
+            display: flex;
+            flex-direction: column; 
+            gap: 1rem;
             background-color: #FDF6E3; /* Cornsilk - um amarelo pálido */
             border-color: #EEDC82; /* LightGoldenrod */
         }
@@ -320,8 +327,8 @@
                         <div class="timeline-container timeline-right">
                             <div class="timeline-content">
                                 <span class="timeline-date">26 de Julho</span>
-                                <h4><span class="timeline-icon">⛪✨</span>Dia de Escolha: Majestosa Chartres</h4>
-                                <p>Opção principal de visita à imponente Catedral de Chartres ou aos Jardins de Monet.</p>
+                                <h4><span class="timeline-icon">⛪✨</span>Dia de Excursão: Majestosa Chartres</h4>
+                                <p>Visita à imponente Catedral de Chartres ou um dia relaxante em Paris.</p>
                             </div>
                         </div>
                         <div class="timeline-container timeline-left">
@@ -692,7 +699,7 @@
                     <br>
                     <p><strong>Combinar com (escolher 1-2, dependendo do horário da visita ao Jacquemart-André e do ritmo da família):</strong></p>
                     <p>   🌳 <strong>Parc Monceau:</strong> Um passeio relaxante neste elegante parque, muito próximo ao museu.</p>
-                    <p>   👗 <strong>Foco Moda (Adolescente):</strong> Deslocamento para o Musée de la Mode (Palais Galliera) ou Musée des Arts Decoratifs (MAD).</p>
+                    <p>   👗 <strong>Interesses em Moda e Design:</strong> Deslocamento para o Musée de la Mode (Palais Galliera) ou Musée des Arts Decoratifs (MAD).</p>
                     <p>   🏛️ <strong>Arte Adicional:</strong> Visita ao Petit Palais (coleção permanente gratuita, perto da área dos Champs-Élysées).</p>
                     <p>   🧁 <strong>Doçura Parisiense:</strong> Visita à Patisserie Pierre Hermé para macarons e outras delícias.</p>
                 `,
@@ -712,7 +719,7 @@
             alternativePlan: {
                 title: "Jardin d'Acclimatation e Fundação Louis Vuitton",
                 morning: "🎠 Jardin d'Acclimatation: Localizado no Bois de Boulogne, este parque de diversões histórico oferece atrações para todas as idades, desde carrosséis clássicos a pequenas montanhas-russas, um pequeno zoo e áreas de recreio. Ideal para as crianças.",
-                afternoon: "🖼️ Fundação Louis Vuitton (adjacente ao Jardin d'Acclimatation): Para os adultos e a adolescente, uma visita a este impressionante edifício de Frank Gehry para apreciar a arquitetura e as exposições de arte contemporânea. Almoço num dos cafés do Jardin d'Acclimatation ou no restaurante da Fundação.",
+                afternoon: "🖼️ Fundação Louis Vuitton (adjacente ao Jardin d'Acclimatation): Para os adultos e quem tiver interesse em arte contemporânea, uma visita a este impressionante edifício de Frank Gehry para apreciar a arquitetura e as exposições de arte contemporânea. Almoço num dos cafés do Jardin d'Acclimatation ou no restaurante da Fundação.",
                 evening: "Jantar no 16º arrondissement (área elegante perto do Bois de Boulogne) ou regressar ao centro de Paris para uma opção mais central.",
                 transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Jardin d'Acclimatation/Fondation Louis Vuitton):</h6>
                     <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
@@ -802,31 +809,25 @@
         },
         "26/07": { 
             day: "Sábado", 
-            mainTitle: "Dia de Escolha: Majestosa Chartres ou Jardins de Monet", 
+            mainTitle: "Dia de Excursão: Majestosa Chartres ou Paris Relaxado", 
             themeIcon: "⛪✨", 
-            themeDescription: "Um dia para escolher entre a imponência gótica da Catedral de Chartres, a beleza impressionista dos Jardins de Monet em Giverny, ou um ritmo mais relaxado em Paris.",
+            themeDescription: "Um dia para uma excursão à imponente Catedral de Chartres ou para desfrutar de um ritmo mais relaxado em Paris.",
             mainPlan: {
                 fullDay: `
                     <p><strong>Opção Principal: ⛪ Catedral de Chartres</strong> - Faça uma viagem a uma das mais belas e significativas catedrais góticas da Europa, Património Mundial da UNESCO, famosa pelos seus vitrais medievais incrivelmente preservados e pela sua arquitetura imponente que inspira admiração.</p>
-                    <p><strong>Opção 2: 🌸 Giverny (Casa e Jardins de Monet)</strong> - Mergulhe no mundo impressionista de Claude Monet, visitando a sua casa colorida e os famosos jardins de nenúfares e a ponte japonesa que inspiraram tantas das suas obras-primas.</p>
-                    <p><strong>Opção 3: 🌳 Paris Relaxado</strong> - Desfrute de um dia mais tranquilo em Paris: um longo passeio pelo Jardin du Luxembourg (com os seus barcos à vela, marionetas e ambiente familiar), seguido de uma visita ao divertido e interativo Paradox Museum, que irá encantar todas as idades com as suas ilusões de ótica.</p>
+                    <p><strong>Opção Alternativa (se preferirem ficar em Paris): 🌳 Paris Relaxado</strong> - Desfrute de um dia mais tranquilo em Paris: um longo passeio pelo Jardin du Luxembourg (com os seus barcos à vela, marionetas e ambiente familiar), seguido de uma visita ao divertido e interativo Paradox Museum, que irá encantar todas as idades com as suas ilusões de ótica.</p>
                 `, 
                 evening: "Jantar temático relacionado com a escolha do dia (ex: cozinha local em Chartres, se aplicável, ou um restaurante favorito da família em Paris).",
-                transport: `<h6>Transporte para Chartres (Opção 1 - Destaque):</h6>
+                transport: `<h6>Transporte para Chartres (Opção Principal):</h6>
                     <p>1. 🚶‍♀️ Hotel Havane → Gare Montparnasse:</p>
                     <p>   🚇 Metro Cadet (Linha 7, sentido La Courneuve) até <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas). Mudar para <strong>Linha 9</strong> (sentido Pont de Sèvres) até <strong>Montparnasse-Bienvenüe</strong> (9 paradas).</p>
                     <p>2. 🚂 Comboio SNCF da <strong>Gare Montparnasse</strong> para <strong>Chartres</strong> (~1h - 1h15 min). Comprar bilhetes com antecedência.</p>
-                    <h6>Transporte para Giverny (Opção 2):</h6>
-                    <p>1. 🚶‍♀️ Hotel Havane → Gare Saint-Lazare:</p>
-                    <p>   🚇 Metro Cadet (Linha 7, sentido La Courneuve) até <strong>Opéra</strong> (3 paradas). Mudar para <strong>Linha 3</strong> (sentido Pont de Levallois) ou <strong>Linha 14</strong> (sentido Saint-Denis Pleyel) ou <strong>Linha 12</strong> (sentido Mairie d'Issy) até <strong>Saint-Lazare</strong> (1-2 paradas).</p>
-                    <p>2. 🚂 Comboio SNCF da <strong>Gare Saint-Lazare</strong> para <strong>Vernon-Giverny</strong> (~50-75 min). Comprar bilhetes com antecedência.</p>
-                    <p>3. 🚌 De Vernon-Giverny: Shuttle (navette) sincronizado com os comboios ou táxi até Giverny (~15 min).</p>
-                    <h6>Transporte para Paris Relaxado (Opção 3 - Jardin du Luxembourg):</h6>
+                    <h6>Transporte para Paris Relaxado (Opção Alternativa - Jardin du Luxembourg):</h6>
                     <p>🚶‍♀️ Hotel Havane → Jardin du Luxembourg:</p>
                     <p>   🚇 Metro Cadet (Linha 7, sentido La Courneuve) até <strong>Opéra</strong> (3 paradas). Mudar para <strong>RER B</strong> (sentido Robinson/St-Rémy-lès-Chevreuse) até <strong>Luxembourg</strong> (3 paradas). Saída direta para o jardim.</p>
                     <p>   <em>Para o Paradox Museum (97 Rue du Bac, 75007):</em> Do Jardin du Luxembourg, pode ser uma caminhada agradável de ~20-25 min ou apanhar o Metro Linha 12 de Rennes até Rue du Bac.</p>`
             },
-            considerations: "Escolher com base na energia e interesse da família. Chartres: Catedral acessível (rés-do-chão). Giverny: Casa não acessível para PMR, jardins parcialmente; verificar acessibilidade do shuttle. Paris Relaxado é uma opção de baixo stress.",
+            considerations: "Escolher com base na energia e interesse da família. Chartres: Catedral acessível (rés-do-chão). Paris Relaxado é uma opção de baixo stress.",
             alternativePlan: {
                 title: "Exploração Aprofundada do Marais e Place des Vosges",
                 morning: "🛍️ Manhã no Marais: Começar pela Place des Vosges, uma das praças mais antigas e charmosas de Paris. Visitar as galerias de arte e lojas sob as arcadas. Explorar as ruas históricas como a Rue des Francs-Bourgeois e a Rue des Rosiers (antigo bairro judeu).",
@@ -867,7 +868,7 @@
             alternativePlan: {
                 title: "Marché des Enfants Rouges, Place des Vosges e Compras no Marais",
                 morning: "🛍️ Visita ao Marché des Enfants Rouges (o mercado coberto mais antigo de Paris, no Marais): Explorar as bancas de comida de todo o mundo, produtos frescos e flores. Ótimo para um almoço informal e multicultural.",
-                afternoon: "🌳 Passeio pela Place des Vosges (uma das praças mais antigas e bonitas de Paris). Visitar as galerias de arte e lojas sob as arcadas. Tempo para compras no Marais, focando nas boutiques independentes e lojas de design que a adolescente poderá apreciar.",
+                afternoon: "🌳 Passeio pela Place des Vosges (uma das praças mais antigas e bonitas de Paris). Visitar as galerias de arte e lojas sob as arcadas. Tempo para compras no Marais, focando nas boutiques independentes e lojas de design que poderão interessar.",
                 evening: "Jantar de despedida em família (sem Clara, que tem a sua programação) num restaurante charmoso do Marais.",
                 transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Marché des Enfants Rouges/Marais):</h6>
                     <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
@@ -988,10 +989,8 @@
         {
             title: "Transporte para Excursões de Um Dia - Resumo Geral",
             content: `<strong>Versalhes:</strong> RER C para Versailles Château Rive Gauche. Serviços como Assist'enGare podem ser reservados. Alternativa: Autocarro 171 de Pont de Sèvres.<br>
-                     <strong>Giverny (Casa de Monet):</strong> Comboio (Paris Gare Saint-Lazare para Vernon-Giverny), depois shuttle/táxi. <strong>CRÍTICO:</strong> Acessibilidade PMR do shuttle de Vernon para Giverny é INCERTA. Verificar diretamente com SNgo ou pré-reservar Handi'Bus Agglo.<br>
                      <strong>Chartres:</strong> Comboio (Paris Montparnasse para Chartres). Estação de Chartres tem funcionalidades de acessibilidade.<br>
-                     <strong>Fontainebleau:</strong> Comboio (Gare de Lyon para Fontainebleau-Avon), depois autocarro Linha 1.<br>
-                     <strong>Parc Astérix:</strong> Shuttles dedicados de Paris (Louvre/CDG).`
+                     <strong>Fontainebleau:</strong> Comboio (Gare de Lyon para Fontainebleau-Avon), depois autocarro Linha 1.`
         },
         {
             title: "Partida: Hotel Havane para Aeroporto CDG (28 Julho)",
@@ -1012,7 +1011,7 @@
             content: "<strong>Atrações:</strong> Torre Eiffel, Louvre, Museu d'Orsay, Versalhes DEVEM ser reservados online com antecedência.<br><strong>Disneyland Paris:</strong> Reservas para parques são essenciais. Considerar Disney Premier Access.<br><strong>Restaurantes:</strong> Para jantares em grupo ou locais procurados (Madame Brasserie, Le Fouquet's), reservar com semanas/meses de antecedência.<br><strong>Passeios/Excursões:</strong> Pré-reservar para garantir disponibilidade."
         },
         {
-            title: "Compras para a Adolescente (Moda e Brechós) 🛍️",
+            title: "Compras (Moda e Brechós) 🛍️",
             content: `<strong>Luxo:</strong> Avenue Montaigne, Rue du Faubourg Saint-Honoré, Galeries Lafayette, Printemps.<br>
                      <strong>Le Marais:</strong> Boutiques, lojas conceito, brechós (Free'p'star, Vintage Désir, Kilo Shop, Come on Eileen).<br>
                      <strong>Quartier Latin:</strong> Mais brechós (Kilo Shop, Hippy Market).<br>
