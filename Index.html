@@ -7,278 +7,328 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Paleta Parisian Dream (referência):
-           Parisian Gray #A9A9A9, Café Rouge #C41E3A, Sky Blue #87CEEB, 
-           Garden Green #228B22, Gilded Gold #FFD700, Lavender Blossom #DDA0DD, 
-           Marble White #F5F5F5, Royal Velvet #4169E1, Nightlife Purple #800080, 
-           Twilight Black #2F2F2F, Soft Blush #FFC0CB, Cobblestone Beige #C2B280 
+        /* Paleta de Cores Art Déco / Belle Époque (Amostra)
+           Creme: #FFFDD0 (Fundo principal)
+           Marrom Escuro (Texto): #3B322C
+           Bordô (Títulos): #800020
+           Azul Petróleo (Títulos Alternativos): #005F5F
+           Dourado Envelhecido (Acentos, Bordas): #B08D57, #DAA520
+           Verde Oliva (Acentos): #6B8E23 / #556B2F
+           Bege/Creme para Cards: #FAF0E6 (Linen), #FFF8DC (Cornsilk)
         */
 
-        /* Estilo Base Art Déco / Belle Époque */
         body {
-            font-family: 'Lato', sans-serif;
-            background-color: #FDFBF5; /* Creme suave como base */
-            color: #3A3B3C; /* Cinza escuro para texto principal */
-            line-height: 1.6;
+            font-family: 'Raleway', sans-serif;
+            background-color: #FFFDD0; /* Creme */
+            color: #3B322C; /* Marrom Escuro */
+            line-height: 1.7;
         }
 
-        /* Tipografia de Destaque Art Déco */
-        h1, h2, h3, .day-card h3.main-title, .timeline-content h4, #overview h3, #culinary-info h3, #comments-section h3 {
-            font-family: 'Playfair Display', serif;
-            color: #800000; /* Maroon - um tom rico e clássico */
-            letter-spacing: 0.5px;
-        }
+        /* Tipografia de Destaque */
         header h1 {
-            font-size: 2.8rem; /* Aumentar um pouco */
-            color: #B22222; /* Firebrick - mantido */
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 2.7rem; /* Ajustado para mobile e desktop */
+            color: #800020; /* Bordô */
+            text-shadow: 1px 1px 2px rgba(176, 141, 87, 0.4); /* Sombra dourada sutil */
             font-weight: 900;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.3rem;
+            letter-spacing: 1px;
         }
         header p {
-            font-family: 'Lato', sans-serif;
-            color: #708090; /* SlateGray */
+            font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: 1.1rem;
+            color: #6B8E23; /* Verde Oliva */
+            font-size: 1.15rem;
         }
-        section h2 { /* Títulos principais das secções */
-            font-size: 2.2rem;
-            color: #8B4513; /* SaddleBrown */
-            padding-bottom: 0.75rem;
-            margin-bottom: 1.75rem;
+        section h2 {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 2rem;
+            color: #005F5F; /* Azul Petróleo */
+            padding-bottom: 0.8rem;
+            margin-bottom: 2rem;
             text-align: center;
-            border-bottom: 3px double #DAA520; /* Goldenrod - borda dupla Art Déco */
+            border-bottom: 4px double #B08D57; /* Dourado Envelhecido - borda dupla */
+            font-weight: 700;
+        }
+        h3, .day-card h3.main-title, .timeline-content h4 {
+            font-family: 'Playfair Display', serif;
+            color: #800020; /* Bordô */
+        }
+         #overview h3, #culinary-info h3, #comments-section h3 {
+            font-family: 'Playfair Display', serif;
+            color: #8B4513; /* SaddleBrown, um marrom mais quente para subtítulos de secção */
+            font-weight: 700;
         }
 
+
         /* Navegação com Estilo Art Déco */
+        nav {
+            border-top: 1px solid #D4AF37; /* Ouro pálido */
+            border-bottom: 1px solid #D4AF37;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            background: linear-gradient(to bottom, #FAF0E6, #FFF8DC); /* Gradiente creme suave */
+        }
         .nav-button {
-            font-family: 'Lato', sans-serif;
+            font-family: 'Raleway', sans-serif;
             font-weight: 600;
-            background-color: #FAF0E6; /* Linen - um bege claro */
-            color: #5A5A5A; 
-            border: 1px solid #D2B48C; /* Tan - borda mais definida */
-            border-radius: 2px; /* Cantos bem definidos, quase quadrados */
-            padding: 0.7rem 1.3rem;
-            transition: all 0.2s ease-in-out;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            background-color: transparent;
+            color: #3B322C; 
+            border: 2px solid #B08D57; /* Dourado Envelhecido */
+            border-radius: 0px; /* Cantos retos - Art Déco */
+            padding: 0.6rem 1.1rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.9rem;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            margin: 0.25rem;
         }
         .nav-button.active {
-            background-color: #8B4513; /* SaddleBrown */
-            color: #FDFBF5; 
-            border-color: #7A3D03; 
-            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
+            background-color: #800020; /* Bordô */
+            color: #FFFDD0; /* Creme */
+            border-color: #B08D57; 
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
         }
         .nav-button:hover:not(.active) {
-            background-color: #E6D8C0; /* Um pouco mais escuro no hover */
-            border-color: #8B4513; /* SaddleBrown */
-            color: #8B4513;
+            background-color: #B08D57; /* Dourado Envelhecido */
+            color: #FFFDD0; /* Creme */
+            border-color: #800020; /* Bordô */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
         }
 
         /* Conteúdo das Secções */
         .content-section {
-            display: none;
-            background-color: #FFF8DC; /* Cornsilk - um creme mais quente */
+            background-color: #FAF6F0; /* Um creme mais claro para o conteúdo */
             border: 1px solid #E0DCD1; 
-            box-shadow: 0 6px 18px rgba(0,0,0,0.1); /* Sombra mais pronunciada */
-            border-radius: 4px; /* Cantos sutis */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
+            border-radius: 0px; /* Cantos retos */
             padding: 2rem;
         }
-        .content-section.active {
-            display: block;
-        }
-
+        
         /* Cartões de Dia */
+        .day-card {
+            border-bottom: 1px dashed #B08D57;
+            padding-bottom: 1.5rem;
+        }
+        .day-card:last-child {
+            border-bottom: none;
+        }
         .day-card h3.main-title {
-             color: #B22222; 
+             color: #800020; /* Bordô */
+             font-size: 1.9rem;
         }
         .day-theme-icon {
-            color: #FFD700; /* Gilded Gold - mantido */
+            color: #DAA520; /* Goldenrod */
         }
         .day-theme-description {
             color: #5A5A5A; 
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
         }
          .day-card h4.plan-subtitle {
-             color: #8B4513; 
-             border-bottom: 1px solid #DAA520; /* Goldenrod mais fino */
-             font-size: 1.35rem;
+             color: #005F5F; /* Azul Petróleo */
+             border-bottom: 1px solid #B08D57; /* Dourado Envelhecido */
+             font-size: 1.4rem;
+             font-weight: 700;
         }
         .plan-section h5 { 
-            color: #3A3B3C; 
-            font-family: 'Lato', sans-serif;
+            color: #3B322C; 
+            font-family: 'Raleway', sans-serif;
             font-weight: 700;
+            font-size: 1.05rem;
         }
         .transport-details {
             background-color: #F5F5DC; /* Beige */
-            border-left: 5px solid #DAA520; /* Goldenrod */
-            border-radius: 4px;
+            border: 1px solid #E0DCD1;
+            border-left: 4px solid #B08D57; /* Dourado Envelhecido */
+            border-radius: 0px;
         }
         .transport-details strong { 
             color: #800000; /* Maroon */
+            font-weight: 700;
         }
         .alternative-plan-container {
             background-color: #FFF5EE; /* Seashell */
-            border-top: 2px dashed #DAA520; /* Goldenrod */
+            border: 1px dashed #DAA520; /* Goldenrod */
+            border-radius: 0;
+            padding: 1.5rem;
         }
         .alternative-plan-container h4.plan-subtitle {
-            color: #800000; /* Maroon */
-            border-bottom-color: #B22222; /* Firebrick */
+            color: #6B8E23; /* Verde Oliva */
+            border-bottom-color: #8B4513; /* SaddleBrown */
         }
 
-        /* Acordeões */
+        /* Acordeões com estilo Art Déco */
         .accordion-toggle {
-            border-bottom: 1px solid #E0DCD1;
-            border-radius: 3px 3px 0 0; /* Leve arredondamento no topo */
+            border: 1px solid #D2B48C;
+            border-radius: 0;
+            background: linear-gradient(to bottom, #FAF0E6, #E6D8C0);
+            color: #3B322C;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            padding: 0.8rem 1.2rem;
         }
-        .accordion-toggle.transport-accordion {
-            background-color: #FDF6E3; /* Cornsilk */
-            color: #8B4513; 
-        }
-        .accordion-toggle.transport-accordion:hover {
-            background-color: #FAEECF; 
-        }
-        .accordion-toggle.tips-accordion {
-             background-color: #F0F8FF; /* AliceBlue */
-             color: #4682B4; /* SteelBlue */
-        }
-        .accordion-toggle.tips-accordion:hover {
-            background-color: #E6F2FF; 
+        .accordion-toggle:hover {
+            background: linear-gradient(to bottom, #E6D8C0, #DCDCDC);
         }
         .accordion-content {
-            background-color: #FFF8DC; /* Cornsilk */
-            border: 1px solid #EEDC82;
+            background-color: #FFFDD0; /* Creme */
+            border: 1px solid #D2B48C;
             border-top: none;
-            border-radius: 0 0 3px 3px;
+            border-radius: 0;
         }
         .accordion-content.open {
-             padding: 1.25rem; 
+             padding: 1.5rem; 
         }
-
 
         /* Pontos de Interesse */
         .poi-item {
-            background-color: #FFF8DC; /* Cornsilk */
-            border: 1px solid #EEDC82; /* LightGoldenrod */
-            border-radius: 4px;
+            background-color: #FAF0E6; /* Linen */
+            border: 1px solid #D2B48C; /* Tan */
+            border-radius: 0px;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.1);
+        }
+        .poi-image-container {
+            border: 2px solid #B08D57; /* Dourado Envelhecido */
+            padding: 3px;
+            background-color: #FFFDD0;
         }
         .poi-details h4 { 
-            color: #B22222; 
-            font-size: 1.25rem;
+            color: #800020; /* Bordô */
+            font-size: 1.3rem;
         }
         .poi-details h4 a { 
-            color: #4682B4; 
+            color: #005F5F; /* Azul Petróleo */
         }
          .poi-details h4 a:hover {
-            color: #5F9EA0; 
+            color: #008080; /* Teal mais claro */
         }
         .poi-category { 
-            color: #8B4513; 
-            font-size: 0.9em;
+            color: #8B4513; /* SaddleBrown */
+            font-size: 0.85em;
             font-style: italic;
         }
         .maps-button { 
-            background-color: #8B4513; /* SaddleBrown */
-            color: #FDFBF5; 
-            border-radius: 2px;
+            background-color: #6B8E23; /* Verde Oliva */
+            color: #FFFDD0; 
+            border-radius: 0px;
             font-weight: 600;
+            border: 1px outset #8FBC8F; /* DarkSeaGreen para um efeito de botão */
         }
         .maps-button:hover {
-            background-color: #A0522D; /* Sienna */
+            background-color: #556B2F; /* DarkOliveGreen */
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
         }
         .gemini-button { 
             background-color: #483D8B; /* DarkSlateBlue */
-            border-radius: 2px;
+            border-radius: 0px;
+            border: 1px outset #6A5ACD;
         }
         .gemini-button:hover {
             background-color: #6A5ACD; 
         }
         .poi-curiosities, .kid-activities-results, #dish-description-output { 
-            background-color: #FAF0E6; /* Linen */
-            border-left-color: #DAA520; /* Goldenrod */
-            border-radius: 3px;
+            background-color: #F5F5DC; /* Beige */
+            border-left-color: #B08D57; /* Dourado Envelhecido */
+            border-radius: 0px;
+            padding: 1rem;
         }
         .itinerary-poi-image {
-            border-color: #DAA520; /* Goldenrod */
-            border-radius: 2px;
+            border: 2px solid #B08D57; /* Dourado Envelhecido */
+            border-radius: 0px;
         }
 
         /* Timeline Styles Art Deco */
         .timeline::after {
-            background-color: #DAA520; /* Goldenrod */
-            width: 4px;
-            margin-left: -2px;
+            background-color: #B08D57; /* Dourado Envelhecido */
+            width: 3px;
+            margin-left: -1.5px;
         }
         .timeline-container::after { 
-            background-color: #FDFBF5; 
-            border: 3px solid #8B4513; /* SaddleBrown */
-            width: 20px;
-            height: 20px;
-            right: -10px; 
+            background-color: #FFFDD0; /* Creme */
+            border: 3px solid #800020; /* Bordô */
+            width: 22px;
+            height: 22px;
+            right: -12px; 
+            box-shadow: 0 0 0 3px #FFFDD0; /* Anel creme em volta */
         }
         .timeline-right::after {
-            left: -10px;
+            left: -12px;
         }
         .timeline-left::before, .timeline-right::before { 
-            border-color: transparent transparent transparent #DAA520;
+            border-color: transparent transparent transparent #B08D57;
+            border-width: 8px 0 8px 8px;
+            top: 24px;
         }
         .timeline-right::before {
-            border-color: transparent #DAA520 transparent transparent;
+            border-color: transparent #B08D57 transparent transparent;
+            border-width: 8px 8px 8px 0;
         }
         .timeline-content {
             background-color: #FAF0E6; /* Linen */
-            border: 1px solid #E0DCD1; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            border-radius: 4px;
+            border: 1px solid #D2B48C; /* Tan */
+            box-shadow: 0 3px 8px rgba(0,0,0,0.07);
+            border-radius: 0px;
         }
         .timeline-content h4 {
-            color: #B22222; /* Firebrick */
+            color: #800000; /* Bordô */
         }
         .timeline-date {
-            color: #5A5A5A; /* Dark Gray */
+            color: #3B322C; /* Marrom Escuro */
             font-weight: 600;
         }
         
         /* Ajustes Gerais */
-        #overview .bg-amber-100 { background-color: #FAF0E6;  } 
-        #overview .text-orange-600 { color: #B22222;  } 
-        #overview .bg-sky-100 { background-color: #E6F4F1;  } /* Um azul esverdeado pálido */
-        #overview .text-sky-700 { color: #2E8B57;  } /* SeaGreen */
-        #culinary-info h3 { color: #B22222;  }
-        #restaurant-suggestions strong a { color: #4682B4;  }
-        #restaurant-suggestions strong a:hover { color: #556B2F;  }
+        #overview .bg-amber-100 { background-color: #FAF0E6; border: 1px solid #D2B48C; } 
+        #overview .text-orange-600 { color: #800000;  } 
+        #overview .bg-sky-100 { background-color: #E6F4F1; border: 1px solid #ADC2B8; } 
+        #overview .text-sky-700 { color: #005F5F;  } 
+        #culinary-info h3 { color: #800000;  }
+        #restaurant-suggestions strong a { color: #005F5F;  }
+        #restaurant-suggestions strong a:hover { color: #6B8E23;  }
         #comments-section {
             background-color: #FAF0E6; 
-            border-color: #EEDC82; 
+            border-color: #D2B48C; 
         }
         #comments-section h3 {
             color: #800000; 
         }
         #comments-section button {
-            background-color: #556B2F; 
+            background-color: #6B8E23; /* Verde Oliva */
+            color: #FFFDD0;
+            border-radius: 0;
+            border: 1px outset #8FBC8F;
         }
         #comments-section button:hover {
-            background-color: #6B8E23;
+            background-color: #556B2F;
         }
         #comments-list div {
-            background-color: #FDFBF5;
+            background-color: #FFFDD0; /* Creme */
             border-color: #E0DCD1; 
         }
         footer {
-            border-top-color: #BDB7AB;
-            color: #708090;
+            border-top: 2px solid #B08D57; /* Dourado Envelhecido */
+            color: #5A5A5A;
             padding-top: 1.5rem;
-            margin-top: 2.5rem;
+            margin-top: 3rem;
+            background-color: #FAF0E6; /* Linen */
+        }
+        .chart-container {
+            border: 1px solid #D2B48C;
+            padding: 1rem;
+            background-color: #FAF6F0;
         }
 
     </style>
 </head>
 <body>
     <div class="container mx-auto p-4 max-w-6xl">
-        <header class="mb-8 text-center py-6 bg-[#FFF8DC] border-b-4 border-double border-[#DAA520]"> <h1 class="text-5xl font-black">Paris em Família: Aventura 2025</h1>
+        <header class="mb-8 text-center py-6 bg-[#FFF8DC] border-b-4 border-double border-[#DAA520]"> 
+            <h1 class="text-5xl font-black">Paris em Família: Aventura 2025</h1>
             <p class="text-xl mt-2">Um Roteiro Mágico pela Cidade Luz e Disneyland</p>
         </header>
 
