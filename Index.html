@@ -9,203 +9,240 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        /* Paleta Parisian Dream:
+        /* Paleta Parisian Dream (referência):
            Parisian Gray #A9A9A9, Café Rouge #C41E3A, Sky Blue #87CEEB, 
            Garden Green #228B22, Gilded Gold #FFD700, Lavender Blossom #DDA0DD, 
            Marble White #F5F5F5, Royal Velvet #4169E1, Nightlife Purple #800080, 
            Twilight Black #2F2F2F, Soft Blush #FFC0CB, Cobblestone Beige #C2B280 
         */
 
-        /* Estilo Base Art Déco / Belle Époque */
+        /* Estilo Base Art Déco */
         body {
-            font-family: 'Lato', sans-serif; /* Fonte mais limpa para o corpo */
-            background-color: #FDFBF5; /* Um off-white/creme, mais Belle Époque */
-            color: #3A3B3C; /* Um cinza escuro/quase preto, mais suave que o Twilight Black */
+            font-family: 'Lato', sans-serif;
+            background-color: #FDFBF5; /* Creme suave como base */
+            color: #3A3B3C; /* Cinza escuro para texto principal */
+            line-height: 1.6;
         }
 
-        /* Tipografia de Destaque */
-        h1, h2, h3, .day-card h3.main-title, .timeline-content h4 {
-            font-family: 'Playfair Display', serif; /* Fonte elegante para títulos */
-            color: #8B4513; /* SaddleBrown - um tom marrom rico, remetendo à madeira e couro da época */
+        /* Tipografia de Destaque Art Déco */
+        h1, h2, h3, .day-card h3.main-title, .timeline-content h4, #overview h3, #culinary-info h3, #comments-section h3 {
+            font-family: 'Playfair Display', serif;
+            color: #800000; /* Maroon - um tom rico e clássico */
+            letter-spacing: 0.5px;
         }
         header h1 {
-            color: #B22222; /* Firebrick - um vermelho mais escuro e sofisticado */
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            font-size: 2.8rem; /* Aumentar um pouco */
+            color: #B22222; /* Firebrick - mantido */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+            font-weight: 900;
+            margin-bottom: 0.25rem;
         }
         header p {
             font-family: 'Lato', sans-serif;
             color: #708090; /* SlateGray */
             font-style: italic;
+            font-size: 1.1rem;
         }
-        section h2 {
+        section h2 { /* Títulos principais das secções */
+            font-size: 2.2rem;
             color: #8B4513; /* SaddleBrown */
-            border-bottom: 2px solid #DAA520; /* Goldenrod - para um toque Art Déco */
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.75rem;
+            text-align: center;
+            border-bottom: 3px double #DAA520; /* Goldenrod - borda dupla Art Déco */
         }
 
-        /* Navegação com Estilo */
+        /* Navegação com Estilo Art Déco */
         .nav-button {
             font-family: 'Lato', sans-serif;
-            background-color: #E0DCD1; /* Um bege acinzentado claro */
-            color: #5A5A5A; /* Cinza escuro para texto */
-            border: 1px solid #BDB7AB; /* Borda sutil */
-            border-radius: 4px; /* Cantos menos arredondados, mais clássicos */
-            padding: 0.6rem 1.2rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            font-weight: 600;
+            background-color: #FAF0E6; /* Linen - um bege claro */
+            color: #5A5A5A; 
+            border: 1px solid #D2B48C; /* Tan - borda mais definida */
+            border-radius: 2px; /* Cantos bem definidos, quase quadrados */
+            padding: 0.7rem 1.3rem;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
         }
         .nav-button.active {
             background-color: #8B4513; /* SaddleBrown */
-            color: #FDFBF5; /* Cor de fundo do corpo */
-            border-color: #7A3D03; /* Marrom mais escuro para a borda ativa */
-            font-weight: 700;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+            color: #FDFBF5; 
+            border-color: #7A3D03; 
+            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
         }
         .nav-button:hover:not(.active) {
-            background-color: #D4CEC3; /* Um pouco mais escuro no hover */
-            border-color: #A9A9A9; /* Parisian Gray */
+            background-color: #E6D8C0; /* Um pouco mais escuro no hover */
+            border-color: #8B4513; /* SaddleBrown */
+            color: #8B4513;
         }
 
         /* Conteúdo das Secções */
         .content-section {
-            display: none;
-            background-color: #FAF6F0; /* Um creme muito claro para o fundo dos cards */
-            border: 1px solid #E0DCD1; /* Borda sutil */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            border-radius: 6px;
-        }
-        .content-section.active {
-            display: block;
+            background-color: #FFF8DC; /* Cornsilk - um creme mais quente */
+            border: 1px solid #E0DCD1; 
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1); /* Sombra mais pronunciada */
+            border-radius: 4px; /* Cantos sutis */
+            padding: 2rem;
         }
 
         /* Cartões de Dia */
         .day-card h3.main-title {
-             color: #B22222; /* Firebrick */
+             color: #B22222; 
         }
         .day-theme-icon {
-            color: #DAA520; /* Goldenrod */
+            color: #FFD700; /* Gilded Gold - mantido */
         }
         .day-theme-description {
-            color: #708090; /* SlateGray */
-        }
-         .day-card h4.plan-subtitle {
-             color: #8B4513; /* SaddleBrown */
-             border-bottom-color: #DAA520; /* Goldenrod */
-        }
-        .plan-section h5 { 
             color: #5A5A5A; 
         }
+         .day-card h4.plan-subtitle {
+             color: #8B4513; 
+             border-bottom: 1px solid #DAA520; /* Goldenrod mais fino */
+             font-size: 1.35rem;
+        }
+        .plan-section h5 { 
+            color: #3A3B3C; 
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+        }
         .transport-details {
-            background-color: #F0EBE0; /* Um bege ainda mais claro */
-            border-left-color: #DAA520; /* Goldenrod */
+            background-color: #F5F5DC; /* Beige */
+            border-left: 5px solid #DAA520; /* Goldenrod */
+            border-radius: 4px;
         }
         .transport-details strong { 
-            color: #8B4513; 
+            color: #800000; /* Maroon */
         }
         .alternative-plan-container {
-            background-color: #FDF0E5; /* Um pêssego muito claro */
-            border-top-color: #DAA520; /* Goldenrod */
+            background-color: #FFF5EE; /* Seashell */
+            border-top: 2px dashed #DAA520; /* Goldenrod */
         }
         .alternative-plan-container h4.plan-subtitle {
-            color: #800000; /* Maroon - para planos alternativos */
-            border-bottom-color: #800000;
+            color: #800000; /* Maroon */
+            border-bottom-color: #B22222; /* Firebrick */
         }
 
         /* Acordeões */
         .accordion-toggle {
             border-bottom: 1px solid #E0DCD1;
+            border-radius: 3px 3px 0 0; /* Leve arredondamento no topo */
         }
         .accordion-toggle.transport-accordion {
-            background-color: #EAE5DA; 
+            background-color: #FDF6E3; /* Cornsilk */
             color: #8B4513; 
         }
         .accordion-toggle.transport-accordion:hover {
-            background-color: #DCD6C8; 
+            background-color: #FAEECF; 
         }
         .accordion-toggle.tips-accordion {
-             background-color: #E0E8F0; 
+             background-color: #F0F8FF; /* AliceBlue */
              color: #4682B4; /* SteelBlue */
         }
         .accordion-toggle.tips-accordion:hover {
-            background-color: #D0DAE0; 
+            background-color: #E6F2FF; 
         }
         .accordion-content {
-            background-color: #FAF6F0;
+            background-color: #FFF8DC; /* Cornsilk */
+            border: 1px solid #EEDC82;
+            border-top: none;
+            border-radius: 0 0 3px 3px;
         }
+        .accordion-content.open {
+             padding: 1.25rem; 
+        }
+
 
         /* Pontos de Interesse */
         .poi-item {
-            display: flex;
-            flex-direction: column; 
-            gap: 1rem;
-            background-color: #FDF6E3; /* Cornsilk - um amarelo pálido */
-            border-color: #EEDC82; /* LightGoldenrod */
+            background-color: #FFF8DC; /* Cornsilk */
+            border: 1px solid #EEDC82; /* LightGoldenrod */
+            border-radius: 4px;
         }
         .poi-details h4 { 
             color: #B22222; 
+            font-size: 1.25rem;
         }
         .poi-details h4 a { 
-            color: #4682B4; /* SteelBlue */
+            color: #4682B4; 
         }
          .poi-details h4 a:hover {
-            color: #5F9EA0; /* CadetBlue */
+            color: #5F9EA0; 
         }
         .poi-category { 
             color: #8B4513; 
+            font-size: 0.9em;
+            font-style: italic;
         }
         .maps-button { 
-            background-color: #556B2F; /* DarkOliveGreen */
+            background-color: #8B4513; /* SaddleBrown */
             color: #FDFBF5; 
+            border-radius: 2px;
+            font-weight: 600;
         }
         .maps-button:hover {
-            background-color: #6B8E23; /* OliveDrab */
+            background-color: #A0522D; /* Sienna */
         }
         .gemini-button { 
             background-color: #483D8B; /* DarkSlateBlue */
+            border-radius: 2px;
         }
         .gemini-button:hover {
-            background-color: #6A5ACD; /* SlateBlue */
+            background-color: #6A5ACD; 
         }
         .poi-curiosities, .kid-activities-results, #dish-description-output { 
-            background-color: #F5F5DC; /* Beige */
+            background-color: #FAF0E6; /* Linen */
             border-left-color: #DAA520; /* Goldenrod */
+            border-radius: 3px;
         }
         .itinerary-poi-image {
             border-color: #DAA520; /* Goldenrod */
+            border-radius: 2px;
         }
 
-        /* Timeline Styles */
+        /* Timeline Styles Art Deco */
         .timeline::after {
-            background-color: #BDB7AB; /* Cinza da borda */
+            background-color: #DAA520; /* Goldenrod */
+            width: 4px;
+            margin-left: -2px;
         }
-        .timeline-container::after { /* Círculos */
+        .timeline-container::after { 
             background-color: #FDFBF5; 
-            border: 4px solid #DAA520; /* Goldenrod */
+            border: 3px solid #8B4513; /* SaddleBrown */
+            width: 20px;
+            height: 20px;
+            right: -10px; 
         }
-        .timeline-left::before, .timeline-right::before { /* Setas */
-            border-color: transparent transparent transparent #EEDC82; /* LightGoldenrod */
+        .timeline-right::after {
+            left: -10px;
+        }
+        .timeline-left::before, .timeline-right::before { 
+            border-color: transparent transparent transparent #DAA520;
         }
         .timeline-right::before {
-            border-color: transparent #EEDC82 transparent transparent;
+            border-color: transparent #DAA520 transparent transparent;
         }
         .timeline-content {
-            background-color: #FFF8DC; /* Cornsilk, mais claro que o item POI */
-            border: 1px solid #EEDC82; /* LightGoldenrod */
-            box-shadow: 0 3px 8px rgba(0,0,0,0.07);
+            background-color: #FAF0E6; /* Linen */
+            border: 1px solid #E0DCD1; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            border-radius: 4px;
         }
         .timeline-content h4 {
-            color: #8B4513; /* SaddleBrown */
+            color: #B22222; /* Firebrick */
         }
         .timeline-date {
-            color: #708090; /* SlateGray */
+            color: #5A5A5A; /* Dark Gray */
+            font-weight: 600;
         }
         
         /* Ajustes Gerais */
-        #overview .bg-amber-100 { background-color: #FAF0E6;  } /* Linen */
-        #overview .text-orange-600 { color: #B22222;  } /* Firebrick */
-        #overview .bg-sky-100 { background-color: #F0F8FF;  } /* AliceBlue */
-        #overview .text-sky-700 { color: #4682B4;  } /* SteelBlue */
+        #overview .bg-amber-100 { background-color: #FAF0E6;  } 
+        #overview .text-orange-600 { color: #B22222;  } 
+        #overview .bg-sky-100 { background-color: #E6F4F1;  } /* Um azul esverdeado pálido */
+        #overview .text-sky-700 { color: #2E8B57;  } /* SeaGreen */
         #culinary-info h3 { color: #B22222;  }
         #restaurant-suggestions strong a { color: #4682B4;  }
         #restaurant-suggestions strong a:hover { color: #556B2F;  }
@@ -214,7 +251,7 @@
             border-color: #EEDC82; 
         }
         #comments-section h3 {
-            color: #800000; /* Maroon */
+            color: #800000; 
         }
         #comments-section button {
             background-color: #556B2F; 
@@ -229,18 +266,20 @@
         footer {
             border-top-color: #BDB7AB;
             color: #708090;
+            padding-top: 1.5rem;
+            margin-top: 2.5rem;
         }
 
     </style>
 </head>
 <body>
     <div class="container mx-auto p-4 max-w-6xl">
-        <header class="mb-8 text-center">
-            <h1 class="text-5xl font-bold">Paris em Família: Aventura 2025</h1>
+        <header class="mb-8 text-center py-6 bg-[#FFF8DC] border-b-4 border-double border-[#DAA520]">
+            <h1 class="text-5xl font-black">Paris em Família: Aventura 2025</h1>
             <p class="text-xl mt-2">Um Roteiro Mágico pela Cidade Luz e Disneyland</p>
         </header>
 
-        <nav class="flex flex-wrap justify-center gap-2 mb-8">
+        <nav class="flex flex-wrap justify-center gap-2 mb-10">
             <button class="nav-button active" data-target="overview">Visão Geral</button>
             <button class="nav-button" data-target="daily-itinerary">Roteiro Diário</button>
             <button class="nav-button" data-target="points-of-interest">Pontos de Interesse</button>
@@ -255,25 +294,25 @@
                 <h2 class="text-3xl font-semibold mb-4">🌟 Bem-vindos à Aventura Parisiense!</h2>
                 <p class="mb-4">Esta aplicação interativa é o seu guia para a mágica viagem de 15 dias da família Barros-Bressan a Paris e Disneyland, de 14 a 28 de julho de 2025. Explore os planos diários, incluindo alternativas e informações de transporte detalhadas, e descubra dicas para tornar esta jornada multigeracional verdadeiramente inesquecível. Navegue pelas secções para aceder a todos os detalhes do seu roteiro personalizado.</p>
                 <div class="grid md:grid-cols-2 gap-6 mb-6">
-                    <div class="bg-amber-100 p-4 rounded-lg">
+                    <div class="bg-amber-100 p-6 rounded-md border border-[#DAA520]">
                         <h3 class="text-xl font-semibold text-orange-600 mb-2">Datas da Viagem</h3>
                         <p>📅 Saída: 14 de Julho de 2025</p>
                         <p>🔙 Retorno: 28 de Julho de 2025</p>
                         <p>⏳ Duração Total: 15 dias / 14 noites</p>
                     </div>
-                    <div class="bg-sky-100 p-4 rounded-lg">
+                    <div class="bg-sky-100 p-6 rounded-md border border-[#DAA520]">
                         <h3 class="text-xl font-semibold text-sky-700 mb-2">Fases da Viagem</h3>
                         <p>🏰 Disneyland Paris: Chegada 15/07 (tarde) - Saída 18/07 (manhã)</p>
                         <p>🏙️ Paris (cidade): Chegada 18/07 (tarde) - Saída 28/07</p>
                     </div>
                 </div>
-                <div class="chart-container">
+                <div class="chart-container my-8">
                     <canvas id="tripPhaseChart"></canvas>
                 </div>
-                <p class="mt-6 text-sm">Este é um resumo visual da divisão da vossa estadia.</p>
+                <p class="mt-6 text-sm text-center">Este é um resumo visual da divisão da vossa estadia.</p>
                 
-                <div class="mt-10">
-                    <h3 class="text-2xl font-semibold mb-6 text-center">Linha do Tempo da Viagem</h3>
+                <div class="mt-12">
+                    <h3 class="text-3xl font-semibold mb-8 text-center">Linha do Tempo da Viagem</h3>
                     <div class="timeline">
                         <div class="timeline-container timeline-left">
                             <div class="timeline-content">
@@ -347,13 +386,13 @@
                         </div>
                     </div>
                 </div>
-                 <p class="mt-6 text-sm">Utilizem os botões de navegação acima para explorar cada secção em detalhe.</p>
+                 <p class="mt-8 text-sm text-center">Utilizem os botões de navegação acima para explorar cada secção em detalhe.</p>
             </section>
 
             <section id="daily-itinerary" class="content-section">
                 <h2 class="text-3xl font-semibold mb-6">🗓️ Roteiro Diário Detalhado</h2>
                 <p class="mb-6">Aqui encontrará o plano para cada dia da vossa aventura, incluindo uma opção alternativa e informações de transporte detalhadas, seguindo um formato passo a passo. Selecione um dia para ver as atividades programadas, sugestões de refeições e considerações especiais. Lembrem-se que a flexibilidade é chave, e este roteiro serve como um guia para maximizar a vossa diversão!</p>
-                <div class="mb-4 flex flex-wrap gap-2 justify-center" id="day-selector">
+                <div class="mb-4 flex flex-wrap justify-center gap-2" id="day-selector">
                 </div>
                 <div id="itinerary-details" class="mt-6">
                 </div>
@@ -946,7 +985,6 @@
         { name: "Jardin d'Acclimatation", icon: "🎠", category: "Parque Temático", notes: "Parque de diversões histórico e charmoso no Bois de Boulogne, com atrações para crianças, um pequeno zoo, áreas de recreio e um ambiente familiar.", link: "https://www.jardindacclimatation.fr/en", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Jardin_d%27Acclimatation_106.jpg/640px-Jardin_d%27Acclimatation_106.jpg"},
         { name: "Marché aux Puces de Saint-Ouen", icon: "🛋️", category: "Mercado", notes: "O maior mercado de antiguidades e velharias do mundo. Um labirinto de diferentes mercados, cada um com a sua especialidade, desde mobiliário antigo a bugigangas vintage.", link: "https://www.pucesdeparissaintouen.com/", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Offener_Stand_Tr%C3%B6del.jpg/640px-Offener_Stand_Tr%C3%B6del.jpg" },
         { name: "Marché aux Fleurs Reine Elizabeth II", icon: "💐", category: "Mercado", notes: "Mercado de flores e pássaros encantador na Île de la Cité, um oásis de cor e perfume no coração de Paris.", link: "https://www.paris.fr/lieux/marche-aux-fleurs-reine-elizabeth-ii-7517", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/March%C3%A9_aux_fleurs_fontaine_Wallace.jpg/640px-March%C3%A9_aux_fleurs_fontaine_Wallace.jpg"},
-        { name: "Casa de Monet em Giverny", icon: "🌸", category: "Fora de Paris", notes: "A antiga casa e os deslumbrantes jardins de Claude Monet, que inspiraram as suas famosas pinturas de nenúfares. Uma imersão no mundo do Impressionismo.", link: "https://fondation-monet.com/en/", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Jardin_du_Monet_jun_2007_01.jpg/640px-Jardin_du_Monet_jun_2007_01.jpg" },
         { name: "Catedral de Chartres", icon: "⛪", category: "Fora de Paris", notes: "Uma das mais bem preservadas catedrais góticas da Europa, Património Mundial da UNESCO, famosa pelos seus vitrais medievais originais e pela sua arquitetura imponente.", link: "http://www.cathedrale-chartres.org/", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Cath%C3%A9drale_Notre-Dame_%28Chartres%29_%282%29.jpg/640px-Cath%C3%A9drale_Notre-Dame_%28Chartres%29_%282%29.jpg" },
         { name: "Disneyland Paris", icon: "🏰", category: "Parque Temático", notes: "O reino da magia, com dois parques (Disneyland Park e Walt Disney Studios Park) que oferecem atrações, espetáculos, paradas e encontros com personagens Disney.", link: "https://www.disneylandparis.com/en-usd/", imagePlaceholder: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Disneyland_Park_05%2C_Paris_22_August_2013.jpg/640px-Disneyland_Park_05%2C_Paris_22_August_2013.jpg" },
         { name: "Madame Brasserie", icon: "🍽️", category: "Restaurante", notes: "Restaurante contemporâneo no primeiro andar da Torre Eiffel, oferecendo cozinha francesa moderna com vistas espetaculares. Reservar com muita antecedência!", link: "https://www.restaurants-toureiffel.com/en/madame-brasserie.html", imagePlaceholder: "https://img.grouponcdn.com/pwa_test/ziNB1SPe8wAZnK4fem5hX6Zug6C/zi-720x480/v1/c870x524.jpg"},
