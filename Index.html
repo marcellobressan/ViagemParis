@@ -804,6 +804,7 @@
                     mainPlan: {
                         morning: "🖼️ Museu do Louvre (horário pré-reservado essencial! Abre às 9h). Foco nas obras-primas: Mona Lisa, Vénus de Milo, Vitória de Samotrácia. Explorar a ala das Antiguidades Egípcias. Para quem aprecia, o Louvre oferece recursos de apoio e rotas mais calmas.", 
                         afternoon: "🧺 Almoço: Piquenique no Jardin des Tuileries (comprar iguarias numa boulangerie/fromagerie local) ou num dos cafés do jardim. Passeio pelo Jardin des Tuileries, admirando as esculturas e fontes.", 
+                        tea_time: "Sugestão para o Chá da Tarde: Faça uma pausa no icónico salão de chá Angelina. Opções: a filial dentro do próprio Louvre (ala Richelieu) para máxima conveniência, ou a loja histórica e mais famosa na Rue de Rivoli, em frente ao jardim, para a experiência completa.",
                         evening: "🚢 Cruzeiro no Rio Sena ao pôr do sol ou à noite (reservar com antecedência, ex: Bateaux Mouches, Vedettes du Pont Neuf). Ideal para ver os monumentos iluminados de uma perspetiva diferente.",
                         transport: `<h6>Como Chegar (Hotel Havane → Museu do Louvre):</h6>
                             <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
@@ -878,7 +879,9 @@
                     themeIcon: "👑🌳",
                     themeDescription: "Uma imersão na opulência do Palácio de Versalhes e na vastidão dos seus jardins históricos.",
                     mainPlan: {
-                        fullDay: "👑 Palácio de Versalhes e Jardins: Dedicar o dia inteiro a explorar este magnífico Património Mundial. Manhã: Visita aos Grandes Apartamentos do Rei e da Rainha, e à deslumbrante Galeria dos Espelhos. Tarde: Explorar os vastos Jardins à la française (desenhados por Le Nôtre), utilizando o pequeno comboio ou alugando um carrinho de golfe (útil para maior conforto nos vastos jardins) para cobrir mais terreno e visitar o Domínio de Maria Antonieta (Petit Trianon, Grand Trianon e Hameau de la Reine). Almoço: Opções incluem o restaurante La Flottille no Grand Canal, Angelina no Palácio, ou fazer um piquenique nos jardins (em áreas designadas).", 
+                        fullDay: "👑 Palácio de Versalhes e Jardins: Dedicar o dia inteiro a explorar este magnífico Património Mundial. Manhã: Visita aos Grandes Apartamentos do Rei e da Rainha, e à deslumbrante Galeria dos Espelhos.", 
+                        tea_time: "Sugestão para o Chá da Tarde: Faça uma pausa no elegante salão de chá Angelina, localizado dentro do próprio Palácio de Versalhes (no primeiro andar, Pavillon d'Orléans). Perfeito para recarregar energias com o famoso chocolate quente ou um Mont-Blanc sem sair do ambiente real.",
+                        afternoon: "Tarde: Explorar os vastos Jardins à la française (desenhados por Le Nôtre), utilizando o pequeno comboio ou alugando um carrinho de golfe (útil para maior conforto nos vastos jardins) para cobrir mais terreno e visitar o Domínio de Maria Antonieta (Petit Trianon, Grand Trianon e Hameau de la Reine). Almoço: Opções incluem o restaurante La Flottille no Grand Canal, Angelina no Palácio, ou fazer um piquenique nos jardins (em áreas designadas).",
                         evening: "Regresso a Paris. Jantar relaxado perto do Hotel Havane, talvez experimentando um restaurante local diferente.",
                         transport: `<h6>Como Chegar (Hotel Havane → Palácio de Versalhes):</h6>
                             <p><strong>Opção 1 (RER C - Clássica):</strong></p>
@@ -1037,6 +1040,7 @@
                         title: "Exploração Aprofundada do Marais e Place des Vosges",
                         morning: "🛍️ Manhã no Marais: Começar pela Place des Vosges, uma das praças mais antigas e charmosas de Paris. Visitar as galerias de arte e lojas sob as arcadas. Explorar as ruas históricas como a Rue des Francs-Bourgeois e a Rue des Rosiers (antigo bairro judeu).",
                         afternoon: "🖼️ Visita ao Musée Carnavalet - Histoire de Paris (entrada gratuita para coleções permanentes) para aprender mais sobre a cidade. Almoço num dos muitos cafés ou bistrôs do Marais, ou no Marché des Enfants Rouges para uma experiência multicultural.",
+                        tea_time: "Sugestão para o Chá da Tarde: No coração do Marais, na Place des Vosges, encontrarão a pâtisserie Carette, uma alternativa chique à Angelina, famosa pelos seus doces e ambiente elegante. Perfeita para uma pausa após explorar a praça.",
                         evening: "Jantar no Marais, talvez experimentando um restaurante com um pátio interior ou um ambiente mais íntimo.",
                         transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Le Marais / Place des Vosges):</h6>
                             <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
@@ -1679,6 +1683,9 @@
                 } else {
                     if (day.alternativePlan.morning) html += `<div class="itinerary-step mb-4 p-3 border-l-4 border-[#6B8E23] bg-[#F0FFF0]"><h5>Manhã ☀️:</h5><p>${day.alternativePlan.morning}</p></div>`;
                     if (day.alternativePlan.afternoon) html += `<div class="itinerary-step mb-4 p-3 border-l-4 border-[#6B8E23] bg-[#F0FFF0]"><h5>Tarde 🏙️:</h5><p>${day.alternativePlan.afternoon}</p></div>`;
+                }
+                 if (day.alternativePlan.tea_time) {
+                    html += `<div class="itinerary-step mb-4 p-3 border-l-4 border-[#6B8E23] bg-[#F0FFF0]"><h5>Chá da Tarde ☕:</h5><p>${day.alternativePlan.tea_time}</p></div>`;
                 }
                 if (day.alternativePlan.evening) html += `<div class="itinerary-step mb-4 p-3 border-l-4 border-[#6B8E23] bg-[#F0FFF0]"><h5>Noite 🌙:</h5><p>${day.alternativePlan.evening}</p></div>`;
                 if (day.alternativePlan.transport) html += `<div class="transport-details mt-4"><h6>Como Chegar (Alternativa):</h6>${day.alternativePlan.transport}</div>`;
