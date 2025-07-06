@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ItineraryData, PointOfInterest, Restaurant, AccordionItemData, NavigationTarget } from './types';
 
@@ -546,6 +545,7 @@ export const pointsOfInterestData: PointOfInterest[] = [
 export const restaurantData: Restaurant[] = [
   { name: "Le Bouillon Chartier", type: "Tradicional Francês", price: "€", notes: "Ambiente clássico, comida tradicional a preços acessíveis. Pode ter fila.", link: "https://www.bouillon-chartier.com/en/" },
   { name: "Pink Mamma", type: "Italiano", price: "€€", notes: "Popular pela decoração e comida italiana. Reservar com antecedência.", link: "https://www.bigmammagroup.com/en/trattorias/pink-mamma" },
+  { name: "Léon De Bruxelles", type: "Belga / Frutos do Mar", price: "€€", notes: "Famoso por 'moules-frites' (mexilhões com batatas fritas). Ótima opção casual perto da área da Opéra e dos Grands Boulevards. O endereço fornecido (30 Boulevard des Italiens) está próximo de várias atividades do roteiro.", link: "https://www.restaurantleon.fr/nos-restaurants" },
   { name: "L'As du Fallafel", type: "Médio Oriente", price: "€", notes: "Famoso falafel no Marais. Ideal para uma refeição rápida.", link: "" },
   { name: "Angelina", type: "Salão de Chá / Patisserie", price: "€€€", notes: "Conhecido pelo chocolate quente e Mont-Blanc. Sofisticado.", link: "https://angelina-paris.fr/en" },
   { name: "Bistrot Paul Bert", type: "Bistrô Francês", price: "€€€", notes: "Cozinha clássica de bistrô, ambiente animado. Reservar.", link: "" },
