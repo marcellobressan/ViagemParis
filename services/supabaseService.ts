@@ -1,18 +1,45 @@
 
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Comment } from '../types';
-import { SUPABASE_URL_PLACEHOLDER, SUPABASE_ANON_KEY_PLACEHOLDER } from '../constants.tsx';
+import { SUPABASE_URL_PLACEHOLDER, SUPABASE_ANON_KEY_PLACEHOLDER } from '../constants';
+
+// This is a minimal schema definition based on the usage in the app.
+// It makes the Supabase client fully type-safe for comment operations.
+interface Database {
+  public: {
+    Tables: {
+      comentarios: {
+        Row: {
+          id: string;
+          author: string;
+          text: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          author: string;
+          text: string;
+          created_at?: string; // Made optional as it's typically handled by the DB
+        };
+      };
+    };
+    Views: { [key: string]: never };
+    Functions: { [key: string]: never };
+    Enums: { [key: string]: never };
+    CompositeTypes: { [key: string]: never };
+  }
+}
 
 // IMPORTANT: Replace placeholders with your actual Supabase URL and Anon Key,
 // ideally from environment variables. These are client-side safe keys.
 const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL || SUPABASE_URL_PLACEHOLDER;
 const SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY || SUPABASE_ANON_KEY_PLACEHOLDER;
 
-let supabase: SupabaseClient | null = null;
+let supabase: SupabaseClient<Database> | null = null;
 
 if (SUPABASE_URL && SUPABASE_ANON_KEY && SUPABASE_URL !== SUPABASE_URL_PLACEHOLDER && SUPABASE_ANON_KEY !== SUPABASE_ANON_KEY_PLACEHOLDER) {
   try {
-    supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    supabase = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY);
   } catch (error) {
     console.error("Error initializing Supabase client:", error);
   }
@@ -24,7 +51,7 @@ if (SUPABASE_URL && SUPABASE_ANON_KEY && SUPABASE_URL !== SUPABASE_URL_PLACEHOLD
   );
 }
 
-export const getSupabaseClient = (): SupabaseClient | null => {
+export const getSupabaseClient = (): SupabaseClient<Database> | null => {
     return supabase;
 };
 
@@ -51,9 +78,10 @@ export const loadComments = async (): Promise<Comment[]> => {
 export const addComment = async (author: string, text: string): Promise<Comment[]> => {
   if (!supabase) throw new Error("Supabase client not initialized.");
 
+  // The 'created_at' field is expected to be set by the database with a default value.
   const { data, error } = await supabase
     .from('comentarios')
-    .insert([{ author, text, created_at: new Date().toISOString() }])
+    .insert([{ author, text }])
     .select();
   
   if (error) {
