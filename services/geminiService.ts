@@ -24,7 +24,7 @@ export const generateText = async (prompt: string): Promise<string> => {
     const modelName = getModelName('text');
     const response: GenerateContentResponse = await ai.models.generateContent({
       model: modelName,
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      contents: prompt,
       config: {
         // No thinkingConfig for general text generation to ensure higher quality by default
       }
@@ -42,7 +42,7 @@ export const generateTextWithSearch = async (prompt: string): Promise<{ text: st
     const modelName = getModelName('text-with-search');
     const response: GenerateContentResponse = await ai.models.generateContent({
       model: modelName,
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      contents: prompt,
       config: {
         tools: [{googleSearch: {}}],
       }
