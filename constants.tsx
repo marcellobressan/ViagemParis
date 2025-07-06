@@ -177,7 +177,7 @@ export const itineraryData: ItineraryData = {
         themeIcon: "🖼️🌳",
         themeDescription: "Imersão na arte mundialmente famosa do Louvre, seguida de um relaxante passeio pelo histórico Jardin des Tuileries.",
         mainPlan: {
-            morning: "🖼️ Museu do Louvre (horário pré-reservado essencial!). Foco nas obras-primas: Mona Lisa, Vénus de Milo, Vitória de Samotrácia. Explorar a ala das Antiguidades Egípcias. Papai Marcello: aproveitar os recursos de apoio e rotas calmas disponíveis, se desejar.", 
+            morning: "🖼️ <strong>Visita agendada para as 10:30</strong> no Museu do Louvre (essencial chegar um pouco antes!). Foco nas obras-primas: Mona Lisa, Vénus de Milo, Vitória de Samotrácia. Explorar a ala das Antiguidades Egípcias. Papai Marcello: aproveitar os recursos de apoio e rotas calmas disponíveis, se desejar.", 
             afternoon: "🧺 Almoço: Piquenique no Jardin des Tuileries (comprar iguarias numa boulangerie/fromagerie local) ou num dos cafés do jardim. Passeio pelo Jardin des Tuileries, admirando as esculturas e fontes.", 
             evening: "🚢 Cruzeiro no Rio Sena ao pôr do sol ou à noite (reservar com antecedência, ex: Bateaux Mouches, Vedettes du Pont Neuf). Ideal para ver os monumentos iluminados de uma perspetiva diferente.",
             transport: `<h6>Como Chegar (Hotel Havane → Museu do Louvre):</h6>
@@ -212,27 +212,21 @@ export const itineraryData: ItineraryData = {
     },
     "21/07": { 
         day: "Segunda", 
-        mainTitle: "D'Orsay, Grande Galerie de l'Évolution e Quartier Latin",
-        themeIcon: "🖼️🐘📚",
-        themeDescription: "Uma jornada pela arte impressionista, a maravilha da evolução natural e o charme intelectual do Quartier Latin.",
+        mainTitle: "Evolução, Arte Impressionista e Quartier Latin",
+        themeIcon: "🐘🖼️📚",
+        themeDescription: "Uma jornada pela maravilha da evolução natural, a arte impressionista e o charme intelectual do Quartier Latin.",
         mainPlan: {
-            morning: "🖼️ Museu d'Orsay (horário pré-reservado): Admirar a vasta coleção de arte impressionista e pós-impressionista, alojada numa magnífica antiga estação de comboios.", 
-            afternoon: "Almoço perto do Musée d'Orsay ou no Quartier Latin. 🐘 Visita à Grande Galerie de l’Évolution no Jardin des Plantes. Se o tempo permitir, breve passeio pelo Quartier Latin (ex: Shakespeare & Co.).", 
-            evening: "Jantar no Quartier Latin.",
-            transport: `<h6>Como Chegar (Hotel Havane → Musée d'Orsay):</h6>
+            morning: "🐘 <strong>Visita agendada para as 10:00</strong> na Grande Galerie de l’Évolution (Jardin des Plantes). Explorar a incrível parada de animais e aprender sobre a biodiversidade. Após a visita, um breve passeio pelo Jardin des Plantes.", 
+            afternoon: "Almoço no Quartier Latin. 🖼️ Visita ao Museu d'Orsay (horário a reservar para a tarde). Admirar a vasta coleção de arte impressionista e pós-impressionista, alojada numa magnífica antiga estação de comboios.", 
+            evening: "Jantar no Quartier Latin, explorando as suas ruas animadas e repletas de restaurantes.",
+            transport: `<h6>Como Chegar (Hotel Havane → Grande Galerie de l’Évolution):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
-                <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) até à estação <strong>Palais Royal - Musée du Louvre</strong> (5 paradas).</p>
-                <p>🚶‍♀️ Caminhe ~10-15 min atravessando o Jardin des Tuileries e a Pont Royal ou Pont de Solférino até ao Musée d'Orsay.</p>
-                <p><em>Alternativa com menos caminhada, mais mudanças:</em></p>
-                <p>   🚇 Linha 7 de Cadet até <strong>Opéra</strong>. Mude para <strong>RER C</strong> (sentido Pontoise/Versailles) até <strong>Musée d'Orsay</strong> (1 parada). Verificar acessibilidade do RER C.</p>
-                <h6>Como Chegar (Musée d'Orsay → Grande Galerie de l’Évolution - Jardin des Plantes):</h6>
-                <p>🚌 Apanhe o <strong>Autocarro 63</strong> (sentido Gare de Lyon) da paragem Solférino - Bellechasse (perto do Musée d'Orsay) até à paragem <strong>Jardin des Plantes</strong> (várias paragens, ~20-25 min). A galeria fica dentro do Jardin des Plantes.</p>
-                <p>🚇 <em>Alternativa Metro (mais mudanças):</em></p>
-                <p>   Da estação Musée d'Orsay (RER C), apanhe o <strong>RER C</strong> (sentido Juvisy/Massy-Palaiseau) até <strong>Saint-Michel Notre-Dame</strong> (1 parada).</p>
-                <p>   🔄 Mude para a <strong>Linha 10</strong> (sentido Gare d'Austerlitz) até <strong>Jussieu</strong> ou <strong>Gare d'Austerlitz</strong> (ambas perto do Jardin des Plantes).</p>
-                <h6>Como Chegar (Grande Galerie de l’Évolution → Restaurante no Quartier Latin):</h6>
-                <p>🚶‍♀️ Caminhada de ~10-20 minutos, dependendo da localização exata do restaurante no Quartier Latin.</p>
-                <p>🚇 Ou, da estação <strong>Jussieu</strong> (Linhas 7 e 10) ou <strong>Place Monge</strong> (Linha 7), acesso fácil a várias partes do Quartier Latin.</p>`
+                <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) diretamente até à estação <strong>Place Monge</strong> (9 paradas) ou <strong>Jussieu</strong> (8 paradas). Ambas estão a uma curta caminhada do Jardin des Plantes.</p>
+                <h6>Como Chegar (Grande Galerie → Musée d'Orsay):</h6>
+                <p>🚌 Da paragem Jardin des Plantes, apanhar o <strong>Autocarro 63</strong> (sentido Porte de la Muette) até à paragem <strong>Solférino - Bellechasse</strong> (perto do Musée d'Orsay, ~20-25 min).</p>
+                <p>🚇 <em>Alternativa Metro:</em> Da estação <strong>Jussieu</strong>, apanhar a <strong>Linha 10</strong> (sentido Boulogne) até <strong>Sèvres-Babylone</strong> (5 paradas), mudar para a <strong>Linha 12</strong> (sentido Mairie d'Aubervilliers) até <strong>Solférino</strong> (1 parada).</p>
+                <h6>Como Chegar (Musée d'Orsay → Jantar no Quartier Latin):</h6>
+                <p>🚶‍♀️ Caminhada agradável de ~15-20 minutos, atravessando a Pont Royal ou a Pont du Carrousel e seguindo em direção à área de Saint-Michel.</p>`
         },
         considerations: "D'Orsay e Grande Galerie de l'Évolution são acessíveis. O Jardin des Plantes é um ótimo local para uma pausa. O Quartier Latin tem ruas de paralelepípedos.",
         alternativePlan: {
@@ -253,7 +247,7 @@ export const itineraryData: ItineraryData = {
         themeIcon: "👑🌳",
         themeDescription: "Uma imersão na opulência do Palácio de Versalhes e na vastidão dos seus jardins históricos.",
         mainPlan: {
-            fullDay: "👑 Palácio de Versalhes e Jardins: Dedicar o dia inteiro a explorar este magnífico Património Mundial. Manhã: Visita aos Grandes Apartamentos do Rei e da Rainha, e à deslumbrante Galeria dos Espelhos. Tarde: Explorar os vastos Jardins à la française (desenhados por Le Nôtre), utilizando o pequeno comboio ou alugando um carrinho de golfe (útil para maior conforto nos vastos jardins) para cobrir mais terreno e visitar o Domínio de Maria Antonieta (Petit Trianon, Grand Trianon e Hameau de la Reine). Almoço: Opções incluem o restaurante La Flottille no Grand Canal, Angelina no Palácio, ou fazer um piquenique nos jardins (em áreas designadas).", 
+            fullDay: "👑 Palácio de Versalhes e Jardins: Manhã: Chegada a Versalhes. Explorar os vastos Jardins à la française (desenhados por Le Nôtre), utilizando o pequeno comboio ou alugando um carrinho de golfe (útil para maior conforto). Visitar o Domínio de Maria Antonieta (Petit Trianon, Grand Trianon e Hameau de la Reine). Almoço: Opções incluem o restaurante La Flottille no Grand Canal, Angelina no Palácio, ou fazer um piquenique nos jardins (em áreas designadas). Tarde: <strong>Visita agendada para as 14:00</strong> ao Palácio de Versalhes. Explorar os Grandes Apartamentos do Rei e da Rainha, e a deslumbrante Galeria dos Espelhos.", 
             evening: "Regresso a Paris. Jantar relaxado perto do Hotel Havane, talvez experimentando um restaurante local diferente.",
             transport: `<h6>Como Chegar (Hotel Havane → Palácio de Versalhes):</h6>
                 <p><strong>Opção 1 (RER C - Clássica):</strong></p>
@@ -281,27 +275,17 @@ export const itineraryData: ItineraryData = {
                 <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) até à estação <strong>Gare de Lyon</strong> (10 paradas, ~15-20 min).</p>
                 <p>🚂 Na Gare de Lyon (Hall 1 ou 2, verificar painéis), apanhe um comboio <strong>Transilien Linha R</strong> (sentido Montargis Sens ou Montereau) até à estação <strong>Fontainebleau-Avon</strong> (~40 min).</p>
                 <p>🚌 Da estação Fontainebleau-Avon, apanhe o <strong>Autocarro Linha 1</strong> (sentido Les Lilas) até à paragem <strong>Château</strong> (~10-15 min).</p>`,
-            notes: "Fontainebleau oferece uma imersão histórica igualmente rica, mas geralmente com menos multidões. A floresta é um bónus para quem aprecia a natureza."
+            notes: "Fontainebleau oferece uma imersão histórica igualmente rica, mas geralmente com menos multidões. A floresta é um bónus para quem aprecia a nature."
         }
     },
     "23/07": {
         day: "Quarta",
-        mainTitle: "Elegância, Arte e Doces: Musée Jacquemart-André e Opções",
+        mainTitle: "Elegância, Arte e Doces",
         themeIcon: "🏛️🍰",
         themeDescription: "Um dia de requinte, explorando uma mansão histórica e sua arte, com pausas para delícias parisienses.",
         mainPlan: {
-            morning_afternoon_options: `
-                <p><strong>Atividade Principal do Dia (Escolher horário):</strong></p>
-                <p>   🏛️ Visita ao <strong>Musée Jacquemart-André</strong> (158 Boulevard Haussmann, 8º). Explore a magnífica mansão do século XIX e a sua coleção de arte italiana renascentista, mestres flamengos e mobiliário francês.</p>
-                <p>   🍽️☕ <em>Opção 1:</em> Visitar de manhã e desfrutar de um almoço no elegante <strong>Café Jacquemart-André</strong> (um dos mais belos salões de chá de Paris).</p>
-                <p>   ☕🍰 <em>Opção 2:</em> Visitar a partir das 15h e deliciar-se com um chá da tarde no <strong>Café Jacquemart-André</strong>.</p>
-                <br>
-                <p><strong>Combinar com (escolher 1-2, dependendo do horário da visita ao Jacquemart-André e do ritmo da família):</strong></p>
-                <p>   🌳 <strong>Parc Monceau:</strong> Um passeio relaxante neste elegante parque, muito próximo ao museu.</p>
-                <p>   👗 <strong>Foco Moda (Nicole):</strong> Deslocamento para o Musée de la Mode (Palais Galliera) ou Musée des Arts Decoratifs (MAD).</p>
-                <p>   🏛️ <strong>Arte Adicional:</strong> Visita ao Petit Palais (coleção permanente gratuita, perto da área dos Champs-Élysées).</p>
-                <p>   🧁 <strong>Doçura Parisiense:</strong> Visita à Patisserie Pierre Hermé para macarons e outras delícias.</p>
-            `,
+            morning: "Manhã livre para explorar a área dos Grands Boulevards ou fazer compras nas Galeries Lafayette / Printemps. Outra opção é um passeio relaxante no Parc Monceau, próximo à área da tarde.",
+            afternoon: "Almoço na área da Opéra ou perto do Parc Monceau. 🏛️ <strong>Visita agendada para as 15:00</strong> ao Musée Jacquemart-André. Explore a magnífica mansão do século XIX e a sua coleção de arte, seguido por um chá da tarde opcional no elegante Café Jacquemart-André.",
             evening: "Jantar (casual, ex: Özlem Kebab – verificar adequação, ou outra opção dependendo da área da atividade da tarde).",
             transport: `<h6>Como Chegar (Hotel Havane → Musée Jacquemart-André):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
@@ -310,11 +294,9 @@ export const itineraryData: ItineraryData = {
                 <p>🚶‍♀️ De Saint-Augustin, caminhe ~7-10 min. De Miromesnil, caminhe ~5-8 min até o Musée Jacquemart-André.</p>
                 <h6>Como Chegar (Atividades Combinadas - exemplos):</h6>
                 <p>   🚶‍♀️ <strong>Do Jacquemart-André para Parc Monceau:</strong> Caminhada curta de ~5-10 minutos.</p>
-                <p>   🚇🚌 <strong>Do Jacquemart-André para Musée de la Mode/MAD (Área Alma-Marceau):</strong> De Miromesnil (Linha 9, sentido Pont de Sèvres) até <strong>Alma-Marceau</strong> (2 paradas). Ou autocarros da área do Boulevard Haussmann.</p>
-                <p>   🚇🚌 <strong>Do Jacquemart-André para Petit Palais:</strong> De Miromesnil (Linha 13, sentido Châtillon-Montrouge) até <strong>Champs-Élysées - Clemenceau</strong> (1 parada).</p>
-                <p>   🚇🚌 <strong>Do Jacquemart-André para Pierre Hermé (ex: boutique em Saint-Germain):</strong> De Miromesnil (Linha 13, sentido Châtillon) até <strong>Duroc</strong>, mudar para Linha 10 (sentido Gare d'Austerlitz) até <strong>Mabillon</strong>. Ou autocarros.</p>`
+                <p>   🚇🚌 <strong>Do Jacquemart-André para Galeries Lafayette (área Opéra):</strong> De Saint-Augustin (Linha 14, sentido Mairie de Saint-Ouen) até <strong>Madeleine</strong>, e depois a pé; ou Linha 9 até <strong>Havre - Caumartin</strong>, e caminhe até às lojas.</p>`
         },
-        considerations: "Musée Jacquemart-André: verificar horários de abertura e se é necessário reservar bilhetes/mesa no café. É um museu mais íntimo e pode ser uma boa pausa dos grandes museus. Parc Monceau é ideal para um momento de tranquilidade. Coordenar os horários das outras atividades escolhidas.",
+        considerations: "Musée Jacquemart-André: verificar horários de abertura e se é necessário reservar bilhetes/mesa no café. É um museu mais íntimo e pode ser uma boa pausa dos grandes museus. Parc Monceau é ideal para um momento de tranquilidade.",
         alternativePlan: {
             title: "Jardin d'Acclimatation e Fundação Louis Vuitton",
             morning: "🎠 Jardin d'Acclimatation: Localizado no Bois de Boulogne, este parque de diversões histórico oferece atrações para todas as idades, desde carrosséis clássicos a pequenas montanhas-russas, um pequeno zoo e áreas de recreio. Ideal para as crianças.",
@@ -322,12 +304,11 @@ export const itineraryData: ItineraryData = {
             evening: "Jantar no 16º arrondissement (área elegante perto do Bois de Boulogne) ou regressar ao centro de Paris para uma opção mais central.",
             transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Jardin d'Acclimatation/Fondation Louis Vuitton):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
-                <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas).</p>
-                <p>🔄 Mude para a <strong>Linha 9</strong> (sentido Pont de Sèvres) até à estação <strong>La Muette</strong> (8 paradas).</p>
-                <p>🚶‍♀️ De La Muette, caminhe ~15-20 min através de uma parte do Bois de Boulogne até à entrada do Jardin d'Acclimatation.</p>
-                <p><em>Alternativa mais direta para a Fundação (pode envolver o shuttle da Fundação):</em></p>
-                <p>   🚇 Metro até <strong>Charles de Gaulle - Étoile</strong>. Apanhe o <strong>Shuttle da Fundação Louis Vuitton</strong> (verificar horários e ponto de partida exato perto do Arco do Triunfo).</p>
-                <p>   <em>Ou:</em> Metro Linha 1 até <strong>Les Sablons</strong>. Caminhe ~10-15 min até à Fundação/Jardin. O Petit Train parte de fora da estação Les Sablons para o Jardin d'Acclimatation.</p>`,
+                <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Palais Royal - Musée du Louvre</strong> (5 paradas).</p>
+                <p>🔄 Mude para a <strong>Linha 1</strong> (sentido La Défense) até <strong>Les Sablons</strong> (9 paradas).</p>
+                <p>🚶‍♀️ Caminhe ~10-15 min até à Fundação/Jardin. O Petit Train parte de fora da estação Les Sablons para o Jardin d'Acclimatation.</p>
+                 <p><em>Alternativa com o shuttle da Fundação:</em></p>
+                <p>   🚇 Metro até <strong>Charles de Gaulle - Étoile</strong>. Apanhe o <strong>Shuttle da Fundação Louis Vuitton</strong> (verificar horários e ponto de partida exato perto do Arco do Triunfo).</p>`,
             notes: "Uma excelente combinação de diversão para as crianças e cultura/arquitetura de vanguarda para os adultos. O Bois de Boulogne oferece um ambiente verdejante."
         }
     },
@@ -369,27 +350,26 @@ export const itineraryData: ItineraryData = {
     },
     "25/07": {
         day: "Sexta",
-        mainTitle: "Torre Eiffel e Champs-Élysées",
-        themeIcon: "🗼✨",
-        themeDescription: "Um dia icónico, subindo à Torre Eiffel e passeando pela glamorosa Champs-Élysées.",
+        mainTitle: "Torre Eiffel, Alta Costura e Champs-Élysées",
+        themeIcon: "🗼👗",
+        themeDescription: "Um dia icónico, subindo à Torre Eiffel, visitando o templo da moda e passeando pela glamorosa Champs-Élysées.",
         mainPlan: {
             morning: "🗼 Torre Eiffel (bilhetes para o 1º e 2º andares pré-reservados para um horário específico!): Subir para apreciar as vistas panorâmicas de Paris. Tempo para fotos e explorar os diferentes níveis.",
-            afternoon: "🍽️ Almoço na Madame Brasserie (1º andar da Torre Eiffel - reserva essencial e com muita antecedência!). Após o almoço, passeio pela Avenue des Champs-Élysées, observando as lojas de luxo e o movimento. Visita ao Arco do Triunfo (subida opcional para vistas, elevador disponível para PMR até um certo nível).",
+            afternoon: "🍽️ Almoço na Madame Brasserie (1º andar da Torre Eiffel - reserva essencial!). Após o almoço, um breve passeio. 👗 <strong>Visita agendada para as 15:30</strong> à Galerie Dior (próximo aos Champs-Élysées, na Avenue Montaigne). Após a visita, continuar o passeio pela Avenue des Champs-Élysées até ao Arco do Triunfo (subida opcional para vistas).",
             evening: "🥂 Jantar especial: Le Fouquet's nos Champs-Élysées para uma experiência parisiense clássica e luxuosa (Vovó Lúcia irá adorar). Requer reserva antecipada.",
             transport: `<h6>Como Chegar (Hotel Havane → Torre Eiffel):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                 <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Opéra</strong> (3 paradas).</p>
                 <p>🔄 Mude para a <strong>Linha 8</strong> (sentido Balard) até <strong>École Militaire</strong> (6 paradas).</p>
                 <p>🚶‍♀️ Caminhe ~10-12 min através do Champ de Mars até à Torre Eiffel.</p>
-                <p><em>Alternativa com vista icónica na chegada (menos caminhada da estação final):</em></p>
-                <p>   🚇 Linha 7 de Cadet até <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas).</p>
-                <p>   🔄 Mude para a <strong>Linha 9</strong> (sentido Pont de Sèvres) até <strong>Trocadéro</strong> (6 paradas).</p>
-                <p>   🚶‍♀️ Saia em Trocadéro para vistas espetaculares da Torre Eiffel e depois caminhe descendo os jardins até à Torre (~10 min).</p>
-                <h6>Como Chegar (Torre Eiffel → Champs-Élysées/Arco do Triunfo):</h6>
-                <p>🚶‍♀️ Caminhe pelo Champ de Mars e atravesse a Pont d'Iéna. Pode apanhar o <strong>Autocarro 42</strong> (sentido Gare Saint-Lazare) da paragem Tour Eiffel ou Rapp - La Bourdonnais, que sobe os Champs-Élysées.</p>
-                <p>🚇 Da estação <strong>Bir-Hakeim</strong> (Linha 6, perto da Torre), apanhe a <strong>Linha 6</strong> (sentido Charles de Gaulle - Étoile) até ao terminal <strong>Charles de Gaulle - Étoile</strong> (5 paradas), que fica no Arco do Triunfo e no topo dos Champs-Élysées.</p>`
+                <p><em>Alternativa com vista icónica na chegada:</em></p>
+                <p>   🚇 Linha 7 de Cadet até <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas). Mude para a <strong>Linha 9</strong> (sentido Pont de Sèvres) até <strong>Trocadéro</strong> (6 paradas). Saia em Trocadéro para vistas espetaculares da Torre Eiffel e depois caminhe descendo os jardins até à Torre (~10 min).</p>
+                <h6>Como Chegar (Torre Eiffel → Galerie Dior / Champs-Élysées):</h6>
+                <p>🚌 Apanhe o <strong>Autocarro 42</strong> (sentido Gare Saint-Lazare) da paragem Tour Eiffel, que sobe a Avenue Montaigne (perto da Galerie Dior) e os Champs-Élysées.</p>
+                <p>🚇 Ou, da estação <strong>Bir-Hakeim</strong> (Linha 6), apanhe a <strong>Linha 6</strong> (sentido Charles de Gaulle - Étoile) até <strong>Charles de Gaulle - Étoile</strong> (5 paradas), no Arco do Triunfo, e desça a Champs-Élysées a pé.</p>
+                <p>🚶‍♀️ Para quem gosta de caminhar, é um passeio agradável de ~25-30 minutos da Torre Eiffel, atravessando a Pont d'Iéna e seguindo pelos jardins do Trocadéro e Avenue Marceau/President Wilson até à Avenue Montaigne.</p>`
         },
-        considerations: "Torre Eiffel: Cimeira não acessível para PMR. Madame Brasserie e Le Fouquet's: reservar com MUITA antecedência e informar sobre necessidades alimentares. O Arco do Triunfo tem elevador para acesso assistido.",
+        considerations: "Torre Eiffel: Cimeira não acessível para PMR. Madame Brasserie, Galerie Dior e Le Fouquet's: reservar com MUITA antecedência e informar sobre necessidades alimentares. O Arco do Triunfo tem elevador para acesso assistido.",
         alternativePlan: {
             title: "Palais Garnier, Grands Magasins e Passagens Cobertas",
             morning: "🎭 Visita guiada (ou áudio-guia) à Opéra Garnier (Palais Garnier): Explorar o interior deslumbrante, incluindo a grande escadaria, o auditório (se não houver ensaios) e os salões opulentos. Uma joia da arquitetura do Segundo Império.",
