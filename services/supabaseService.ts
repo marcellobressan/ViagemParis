@@ -1,4 +1,3 @@
-
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Comment } from '../types';
 import { SUPABASE_URL_PLACEHOLDER, SUPABASE_ANON_KEY_PLACEHOLDER } from '../constants';
@@ -21,6 +20,13 @@ interface Database {
           text: string;
           created_at?: string; // Made optional as it's typically handled by the DB
         };
+        Update: {
+          id?: string;
+          author?: string;
+          text?: string;
+          created_at?: string;
+        };
+        Relationships: [];
       };
     };
     Views: { [key: string]: never };
