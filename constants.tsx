@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ItineraryData, PointOfInterest, Restaurant, AccordionItemData, NavigationTarget } from './types';
 
@@ -24,9 +25,13 @@ export const itineraryData: ItineraryData = {
         themeIcon: "🎆",
         themeDescription: "Chegada emocionante em Paris durante as celebrações do Dia da Bastilha e instalação na magia da Disney.",
         mainPlan: {
-            morning: "Chegada ao Aeroporto Charles de Gaulle (CDG). Recolha de bagagem e encontro com o motorista do transfer.", 
-            afternoon: "Transfer para o Hotel Disney. Check-in e instalação nos quartos. Tempo para descanso e os mais novos explorarem as imediações do hotel (se aplicável).", 
-            evening: "Jantar tranquilo no restaurante do hotel ou num dos restaurantes da Disney Village com reserva prévia. Opcional: Se houver visibilidade e disposição, tentar avistar os fogos de artifício da Bastilha à distância (sem sair do complexo Disney).",
+            schedule: [
+                { time: "Manhã", icon: "✈️", description: "Chegada ao Aeroporto Charles de Gaulle (CDG). Recolha de bagagem e encontro com o motorista do transfer." },
+                { time: "14:00", icon: "🚐", description: "Transfer para o Hotel Disney. Check-in e instalação nos quartos." },
+                { time: "16:00", icon: "🛋️", description: "Tempo para descanso e os mais novos explorarem as imediações do hotel." },
+                { time: "20:00", icon: "🍽️", description: "Jantar tranquilo no restaurante do hotel ou na Disney Village (reserva prévia recomendada)." },
+                { time: "22:00", icon: "🎆", description: "Opcional: Se houver visibilidade e disposição, tentar avistar os fogos de artifício da Bastilha à distância." }
+            ],
             transport: "<h6>Como Chegar:</h6><p>🚕 <strong>Recomendado:</strong> Transfer privado pré-reservado em van (ex: Viator, GetYourGuide). Essencial devido ao Dia da Bastilha (trânsito intenso, muitas ruas fechadas em Paris, maior procura por serviços). Confirmar com o operador detalhes sobre o ponto de encontro e tempo estimado de viagem.</p><p><em>Alternativa:</em> Magical Shuttle (serviço oficial da Disney - verificar horários e necessidade de reserva para veículos adaptados) ou TGV do Terminal 2 do CDG para Marne-la-Vallée Chessy (estação da Disney - rápido, ~12 min, mas implica gerir bagagem em estações movimentadas).</p>",
         },
         considerations: "Dia da Bastilha: Esperar grandes multidões e perturbações nos transportes em Paris. O foco principal é uma chegada e instalação tranquilas no hotel Disney. Evitar deslocações ao centro de Paris neste dia.",
@@ -39,17 +44,30 @@ export const itineraryData: ItineraryData = {
         themeIcon: "🏰✨",
         themeDescription: "Explorando os encantos clássicos do Disneyland Park, dos contos de fadas às aventuras emocionantes.",
         mainPlan: {
-            morning: "🏰 Disneyland Park: Começar pela Main Street U.S.A. em direção ao Castelo da Bela Adormecida para fotos. Explorar Fantasyland: 'it's a small world', 'Peter Pan's Flight' (usar Premier Access se disponível), 'Dumbo the Flying Elephant'. Seguir para Discoveryland: 'Buzz Lightyear Laser Blast' (se reaberto) ou 'Orbitron'.", 
-            afternoon: "Almoço no parque (ex: Pizzeria Bella Notte). Continuar em Adventureland: 'Pirates of the Caribbean'. Pausa para descanso no hotel a meio da tarde, especialmente para os membros mais velhos e as crianças.", 
-            evening: "Regresso ao Disneyland Park para a 🎆 Disney Stars on Parade (verificar horário e bom local para assistir). Jantar (ex: Plaza Gardens com personagens - reservar com muita antecedência). Show Noturno sobre o Castelo (Fogo de Artifício/Disney Electrical Sky Parade - verificar programação).",
+            schedule: [
+                { time: "09:30", icon: "🏰", description: "Entrada no Disneyland Park. Começar pela Main Street U.S.A. em direção ao Castelo para fotos." },
+                { time: "10:00", icon: "🧚", description: "Explorar Fantasyland: 'it's a small world', 'Peter Pan's Flight', 'Dumbo'." },
+                { time: "12:00", icon: "🚀", description: "Aventura em Discoveryland: 'Buzz Lightyear Laser Blast' ou 'Orbitron'." },
+                { time: "13:00", icon: "🍕", description: "Almoço no parque (ex: Pizzeria Bella Notte)." },
+                { time: "14:30", icon: "🏴‍☠️", description: "Navegar em Adventureland com 'Pirates of the Caribbean'." },
+                { time: "16:00", icon: "🏨", description: "Pausa para descanso no hotel, especialmente para os mais velhos e as crianças." },
+                { time: "18:00", icon: "🎉", description: "Regresso ao parque para a Disney Stars on Parade (verificar horário exato)." },
+                { time: "20:00", icon: "🍽️", description: "Jantar no parque (ex: Plaza Gardens com personagens - reservar com muita antecedência)." },
+                { time: "22:30", icon: "🎇", description: "Assistir ao Show Noturno sobre o Castelo (verificar programação)." }
+            ],
             transport: "<h6>Como Chegar:</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques (se o hotel não for o Disneyland Hotel, que é na entrada).</p>"
         },
         considerations: "Gerir alergia da Clara e seletividade da Beatriz nas refeições (consultar guias de alergia e menus). Usar a app Disneyland Paris para horários de shows, filas e reservas de restaurantes. Comprar Disney Premier Access para atrações populares pode ser útil.",
         alternativePlan: {
             title: "Foco em Walt Disney Studios e Relax",
-            morning: "🎬 Walt Disney Studios Park: Começar por Worlds of Pixar: 'Crush's Coaster' (para os mais aventureiros, fila pode ser longa), 'Ratatouille: The Adventure'. Explorar Toon Studio.",
-            afternoon: "Almoço no Studios (ex: Bistrot Chez Rémy - reservar!). Assistir ao show 'TOGETHER: A Pixar Musical Adventure'. Regresso ao hotel para descanso prolongado ou aproveitar a piscina.",
-            evening: "Jantar mais cedo e informal na Disney Village (ex: Earl of Sandwich, Five Guys). Noite tranquila no hotel, preparando-se para o dia seguinte.",
+            schedule: [
+                { time: "09:30", icon: "🎬", description: "Entrada no Walt Disney Studios Park. Começar por Worlds of Pixar: 'Crush's Coaster' e 'Ratatouille: The Adventure'." },
+                { time: "12:30", icon: "🍴", description: "Almoço no Studios (ex: Bistrot Chez Rémy - reservar!)." },
+                { time: "14:00", icon: "🎭", description: "Assistir ao show 'TOGETHER: A Pixar Musical Adventure'." },
+                { time: "15:30", icon: "🏊", description: "Regresso ao hotel para descanso prolongado ou aproveitar a piscina." },
+                { time: "19:30", icon: "🍔", description: "Jantar mais cedo e informal na Disney Village (ex: Earl of Sandwich, Five Guys)." },
+                { time: "21:00", icon: "🌙", description: "Noite tranquila no hotel, preparando-se para o dia seguinte." }
+            ],
             transport: "<h6>Como Chegar (Alternativa):</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques/Disney Village.</p>",
             notes: "Ideal se o grupo preferir um ritmo mais lento no primeiro dia completo ou se houver grande interesse nas atrações do Walt Disney Studios Park."
         }
@@ -61,17 +79,28 @@ export const itineraryData: ItineraryData = {
         themeIcon: "🎬🦸",
         themeDescription: "Aventura no Walt Disney Studios com super-heróis e regresso aos clássicos do Disneyland Park.",
         mainPlan: {
-            morning: "🎬 Walt Disney Studios Park: Explorar o Avengers Campus: 'Spider-Man W.E.B. Adventure', 'Avengers Assemble: Flight Force'. Fotos com Super-Heróis (verificar app).", 
-            afternoon: "Almoço no Avengers Campus (ex: PYM Kitchen - buffet temático). Regresso ao Disneyland Park. Encontro com Mickey Mouse na Main Street, U.S.A. (verificar app para horários e local exato, pode ser necessário fila virtual). Explorar Frontierland: 'Big Thunder Mountain' (se todos se sentirem aventureiros).", 
-            evening: "Jantar na Disney Village (ex: Billy Bob’s Buffet no La Grange - boa variedade para todos). Lojas na Disney Village.",
+            schedule: [
+                { time: "09:30", icon: "🦸", description: "Entrada no Walt Disney Studios Park. Explorar o Avengers Campus: 'Spider-Man W.E.B. Adventure' e 'Avengers Assemble: Flight Force'." },
+                { time: "11:00", icon: "📸", description: "Fotos com Super-Heróis (verificar app)." },
+                { time: "12:30", icon: "🍽️", description: "Almoço no Avengers Campus (ex: PYM Kitchen - buffet temático)." },
+                { time: "14:30", icon: "🏰", description: "Regresso ao Disneyland Park. Encontro com Mickey Mouse na Main Street, U.S.A. (verificar app)." },
+                { time: "16:00", icon: "🎢", description: "Explorar Frontierland: 'Big Thunder Mountain'." },
+                { time: "19:30", icon: "🌮", description: "Jantar na Disney Village (ex: Billy Bob’s Buffet no La Grange)." },
+                { time: "21:00", icon: "🛍️", description: "Explorar as lojas na Disney Village." }
+            ],
             transport: "<h6>Como Chegar:</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques/Disney Village.</p>"
         },
         considerations: "Verificar horários de shows e encontros com personagens na app. PYM Kitchen é uma experiência divertida, mas pode ser cara; Stark Factory é uma alternativa mais rápida no Avengers Campus.",
         alternativePlan: {
             title: "Dia Clássico no Disneyland Park com Foco em Shows",
-            morning: "🏰 Disneyland Park: Main Street U.S.A. e Frontierland: 'Phantom Manor'. Assistir a um dos shows ao ar livre (ex: The Lion King: Rhythms of the Pride Lands - verificar se está em cartaz e horários).",
-            afternoon: "Almoço no parque (ex: Cowboy Cookout Barbecue). Adventureland: 'Indiana Jones et le Temple du Péril' (para os mais corajosos). Discoveryland: 'Star Tours: The Adventures Continue'.",
-            evening: "Jantar temático no Disneyland Park (ex: Captain Jack's - Restaurant des Pirates, mas CUIDADO EXTREMO com a alergia da Clara, verificar menu e falar com o chef). Aproveitar as atrações com menos fila durante o show noturno (se o grupo já o viu).",
+            schedule: [
+                { time: "09:30", icon: "👻", description: "Disneyland Park: Main Street U.S.A. e Frontierland para visitar 'Phantom Manor'." },
+                { time: "11:00", icon: "🦁", description: "Assistir a um show ao ar livre (ex: The Lion King: Rhythms of the Pride Lands - verificar programação)." },
+                { time: "13:00", icon: "🍖", description: "Almoço no parque (ex: Cowboy Cookout Barbecue)." },
+                { time: "14:30", icon: "🏜️", description: "Adventureland: 'Indiana Jones et le Temple du Péril'." },
+                { time: "16:00", icon: "🌌", description: "Discoveryland: 'Star Tours: The Adventures Continue'." },
+                { time: "19:30", icon: "🏴‍☠️", description: "Jantar temático no Disneyland Park (ex: Captain Jack's - CUIDADO com alergias!)." }
+            ],
             transport: "<h6>Como Chegar (Alternativa):</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques.</p>",
             notes: "Para quem prefere a atmosfera clássica do Disneyland Park e quer focar-se também nos espetáculos."
         }
@@ -83,17 +112,25 @@ export const itineraryData: ItineraryData = {
         themeIcon: "💖🛍️",
         themeDescription: "Últimos momentos mágicos, revendo atrações favoritas e um jantar especial de despedida da Disney.",
         mainPlan: {
-            morning: "✨ Revisitar as atrações favoritas em qualquer um dos parques. Se houver interesse, Encontros com Personagens no Princess Pavilion (para Valentina/Clara - usar app para verificar disponibilidade de fila virtual ou horários).", 
-            afternoon: "🛍️ Compras de souvenirs de última hora. Desfrutar de um snack temático (ex: Mickey Premium Bar). Última oportunidade para ver a Disney Stars on Parade ou um show específico que o grupo tenha gostado.", 
-            evening: "👑 Jantar especial de despedida da Disney. Sugestões: Auberge de Cendrillon (refeição com Princesas Disney) ou Royal Banquet no Disneyland Hotel (refeição com Reis e Rainhas Disney). Ambas requerem reserva com MUITA antecedência.",
+            schedule: [
+                { time: "Manhã", icon: "💖", description: "Revisitar as atrações favoritas em qualquer um dos parques." },
+                { time: "11:00", icon: "👑", description: "Opcional: Encontro com Personagens no Princess Pavilion (verificar app para fila virtual)." },
+                { time: "Tarde", icon: "🛍️", description: "Compras de souvenirs de última hora e desfrutar de um snack temático." },
+                { time: "17:00", icon: "🎉", description: "Última oportunidade para ver a Disney Stars on Parade." },
+                { time: "20:00", icon: "🥂", description: "Jantar especial de despedida: Auberge de Cendrillon ou Royal Banquet (reservar com MUITA antecedência)." }
+            ],
             transport: "<h6>Como Chegar:</h6><p>🚶‍♀️ A pé dentro do complexo Disney.</p><p>🚌 Shuttles gratuitos do hotel Disney para os parques/Disney Village.</p>"
         },
         considerations: "Reservar jantares com personagens com meses de antecedência. Se o voo de regresso for no dia seguinte cedo, considerar organizar as malas à noite. Late check-out ou depósito de bagagem no hotel podem ser úteis.",
         alternativePlan: {
             title: "Manhã Relaxante, Disney Village e Preparativos",
-            morning: "😴 Manhã mais tranquila, pequeno-almoço sem pressa no hotel. Aproveitar as instalações do hotel (piscina, se houver).",
-            afternoon: "Explorar a Disney Village: World of Disney para compras finais, The LEGO Store. Almoço informal na Disney Village (ex: Annette's Diner para um ambiente anos 50, ou Vapiano para opções italianas).",
-            evening: "Jantar mais cedo e simples na Disney Village. Começar a organizar as malas para a partida de Paris no dia seguinte. Talvez um último gelado ou crepe.",
+            schedule: [
+                { time: "Manhã", icon: "😴", description: "Pequeno-almoço sem pressa e aproveitar as instalações do hotel (piscina, etc.)." },
+                { time: "12:00", icon: "🛍️", description: "Explorar a Disney Village: World of Disney e The LEGO Store." },
+                { time: "13:30", icon: "🍔", description: "Almoço informal na Disney Village (ex: Annette's Diner, Vapiano)." },
+                { time: "Tarde", icon: "🧳", description: "Regresso ao hotel para começar a organizar as malas para a partida para Paris." },
+                { time: "19:00", icon: "🍦", description: "Jantar cedo e simples na Disney Village, talvez um último crepe ou gelado." }
+            ],
             transport: "<h6>Como Chegar (Alternativa):</h6><p>🚌 Shuttles gratuitos do hotel para a Disney Village (se aplicável) ou a pé.</p>",
             notes: "Bom para um dia mais descansado antes da transição para Paris, ou se o grupo já estiver satisfeito com os parques e preferir um ritmo mais leve."
         }
@@ -104,9 +141,13 @@ export const itineraryData: ItineraryData = {
         themeIcon: "👋🏙️",
         themeDescription: "Transição da magia da Disney para o charme parisiense, com instalação e primeiro contacto com a cidade.",
         mainPlan: {
-            morning: "🏰 Manhã: Últimas atividades na Disney (se houver tempo e disposição, talvez uma volta rápida numa atração favorita ou compra de última hora). Check-out do hotel Disney (verificar horário limite).", 
-            afternoon: "Chegada ao Hotel Havane em Paris. Check-in e instalação nos quartos. Tempo para descanso.", 
-            evening: "🚶‍♀️ Passeio de orientação no 9º Arrondissement, perto do hotel. Observar a arquitetura, identificar cafés e lojas locais. Jantar numa brasserie tradicional do bairro para uma primeira experiência parisiense autêntica.",
+            schedule: [
+                { time: "10:00", icon: "🏰", description: "Últimas atividades na Disney ou check-out do hotel." },
+                { time: "12:00", icon: "🚐", description: "Transfer da Disney para o Hotel Havane em Paris." },
+                { time: "14:00", icon: "🏨", description: "Check-in e instalação nos quartos no Hotel Havane. Tempo para descanso." },
+                { time: "18:00", icon: "🚶‍♀️", description: "Passeio de orientação no 9º Arrondissement, perto do hotel." },
+                { time: "20:00", icon: "🍽️", description: "Jantar numa brasserie tradicional do bairro para uma primeira experiência parisiense autêntica." }
+            ],
             transport: `<h6>Como Chegar (Hotel Disney → Hotel Havane, Paris):</h6>
                 <p>🚕 <strong>Opção 1 (Recomendada para conforto):</strong> Transfer privado pré-reservado (van para acomodar o grupo e bagagens). Tempo estimado: ~1h a 1h30, dependendo do trânsito.</p>
                 <p>🚂 <strong>Opção 2 (Transporte Público):</strong></p>
@@ -119,9 +160,11 @@ export const itineraryData: ItineraryData = {
         considerations: "Gerir o cansaço da transição. Comprar bilhetes de metro/passe Navigo Découverte se planeiam usar muito o transporte público em Paris. Verificar o Hotel Havane quanto a ar condicionado e potencial ruído.",
         alternativePlan: {
             title: "Chegada Tranquila e Jantar Próximo ao Hotel",
-            morning: "Check-out do hotel Disney. Transfer direto para o Hotel Havane.",
-            afternoon: "Instalação e descanso prolongado no Hotel Havane. Crianças podem ter um tempo mais calmo (leitura, jogos eletrónicos).",
-            evening: "Jantar num restaurante muito próximo ao hotel, talvez uma pizzaria ou um bistrô com opções simples para agradar a todos, minimizando o esforço no primeiro dia em Paris.",
+            schedule: [
+                { time: "Manhã", icon: "🏰", description: "Check-out do hotel Disney. Transfer direto para o Hotel Havane." },
+                { time: "Tarde", icon: "🛋️", description: "Instalação e descanso prolongado no Hotel Havane." },
+                { time: "19:30", icon: "🍕", description: "Jantar num restaurante muito próximo ao hotel, com opções simples para agradar a todos." }
+            ],
             transport: "<h6>Como Chegar (Alternativa - Hotel Disney → Hotel Havane, Paris):</h6><p>Conforme plano principal.</p>",
             notes: "Prioriza o descanso e uma transição suave, ideal se a manhã na Disney for cansativa ou se o grupo preferir um início mais calmo em Paris."
         }
@@ -132,9 +175,14 @@ export const itineraryData: ItineraryData = {
         themeIcon: "🎨⛪",
         themeDescription: "Explorando o bairro boémio de Montmartre, a arte da Place du Tertre e a majestosa Basílica do Sacré-Cœur.",
         mainPlan: {
-            morning: "🎨 Montmartre: Visitar a Place du Tertre para ver os artistas a trabalhar. Explorar as ruas charmosas. Visita à Basílica do Sacré-Cœur (interior e, para quem quiser, vistas da cúpula - notar que são muitos degraus).",
-            afternoon: "Passeio relaxado por Montmartre, visitando lojas de souvenirs e galerias. Almoço numa crêperie típica do bairro. À tarde, os membros mais idosos do grupo podem regressar ao hotel para descansar, enquanto os outros continuam a explorar ou visitam o Musée de Montmartre.",
-            evening: "Jantar perto do Hotel Havane ou, para uma experiência diferente, explorar as Passages Couverts perto dos Grands Boulevards (ex: Passage des Panoramas, Galerie Vivienne).",
+            schedule: [
+                { time: "10:00", icon: "🚠", description: "Chegada a Montmartre (usar o funicular para subir)." },
+                { time: "10:30", icon: "⛪", description: "Visita à Basílica do Sacré-Cœur (interior e vistas da escadaria)." },
+                { time: "11:30", icon: "🎨", description: "Explorar a Place du Tertre e ver os artistas a trabalhar." },
+                { time: "13:00", icon: "🥞", description: "Almoço numa crêperie típica do bairro." },
+                { time: "14:30", icon: "🖼️", description: "Passeio relaxado, com opção de visitar o Musée de Montmartre. Os mais velhos podem descansar no hotel." },
+                { time: "20:00", icon: "🍽️", description: "Jantar perto do hotel ou explorar as Passages Couverts perto dos Grands Boulevards." }
+            ],
             transport: `<h6>Como Chegar (Hotel Havane → Montmartre/Sacré-Cœur):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                 <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido La Courneuve) até à estação <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas).</p>
@@ -150,9 +198,12 @@ export const itineraryData: ItineraryData = {
         considerations: "Montmartre é uma colina com muitas ruas de paralelepípedos; usar calçado confortável. A Basílica do Sacré-Cœur tem entrada acessível para PMR na lateral. A Place du Tertre pode ser muito movimentada.",
         alternativePlan: {
             title: "Canal Saint-Martin e Parc de la Villette",
-            morning: "🚤 Passeio de barco pelo Canal Saint-Martin (reservar com antecedência com empresas como Canauxrama ou Paris Canal) para ver as eclusas e a atmosfera boémia. Ou, uma caminhada tranquila ao longo das margens do canal.",
-            afternoon: "🌳 Explorar o Parc de la Villette: Visitar a Cité des Sciences et de l'Industrie (especialmente se houver interesse em ciência e tecnologia, bom para as crianças mais velhas e adultos) ou simplesmente desfrutar dos jardins temáticos, áreas de lazer e da arquitetura moderna do parque (Philharmonie de Paris, Géode - verificar se está aberta).",
-            evening: "Jantar num dos restaurantes modernos e animados perto do Canal Saint-Martin (Quai de Valmy/Jemmapes) ou em La Villette.",
+            schedule: [
+                { time: "10:00", icon: "🚤", description: "Passeio de barco pelo Canal Saint-Martin para ver as eclusas e a atmosfera boémia." },
+                { time: "13:00", icon: "🍽️", description: "Almoço perto do canal." },
+                { time: "14:30", icon: "🌳", description: "Explorar o Parc de la Villette: Cité des Sciences et de l'Industrie ou jardins temáticos." },
+                { time: "19:30", icon: "🎶", description: "Jantar num dos restaurantes modernos perto do Canal Saint-Martin ou em La Villette." }
+            ],
             transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Canal Saint-Martin/La Villette):</h6>
                 <p><strong>Para o Canal Saint-Martin (ex: área de République/Jacques Bonsergent):</strong></p>
                 <p>   🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
@@ -171,9 +222,12 @@ export const itineraryData: ItineraryData = {
         themeIcon: "🖼️🌳",
         themeDescription: "Imersão na arte mundialmente famosa do Louvre, seguida de um relaxante passeio pelo histórico Jardin des Tuileries.",
         mainPlan: {
-            morning: "🖼️ <strong>Visita agendada para as 10:30</strong> no Museu do Louvre (essencial chegar um pouco antes!). Foco nas obras-primas: Mona Lisa, Vénus de Milo, Vitória de Samotrácia. Explorar a ala das Antiguidades Egípcias. Papai Marcello: aproveitar os recursos de apoio e rotas calmas disponíveis, se desejar.", 
-            afternoon: "🧺 Almoço: Piquenique no Jardin des Tuileries (comprar iguarias numa boulangerie/fromagerie local) ou num dos cafés do jardim. Passeio pelo Jardin des Tuileries, admirando as esculturas e fontes.", 
-            evening: "🚢 Cruzeiro no Rio Sena ao pôr do sol ou à noite (reservar com antecedência, ex: Bateaux Mouches, Vedettes du Pont Neuf). Ideal para ver os monumentos iluminados de uma perspetiva diferente.",
+            schedule: [
+                { time: "10:30", icon: "🖼️", description: "<strong>Visita agendada ao Museu do Louvre.</strong> Foco nas obras-primas: Mona Lisa, Vénus de Milo, Vitória de Samotrácia e Antiguidades Egípcias." },
+                { time: "13:30", icon: "🧺", description: "Almoço: Piquenique no Jardin des Tuileries ou num café do jardim." },
+                { time: "15:00", icon: "🌳", description: "Passeio pelo Jardin des Tuileries, admirando as esculturas e fontes." },
+                { time: "19:00", icon: "🚢", description: "Cruzeiro no Rio Sena ao pôr do sol ou à noite (reservar com antecedência)." }
+            ],
             transport: `<h6>Como Chegar (Hotel Havane → Museu do Louvre):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                 <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) diretamente até à estação <strong>Palais Royal - Musée du Louvre</strong> (5 paradas, ~10-12 min).</p>
@@ -190,9 +244,12 @@ export const itineraryData: ItineraryData = {
         considerations: "Louvre: Acessibilidade boa. Envolver crianças com 'caça ao tesouro' de obras. Reservar cruzeiro com antecedência, verificando o ponto de partida e acessibilidade do cais.",
         alternativePlan: {
             title: "Musée Rodin, Les Invalides e Bairro Charmoso",
-            morning: "🗿 Musée Rodin: Explorar a coleção de esculturas de Auguste Rodin, incluindo 'O Pensador' e 'O Beijo', dispostas na mansão e nos belos jardins circundantes.",
-            afternoon: "🏨 Les Invalides: Visitar o Musée de l'Armée (Museu do Exército) para ver as coleções de armaduras e história militar, e o Dôme des Invalides, onde se encontra o túmulo de Napoleão Bonaparte. Almoço num café perto de Les Invalides.",
-            evening: "Jantar no charmoso 7º arrondissement, conhecido pelos seus restaurantes elegantes e ambiente tranquilo. Passeio noturno pela Esplanade des Invalides.",
+            schedule: [
+                { time: "10:00", icon: "🗿", description: "Visita ao Musée Rodin e aos seus jardins, para ver 'O Pensador' e 'O Beijo'." },
+                { time: "13:00", icon: "🍽️", description: "Almoço num café perto de Les Invalides." },
+                { time: "14:30", icon: "⚔️", description: "Visita a Les Invalides: Musée de l'Armée e o túmulo de Napoleão Bonaparte." },
+                { time: "20:00", icon: "🥂", description: "Jantar no charmoso 7º arrondissement." }
+            ],
             transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Musée Rodin):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                 <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) até à estação <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas).</p>
@@ -210,9 +267,13 @@ export const itineraryData: ItineraryData = {
         themeIcon: "🐘🖼️📚",
         themeDescription: "Uma jornada pela maravilha da evolução natural, a arte impressionista e o charme intelectual do Quartier Latin.",
         mainPlan: {
-            morning: "🐘 <strong>Visita agendada para as 10:00</strong> na Grande Galerie de l’Évolution (Jardin des Plantes). Explorar a incrível parada de animais e aprender sobre a biodiversidade. Após a visita, um breve passeio pelo Jardin des Plantes.", 
-            afternoon: "Almoço no Quartier Latin. 🖼️ Visita ao Museu d'Orsay (horário a reservar para a tarde). Admirar a vasta coleção de arte impressionista e pós-impressionista, alojada numa magnífica antiga estação de comboios.", 
-            evening: "Jantar no Quartier Latin, explorando as suas ruas animadas e repletas de restaurantes.",
+            schedule: [
+                { time: "10:00", icon: "🐘", description: "<strong>Visita agendada à Grande Galerie de l’Évolution</strong> (Jardin des Plantes). Explorar a incrível parada de animais." },
+                { time: "12:00", icon: "🌿", description: "Breve passeio pelo Jardin des Plantes." },
+                { time: "13:00", icon: "🍽️", description: "Almoço no Quartier Latin." },
+                { time: "15:00", icon: "🖼️", description: "Visita ao Museu d'Orsay para admirar a arte impressionista (reservar horário)." },
+                { time: "19:30", icon: "📚", description: "Jantar no Quartier Latin, explorando as suas ruas animadas." }
+            ],
             transport: `<h6>Como Chegar (Hotel Havane → Grande Galerie de l’Évolution):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                 <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) diretamente até à estação <strong>Place Monge</strong> (9 paradas) ou <strong>Jussieu</strong> (8 paradas). Ambas estão a uma curta caminhada do Jardin des Plantes.</p>
@@ -225,9 +286,13 @@ export const itineraryData: ItineraryData = {
         considerations: "D'Orsay e Grande Galerie de l'Évolution são acessíveis. O Jardin des Plantes é um ótimo local para uma pausa. O Quartier Latin tem ruas de paralelepípedos.",
         alternativePlan: {
             title: "Île de la Cité, Sainte-Chapelle e Cruzeiro",
-            morning: "⛪ Sainte-Chapelle (reservar bilhetes com antecedência!): Maravilhar-se com os deslumbrantes vitrais góticos. Visitar a Conciergerie (exterior ou visita completa).",
-            afternoon: "💐 Passeio pela Île de la Cité: Ver a Catedral de Notre-Dame (exterior). Visitar o Marché aux Fleurs Reine Elizabeth II. Atravessar a Pont Neuf. Almoço na Île de la Cité.",
-            evening: "🚢 Cruzeiro no Sena ao pôr do sol. Jantar perto da Île de la Cité ou no Quartier Latin.",
+            schedule: [
+                { time: "10:00", icon: "✨", description: "Visita à Sainte-Chapelle para se maravilhar com os vitrais (reservar bilhetes!)." },
+                { time: "11:30", icon: "⚖️", description: "Visitar a Conciergerie (exterior ou visita completa)." },
+                { time: "13:00", icon: "🍽️", description: "Almoço na Île de la Cité." },
+                { time: "14:30", icon: "💐", description: "Passeio pela ilha: ver a Notre-Dame (exterior) e o Marché aux Fleurs." },
+                { time: "18:00", icon: "🚢", description: "Cruzeiro no Sena ao pôr do sol." }
+            ],
             transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Sainte-Chapelle/Île de la Cité):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                 <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) até à estação <strong>Châtelet</strong> (6 paradas).</p>
@@ -241,8 +306,14 @@ export const itineraryData: ItineraryData = {
         themeIcon: "👑🌳",
         themeDescription: "Uma imersão na opulência do Palácio de Versalhes e na vastidão dos seus jardins históricos.",
         mainPlan: {
-            fullDay: "👑 Palácio de Versalhes e Jardins: Manhã: Chegada a Versalhes. Explorar os vastos Jardins à la française (desenhados por Le Nôtre), utilizando o pequeno comboio ou alugando um carrinho de golfe (útil para maior conforto). Visitar o Domínio de Maria Antonieta (Petit Trianon, Grand Trianon e Hameau de la Reine). Almoço: Opções incluem o restaurante La Flottille no Grand Canal, Angelina no Palácio, ou fazer um piquenique nos jardins (em áreas designadas). Tarde: <strong>Visita agendada para as 14:00</strong> ao Palácio de Versalhes. Explorar os Grandes Apartamentos do Rei e da Rainha, e a deslumbrante Galeria dos Espelhos.", 
-            evening: "Regresso a Paris. Jantar relaxado perto do Hotel Havane, talvez experimentando um restaurante local diferente.",
+            schedule: [
+                { time: "09:30", icon: "🚂", description: "Viagem de Paris para Versalhes." },
+                { time: "10:30", icon: "🌳", description: "Chegada a Versalhes. Explorar os Jardins, o Domínio de Maria Antonieta (Petit Trianon, Grand Trianon, Hameau de la Reine)." },
+                { time: "12:30", icon: "🍽️", description: "Almoço nos jardins (La Flottille, Angelina, ou piquenique)." },
+                { time: "14:00", icon: "👑", description: "<strong>Visita agendada ao Palácio de Versalhes.</strong> Explorar os Grandes Apartamentos e a Galeria dos Espelhos." },
+                { time: "17:30", icon: "🚂", description: "Início da viagem de regresso a Paris." },
+                { time: "19:30", icon: "🍴", description: "Jantar relaxado perto do Hotel Havane." }
+            ],
             transport: `<h6>Como Chegar (Hotel Havane → Palácio de Versalhes):</h6>
                 <p><strong>Opção 1 (RER C - Clássica):</strong></p>
                 <p>   🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
@@ -263,7 +334,13 @@ export const itineraryData: ItineraryData = {
         considerations: "Dia longo e potencialmente cansativo. Usar calçado muito confortável. Reservar bilhetes e transporte interno (carrinho de golfe) com antecedência. Carrinhos de golfe, incluindo modelos acessíveis, são recomendados para explorar os jardins confortavelmente. Verificar horários dos espetáculos das Fontes Musicais ou Jardins Musicais, se estiverem a decorrer e quiserem assistir (requer bilhete específico).",
         alternativePlan: {
             title: "Castelo de Fontainebleau e Floresta",
-            fullDay: "🏰 Visita ao Château de Fontainebleau: Um dos maiores castelos reais franceses, com mais de 1500 divisões, testemunha de séculos de história francesa. Menos lotado que Versalhes, oferece uma experiência igualmente grandiosa. Passeio pelos seus pátios e jardins. Se o tempo e a disposição permitirem, um breve passeio pela vasta Floresta de Fontainebleau adjacente (ideal para amantes da nature e caminhadas).",
+            schedule: [
+                { time: "Manhã", icon: "🚂", description: "Viagem de Paris (Gare de Lyon) para Fontainebleau-Avon." },
+                { time: "10:30", icon: "🏰", description: "Visita ao Château de Fontainebleau, explorando a sua rica história e arquitetura." },
+                { time: "13:00", icon: "🍽️", description: "Almoço em Fontainebleau." },
+                { time: "14:30", icon: "🌲", description: "Passeio pelos jardins do castelo ou uma breve incursão na Floresta de Fontainebleau." },
+                { time: "17:00", icon: "🚂", description: "Regresso a Paris." }
+            ],
             transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Château de Fontainebleau):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                 <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) até à estação <strong>Gare de Lyon</strong> (10 paradas, ~15-20 min).</p>
@@ -278,9 +355,13 @@ export const itineraryData: ItineraryData = {
         themeIcon: "🏛️🍰",
         themeDescription: "Um dia de requinte, explorando uma mansão histórica e sua arte, com pausas para delícias parisienses.",
         mainPlan: {
-            morning: "Manhã livre para explorar a área dos Grands Boulevards ou fazer compras nas Galeries Lafayette / Printemps. Outra opção é um passeio relaxante no Parc Monceau, próximo à área da tarde.",
-            afternoon: "Almoço na área da Opéra ou perto do Parc Monceau. 🏛️ <strong>Visita agendada para as 15:00</strong> ao Musée Jacquemart-André. Explore a magnífica mansão do século XIX e a sua coleção de arte, seguido por um chá da tarde opcional no elegante Café Jacquemart-André.",
-            evening: "Jantar (casual, ex: Özlem Kebab – verificar adequação, ou outra opção dependendo da área da atividade da tarde).",
+            schedule: [
+                { time: "Manhã", icon: "🛍️", description: "Manhã livre para explorar os Grands Boulevards, fazer compras nas Galeries Lafayette ou passear no Parc Monceau." },
+                { time: "13:00", icon: "🍽️", description: "Almoço na área da Opéra ou perto do Parc Monceau." },
+                { time: "15:00", icon: "🏛️", description: "<strong>Visita agendada ao Musée Jacquemart-André.</strong> Explorar a mansão e sua coleção de arte." },
+                { time: "16:30", icon: "☕", description: "Opcional: Chá da tarde no elegante Café Jacquemart-André." },
+                { time: "20:00", icon: "🍴", description: "Jantar na zona." }
+            ],
             transport: `<h6>Como Chegar (Hotel Havane → Musée Jacquemart-André):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                 <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas).</p>
@@ -293,9 +374,12 @@ export const itineraryData: ItineraryData = {
         considerations: "Musée Jacquemart-André: verificar horários de abertura e se é necessário reservar bilhetes/mesa no café. É um museu mais íntimo e pode ser uma boa pausa dos grandes museus. Parc Monceau é ideal para um momento de tranquilidade.",
         alternativePlan: {
             title: "Jardin d'Acclimatation e Fundação Louis Vuitton",
-            morning: "🎠 Jardin d'Acclimatation: Localizado no Bois de Boulogne, este parque de diversões histórico oferece atrações para todas as idades, desde carrosséis clássicos a pequenas montanhas-russas, um pequeno zoo e áreas de recreio. Ideal para as crianças.",
-            afternoon: "🖼️ Fundação Louis Vuitton (adjacente ao Jardin d'Acclimatation): Para os adultos e Nicole, uma visita a este impressionante edifício de Frank Gehry para apreciar a arquitetura e as exposições de arte contemporânea. Almoço num dos cafés do Jardin d'Acclimatation ou no restaurante da Fundação.",
-            evening: "Jantar no 16º arrondissement (área elegante perto do Bois de Boulogne) ou regressar ao centro de Paris para uma opção mais central.",
+            schedule: [
+                { time: "10:00", icon: "🎠", description: "Manhã no Jardin d'Acclimatation, com atrações para todas as idades." },
+                { time: "13:00", icon: "🍽️", description: "Almoço num dos cafés do Jardin ou no restaurante da Fundação." },
+                { time: "14:30", icon: "🖼️", description: "Visita à Fundação Louis Vuitton para apreciar a arquitetura e a arte contemporânea." },
+                { time: "19:30", icon: "🥂", description: "Jantar no elegante 16º arrondissement ou regressar ao centro." }
+            ],
             transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Jardin d'Acclimatation/Fondation Louis Vuitton):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                 <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Palais Royal - Musée du Louvre</strong> (5 paradas).</p>
@@ -312,9 +396,12 @@ export const itineraryData: ItineraryData = {
         themeIcon: "🎨🍫",
         themeDescription: "Um mergulho na arte moderna do Centre Pompidou, seguido por uma doce aventura no mundo do chocolate.",
         mainPlan: {
-            morning: "🎨 Centre Pompidou: Explorar o Museu Nacional de Arte Moderna (coleções permanentes e temporárias). Apreciar as vistas panorâmicas de Paris a partir do terraço superior. Papai Marcello pode apreciar a estrutura arquitetónica única. A Galeria das Crianças oferece atividades interativas para Valentina e Clara.",
-            afternoon: "🍫 Choco Story Paris (Musée du Chocolat): Mergulhar na história do cacau e do chocolate, ver demonstrações de fabrico e, claro, participar em degustações. Almoço: No Le Georges (restaurante no topo do Centre Pompidou, com vistas) ou num dos muitos cafés e bistrôs no charmoso bairro do Marais, nas proximidades.",
-            evening: "Jantar no Le Marais, aproveitando a atmosfera vibrante do bairro, com as suas ruas históricas, boutiques e galerias.",
+            schedule: [
+                { time: "10:30", icon: "🎨", description: "Visita ao Centre Pompidou: Museu Nacional de Arte Moderna e vistas panorâmicas de Paris." },
+                { time: "13:00", icon: "🍽️", description: "Almoço no Le Georges (topo do Pompidou) ou num bistrô no bairro do Marais." },
+                { time: "15:00", icon: "🍫", description: "Visita ao Choco Story Paris (Musée du Chocolat), com demonstrações e degustações." },
+                { time: "19:30", icon: "🍷", description: "Jantar no Le Marais, aproveitando a atmosfera vibrante do bairro." }
+            ],
             transport: `<h6>Como Chegar (Hotel Havane → Centre Pompidou):</h6>
                  <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                  <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) até à estação <strong>Châtelet</strong> (6 paradas, ~10-12 min).</p>
@@ -329,9 +416,12 @@ export const itineraryData: ItineraryData = {
         considerations: "Centre Pompidou: acessível, verificar exposições temporárias. Choco Story: divertido para todas as idades, workshops podem necessitar de reserva. Le Marais é excelente para passear à noite.",
         alternativePlan: {
             title: "Musée de l'Orangerie, Cruzeiro e Saint-Germain",
-            morning: "🖼️ Musée de l'Orangerie: Contemplar os painéis monumentais dos Nenúfares de Monet, uma experiência imersiva e serena. Explorar também a coleção Jean Walter e Paul Guillaume no piso inferior.",
-            afternoon: "🧺 Piquenique no Jardin des Tuileries, adjacente ao museu. 🚢 Se ainda não fizeram um cruzeiro no Sena, ou se quiserem uma experiência diferente (ex: ao pôr do sol, ou com uma empresa diferente como Vedettes du Pont Neuf para um barco mais pequeno), esta é uma boa oportunidade.",
-            evening: "Jantar no elegante bairro de Saint-Germain-des-Prés, conhecido pelos seus cafés literários (Les Deux Magots, Café de Flore - talvez apenas para uma bebida e observar o ambiente) e restaurantes sofisticados.",
+            schedule: [
+                { time: "10:00", icon: "🌸", description: "Contemplar os Nenúfares de Monet no Musée de l'Orangerie." },
+                { time: "12:30", icon: "🧺", description: "Piquenique ou almoço no Jardin des Tuileries." },
+                { time: "15:00", icon: "🚢", description: "Cruzeiro no Sena (se ainda não tiver sido feito) ou um passeio de barco diferente." },
+                { time: "20:00", icon: "☕", description: "Jantar no elegante bairro de Saint-Germain-des-Prés, visitando cafés como Les Deux Magots ou Café de Flore." }
+            ],
             transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Musée de l'Orangerie):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                 <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) até à estação <strong>Concorde</strong> (5 paradas, ~10 min).</p>
@@ -348,9 +438,13 @@ export const itineraryData: ItineraryData = {
         themeIcon: "🗼👗",
         themeDescription: "Um dia icónico, subindo à Torre Eiffel, visitando o templo da moda e passeando pela glamorosa Champs-Élysées.",
         mainPlan: {
-            morning: "🗼 Torre Eiffel (bilhetes para o 1º e 2º andares pré-reservados para um horário específico!): Subir para apreciar as vistas panorâmicas de Paris. Tempo para fotos e explorar os diferentes níveis.",
-            afternoon: "🍽️ Almoço na Madame Brasserie (1º andar da Torre Eiffel - reserva essencial!). Após o almoço, um breve passeio. 👗 <strong>Visita agendada para as 15:30</strong> à Galerie Dior (próximo aos Champs-Élysées, na Avenue Montaigne). Após a visita, continuar o passeio pela Avenue des Champs-Élysées até ao Arco do Triunfo (subida opcional para vistas).",
-            evening: "🥂 Jantar especial: Le Fouquet's nos Champs-Élysées para uma experiência parisiense clássica e luxuosa (Vovó Lúcia irá adorar). Requer reserva antecipada.",
+            schedule: [
+                { time: "Manhã", icon: "🗼", description: "Visita à Torre Eiffel (bilhetes pré-reservados para 1º/2º andares) para vistas panorâmicas." },
+                { time: "13:00", icon: "🍽️", description: "Almoço na Madame Brasserie (1º andar da Torre Eiffel - reserva essencial!)." },
+                { time: "15:30", icon: "👗", description: "<strong>Visita agendada à Galerie Dior</strong> na Avenue Montaigne." },
+                { time: "17:00", icon: "🚶‍♀️", description: "Passeio pela Avenue des Champs-Élysées até ao Arco do Triunfo (subida opcional)." },
+                { time: "20:00", icon: "🥂", description: "Jantar especial no Le Fouquet's nos Champs-Élysées (reserva essencial)." }
+            ],
             transport: `<h6>Como Chegar (Hotel Havane → Torre Eiffel):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                 <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Opéra</strong> (3 paradas).</p>
@@ -366,9 +460,13 @@ export const itineraryData: ItineraryData = {
         considerations: "Torre Eiffel: Cimeira não acessível para PMR. Madame Brasserie, Galerie Dior e Le Fouquet's: reservar com MUITA antecedência e informar sobre necessidades alimentares. O Arco do Triunfo tem elevador para acesso assistido.",
         alternativePlan: {
             title: "Palais Garnier, Grands Magasins e Passagens Cobertas",
-            morning: "🎭 Visita guiada (ou áudio-guia) à Opéra Garnier (Palais Garnier): Explorar o interior deslumbrante, incluindo a grande escadaria, o auditório (se não houver ensaios) e os salões opulentos. Uma joia da arquitetura do Segundo Império.",
-            afternoon: "🛍️ Compras ou simples 'lèche-vitrines' (ver montras) nas Galeries Lafayette e Printemps Haussmann. Subir aos terraços panorâmicos de ambos os armazéns para vistas gratuitas de Paris, incluindo a Opéra e a Torre Eiffel. Almoço numa das muitas opções de restauração dentro dos grandes armazéns.",
-            evening: "Explorar as históricas Passages Couverts de Paris (ex: Galerie Vivienne, Passage des Panoramas, Passage Jouffroy) perto dos Grands Boulevards, com as suas lojas encantadoras e atmosfera de outrora. Jantar num restaurante tradicional numa das passagens ou na área da Opéra/Grands Boulevards (ex: Bouillon Chartier, se ainda não foram).",
+            schedule: [
+                { time: "10:00", icon: "🎭", description: "Visita (guiada ou com áudio-guia) ao interior deslumbrante da Opéra Garnier." },
+                { time: "13:00", icon: "🍽️", description: "Almoço numa das muitas opções dentro das Galeries Lafayette ou Printemps." },
+                { time: "14:30", icon: "🛍️", description: "Tarde de compras ou 'lèche-vitrines' nos Grands Magasins. Subir aos terraços para vistas gratuitas." },
+                { time: "18:00", icon: "🚶‍♂️", description: "Explorar as históricas Passages Couverts de Paris (Galerie Vivienne, Passage des Panoramas)." },
+                { time: "20:00", icon: "🍲", description: "Jantar num restaurante tradicional numa das passagens ou na área (ex: Bouillon Chartier)." }
+            ],
             transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Opéra Garnier):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                 <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry ou Villejuif) diretamente até à estação <strong>Opéra</strong> (3 paradas, ~5-7 min).</p>
@@ -384,12 +482,14 @@ export const itineraryData: ItineraryData = {
         themeIcon: "🗺️🤔",
         themeDescription: "Um dia flexível para explorar os arredores de Paris (Giverny/Chartres) ou desfrutar de um ritmo mais relaxado na cidade.",
         mainPlan: {
-            fullDay: `
-                <p><strong>Opção 1: 🌸 Giverny (Casa e Jardins de Monet)</strong> - Mergulhe no mundo impressionista de Claude Monet, visitando a sua casa colorida e os famosos jardins de nenúfares e a ponte japonesa que inspiraram tantas das suas obras-primas.</p>
-                <p><strong>Opção 2: ⛪ Catedral de Chartres</strong> - Faça uma viagem a uma das mais belas catedrais góticas da Europa, famosa pelos seus vitrais medievais incrivelmente preservados e pela sua arquitetura imponente.</p>
-                <p><strong>Opção 3: 🌳 Paris Relaxado</strong> - Desfrute de um dia mais tranquilo em Paris: um longo passeio pelo Jardin du Luxembourg (com os seus barcos à vela, marionetas e ambiente familiar), seguido de uma visita ao divertido e interativo Paradox Museum, que irá encantar todas as idades com as suas ilusões de ótica.</p>
-            `,
-            evening: "Jantar temático relacionado com a escolha do dia (ex: cozinha normanda se foram a Giverny) ou um restaurante favorito da família em Paris.",
+            schedule: [
+                { time: "Dia Inteiro", icon: "🤔", description: `
+                    <p class='mb-2'><strong>Opção 1: 🌸 Giverny (Casa e Jardins de Monet)</strong> - Mergulhe no mundo impressionista de Claude Monet, visitando a sua casa colorida e os famosos jardins de nenúfares.</p>
+                    <p class='mb-2'><strong>Opção 2: ⛪ Catedral de Chartres</strong> - Faça uma viagem a uma das mais belas catedrais góticas da Europa, famosa pelos seus vitrais medievais.</p>
+                    <p><strong>Opção 3: 🌳 Paris Relaxado</strong> - Desfrute de um dia mais tranquilo: passeio pelo Jardin du Luxembourg, seguido de uma visita ao divertido Paradox Museum.</p>
+                `},
+                { time: "Noite", icon: "🍽️", description: "Jantar temático relacionado com a escolha do dia ou um restaurante favorito da família em Paris."}
+            ],
             transport: `<h6>Transporte para Giverny (Opção 1):</h6>
                 <p>1. 🚶‍♀️ Hotel Havane → Gare Saint-Lazare:</p>
                 <p>   🚇 Metro Cadet (Linha 7, sentido La Courneuve) até <strong>Opéra</strong> (3 paradas). Mudar para <strong>Linha 3</strong> (sentido Pont de Levallois) ou <strong>Linha 14</strong> (sentido Saint-Denis Pleyel) ou <strong>Linha 12</strong> (sentido Mairie d'Issy) até <strong>Saint-Lazare</strong> (1-2 paradas).</p>
@@ -407,9 +507,13 @@ export const itineraryData: ItineraryData = {
         considerations: "Escolher com base na energia e interesse da família. Giverny: Casa não acessível para PMR, jardins parcialmente; verificar acessibilidade do shuttle. Chartres: Catedral acessível (rés-do-chão). Paris Relaxado é uma opção de baixo stress.",
         alternativePlan: {
             title: "Exploração Aprofundada do Marais e Place des Vosges",
-            morning: "🛍️ Manhã no Marais: Começar pela Place des Vosges, uma das praças mais antigas e charmosas de Paris. Visitar as galerias de arte e lojas sob as arcadas. Explorar as ruas históricas como a Rue des Francs-Bourgeois e a Rue des Rosiers (antigo bairro judeu).",
-            afternoon: "🖼️ Visita ao Musée Carnavalet - História de Paris (entrada gratuita para coleções permanentes) para aprender mais sobre a cidade. Almoço num dos muitos cafés ou bistrôs do Marais, ou no Marché des Enfants Rouges para uma experiência multicultural.",
-            evening: "Jantar no Marais, talvez experimentando um restaurante com um pátio interior ou um ambiente mais íntimo.",
+            schedule: [
+                { time: "10:00", icon: "🏞️", description: "Começar o dia na Place des Vosges, explorando as galerias e lojas." },
+                { time: "11:30", icon: "🚶‍♀️", description: "Passeio pelas ruas históricas do Marais, como a Rue des Francs-Bourgeois e a Rue des Rosiers." },
+                { time: "13:00", icon: "🍲", description: "Almoço no multicultural Marché des Enfants Rouges." },
+                { time: "15:00", icon: "🏛️", description: "Visita ao Musée Carnavalet - História de Paris (entrada gratuita para coleções permanentes)." },
+                { time: "20:00", icon: "🍷", description: "Jantar no Marais." }
+            ],
             transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Le Marais / Place des Vosges):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                 <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Châtelet</strong> (6 paradas).</p>
@@ -426,9 +530,12 @@ export const itineraryData: ItineraryData = {
         themeIcon: "🎨👋",
         themeDescription: "Um dia de arte contemporânea, seguido de momentos especiais de despedida e o charme do Marais.",
         mainPlan: {
-            morning: "🌆 Centre Pompidou: Visita à coleção permanente de arte moderna e contemporânea. Explorar a área infantil interativa no mezzanino (ideal para Valentina). Subir ao terraço para vistas panorâmicas de Paris.",
-            afternoon: "🎨 Musée Picasso Paris (Marais): Imersão na obra de Pablo Picasso, com pinturas, esculturas e cadernos. 🍦Lanche de despedida com Clara no Marais (Sugestões: Ladurée para macarons ou Glace Bachir para sorvete libanês, com opções sem lactose para Helda).",
-            evening: "🎈 Tempo livre para fotos, afeto e um último passeio pelo Marais com Clara antes da sua partida para a programação separada. O resto da família pode desfrutar de um jantar no Marais ou regressar perto do hotel.",
+            schedule: [
+                { time: "11:00", icon: "🎨", description: "Visita ao Centre Pompidou: coleção permanente e vistas do terraço." },
+                { time: "14:00", icon: "🖼️", description: "Visita ao Musée Picasso Paris no Marais." },
+                { time: "16:00", icon: "🍦", description: "Lanche de despedida com Clara no Marais (Ladurée, Glace Bachir, etc.)." },
+                { time: "Tarde/Noite", icon: "🎈", description: "Tempo livre para fotos e um último passeio pelo Marais com Clara. O resto da família janta no bairro." }
+            ],
             transport: `<h6>Como Chegar (Hotel Havane → Centre Pompidou):</h6>
                 <p>🚶‍♀️ Caminhe até a estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                 <p>🚇 Pegue a <strong>Linha 7</strong> (sentido Villejuif - Louis Aragon ou Mairie d'Ivry) até a estação <strong>Châtelet</strong> (~6 paradas, 10-12 min).</p>
@@ -444,9 +551,12 @@ export const itineraryData: ItineraryData = {
         considerations: "Centre Pompidou: Aberto das 11h às 21h (fecha às terças). Musée Picasso: Aberto das 9h30 às 18h (fecha às segundas). Confirmar horários, pois podem variar. Glace Bachir é uma excelente opção para quem tem intolerância à lactose.",
         alternativePlan: {
             title: "Marché des Enfants Rouges, Place des Vosges e Compras no Marais",
-            morning: "🛍️ Visita ao Marché des Enfants Rouges (o mercado coberto mais antigo de Paris, no Marais): Explorar as bancas de comida de todo o mundo, produtos frescos e flores. Ótimo para um almoço informal e multicultural.",
-            afternoon: "🌳 Passeio pela Place des Vosges (uma das praças mais antigas e bonitas de Paris). Visitar as galerias de arte e lojas sob as arcadas. Tempo para compras no Marais, focando nas boutiques independentes e lojas de design que a Nicole poderá apreciar.",
-            evening: "Jantar de despedida em família (sem Clara, que tem a sua programação) num restaurante charmoso do Marais.",
+            schedule: [
+                { time: "11:00", icon: "市場", description: "Visita ao Marché des Enfants Rouges para explorar e almoçar." },
+                { time: "14:00", icon: "🏞️", description: "Passeio pela Place des Vosges e suas galerias de arte." },
+                { time: "15:30", icon: "🛍️", description: "Tarde de compras no Marais, focando nas boutiques independentes." },
+                { time: "20:00", icon: "🍽️", description: "Jantar de despedida em família (sem Clara) num restaurante charmoso do Marais." }
+            ],
             transport: `<h6>Como Chegar (Alternativa - Hotel Havane → Marché des Enfants Rouges/Marais):</h6>
                 <p>🚶‍♀️ Caminhe até à estação <strong>Cadet</strong> (Linha 7) (~2 min).</p>
                 <p>🚇 Apanhe a <strong>Linha 7</strong> (sentido Mairie d'Ivry/Villejuif) até <strong>Chaussée d'Antin - La Fayette</strong> (2 paradas).</p>
@@ -465,9 +575,11 @@ export const itineraryData: ItineraryData = {
         themeIcon: "✈️🇧🇷",
         themeDescription: "Despedida de Paris e preparativos para a viagem de regresso ao Brasil.",
         mainPlan: {
-            morning: "🥐 Pequeno-almoço tranquilo no hotel ou numa boulangerie próxima. Últimas arrumações das malas. Check-out do Hotel Havane (verificar horário limite).",
-            afternoon: "✈️ Translado ao Aeroporto Charles de Gaulle (CDG). Recomenda-se sair do hotel com pelo menos 3h30 a 4h de antecedência em relação ao horário do voo, considerando o check-in, segurança e potencial trânsito.",
-            evening: "(Viagem de regresso ao Brasil)",
+            schedule: [
+                { time: "Manhã", icon: "🥐", description: "Pequeno-almoço tranquilo e últimas arrumações das malas." },
+                { time: "11:00", icon: "🧳", description: "Check-out do Hotel Havane." },
+                { time: "Tarde", icon: "✈️", description: "Translado para o Aeroporto Charles de Gaulle (CDG) com bastante antecedência." }
+            ],
             transport: `<h6>Como Chegar (Hotel Havane → Aeroporto Charles de Gaulle - CDG):</h6>
                 <p>🚕 <strong>Opção 1 (Recomendada para conforto e grupo):</strong> Transfer privado pré-reservado (van). Tempo estimado: ~45-75 min, dependendo do trânsito.</p>
                 <p>🚕 <strong>Opção 2 (Táxi):</strong> Pedir na receção do hotel ou usar uma app. Podem ser necessários dois táxis para o grupo e bagagens. Tempo estimado similar ao transfer privado.</p>
