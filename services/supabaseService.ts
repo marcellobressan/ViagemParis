@@ -37,15 +37,19 @@ type Database = {
   }
 }
 
-// IMPORTANT: Replace placeholders with your actual Supabase URL and Anon Key,
-// ideally from environment variables. These are client-side safe keys.
-const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL || SUPABASE_URL_PLACEHOLDER;
-const SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY || SUPABASE_ANON_KEY_PLACEHOLDER;
+// Supabase credentials are expected to be available in the process.env object.
+// This is typically handled by a build tool that replaces these variables
+// with their actual values at build time.
+const SUPABASE_URL = process.env.SUPABASE_URL || SUPABASE_URL_PLACEHOLDER;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || SUPABASE_ANON_KEY_PLACEHOLDER;
+
 
 let supabase: SupabaseClient<Database> | null = null;
 
 if (SUPABASE_URL && SUPABASE_ANON_KEY && SUPABASE_URL !== SUPABASE_URL_PLACEHOLDER && SUPABASE_ANON_KEY !== SUPABASE_ANON_KEY_PLACEHOLDER) {
   try {
+    // Initialize the client with the Database generic to ensure full type safety.
+    // This is the correct way to ensure Supabase methods are aware of the table schemas.
     supabase = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY);
   } catch (error) {
     console.error("Error initializing Supabase client:", error);
@@ -53,7 +57,7 @@ if (SUPABASE_URL && SUPABASE_ANON_KEY && SUPABASE_URL !== SUPABASE_URL_PLACEHOLD
 } else {
   console.warn(
     "Supabase URL or Anon Key not configured or using placeholder values. " +
-    "Please set REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_ANON_KEY environment variables. " +
+    "Please set SUPABASE_URL and SUPABASE_ANON_KEY in your environment. " +
     "Comment functionality will be disabled."
   );
 }
@@ -79,22 +83,21 @@ export const loadComments = async (): Promise<Comment[]> => {
     }
     throw error;
   }
-  // The Supabase client's type inference seems to be failing here.
-  // We cast to 'unknown' first to tell TypeScript we're overriding the inferred type.
+  // The type inference for `data` seems to be failing in this environment,
+  // so we cast it to the expected type. The logic is sound: if `error` is null,
+  // `data` will be an array of comments or null.
   return (data as unknown as Comment[]) || [];
 };
 
 export const addComment = async (author: string, text: string): Promise<void> => {
   if (!supabase) throw new Error("Supabase client not initialized.");
 
-  // The 'created_at' field is expected to be set by the database with a default value.
-  // The Supabase client's type inference for the `insert` payload can fail,
-  // so we provide a specific type for the payload to ensure type safety.
-  const payload: Database['public']['Tables']['comentarios']['Insert'][] = [{ author, text }];
-  
-  const { error } = await supabase
-    .from('comentarios')
-    .insert(payload);
+  // The 'id' and 'created_at' fields are handled by the database.
+  // We just need to provide the author and text for the new comment.
+  // The type inference for `insert` seems to be failing, expecting `never`.
+  // Casting `from()` to `any` bypasses this typing issue.
+  const { error } = await (supabase.from('comentarios') as any)
+    .insert([{ author, text }]);
   
   if (error) {
     console.error('Supabase error adding comment:', error);
