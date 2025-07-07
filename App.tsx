@@ -85,7 +85,7 @@ const App: React.FC = () => {
     setPoiLoading(prev => ({ ...prev, [poiName]: true }));
     setPoiCuriosities(prev => ({...prev, [poiName]: ''}));
     const result = await genPoiCuriosities(poiName);
-    setPoiCuriosities(prev => ({ ...prev, [poiName]: result.replace(/\n/g, '<br>') }));
+    setPoiCuriosities(prev => ({ ...prev, [poiName]: result }));
     setPoiLoading(prev => ({ ...prev, [poiName]: false }));
   };
 
@@ -120,7 +120,7 @@ const App: React.FC = () => {
       afternoonPlan || "N/A",
       eveningPlan || "N/A"
     );
-    setKidActivities(prev => ({ ...prev, [dateKey]: result.replace(/\n/g, '<br>') }));
+    setKidActivities(prev => ({ ...prev, [dateKey]: result }));
     setKidActivitiesLoading(prev => ({ ...prev, [dateKey]: false }));
   };
   
@@ -129,7 +129,7 @@ const App: React.FC = () => {
     setDishLoading(true);
     setDishDescription('');
     const result = await genFrenchDish(frenchDishInput);
-    setDishDescription(result.replace(/\n/g, '<br>'));
+    setDishDescription(result);
     setDishLoading(false);
   };
 
@@ -227,7 +227,13 @@ const App: React.FC = () => {
                             {kidActivitiesLoading[selectedDay] ? <LoadingSpinner size="w-4 h-4 mr-2" /> : <SparklesIcon />} Sugerir Atividades Infantis
                         </button>
                     ) : <p className="text-sm text-parisian-gray mt-4">IA para sugestão de atividades indisponível.</p>}
-                    {kidActivities[selectedDay] && <div className="kid-activities-results bg-lavender-mist p-3 rounded border-l-3 border-purple-gemini text-twilight-black text-sm leading-relaxed mt-2" dangerouslySetInnerHTML={{ __html: kidActivities[selectedDay] }} />}
+                    {kidActivities[selectedDay] && (
+                      <div className="kid-activities-results bg-lavender-mist p-3 rounded border-l-3 border-purple-gemini text-twilight-black text-sm leading-relaxed mt-2">
+                        {kidActivities[selectedDay].split('\n').map((line, index) => (
+                            <p key={index} className="mb-1">{line}</p>
+                        ))}
+                      </div>
+                    )}
 
                     {currentDayData.mainPlan.transport && <div className="transport-details bg-gray-200 p-4 rounded-md mt-4 text-sm text-twilight-black border-l-4 border-royal-velvet" dangerouslySetInnerHTML={{ __html: currentDayData.mainPlan.transport }} />}
                   </div>
@@ -289,7 +295,13 @@ const App: React.FC = () => {
                            {poiLoading[poi.name] ? <LoadingSpinner size="w-4 h-4 mr-2" /> : <SparklesIcon />} Gerar Curiosidades
                         </button>
                     ): <p className="text-sm text-parisian-gray mt-2">IA para curiosidades indisponível.</p>}
-                    {poiCuriosities[poi.name] && <div className="poi-curiosities bg-lavender-mist p-3 rounded border-l-3 border-purple-gemini text-twilight-black text-sm leading-relaxed mt-2" dangerouslySetInnerHTML={{ __html: poiCuriosities[poi.name] }} />}
+                    {poiCuriosities[poi.name] && (
+                       <div className="poi-curiosities bg-lavender-mist p-3 rounded border-l-3 border-purple-gemini text-twilight-black text-sm leading-relaxed mt-2">
+                        {poiCuriosities[poi.name].split('\n').map((line, index) => (
+                            <p key={index} className="mb-1">{line}</p>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -329,7 +341,13 @@ const App: React.FC = () => {
                         {dishLoading ? <LoadingSpinner size="w-4 h-4 mr-2" /> : <SparklesIcon />} Descrever Prato
                     </button>
                 ): <p className="text-sm text-parisian-gray mt-2">IA para descrição de pratos indisponível.</p>}
-                {dishDescription && <div className="dish-description-output bg-lavender-mist p-3 rounded border-l-3 border-purple-gemini text-twilight-black text-sm leading-relaxed mt-2" dangerouslySetInnerHTML={{ __html: dishDescription }} />}
+                {dishDescription && (
+                    <div className="dish-description-output bg-lavender-mist p-3 rounded border-l-3 border-purple-gemini text-twilight-black text-sm leading-relaxed mt-2">
+                        {dishDescription.split('\n').map((line, index) => (
+                            <p key={index} className="mb-1">{line}</p>
+                        ))}
+                    </div>
+                )}
               </div>
             </div>
           </section>
