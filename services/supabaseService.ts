@@ -1,6 +1,5 @@
 
-import { createClient } from '@supabase/supabase-js';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { Comment } from '../types';
 import { SUPABASE_URL_PLACEHOLDER, SUPABASE_ANON_KEY_PLACEHOLDER } from '../constants.tsx';
 
@@ -80,21 +79,25 @@ export const loadComments = async (): Promise<Comment[]> => {
     }
     throw error;
   }
-  return data || [];
+  // The Supabase client's type inference seems to be failing here.
+  // We cast to 'unknown' first to tell TypeScript we're overriding the inferred type.
+  return (data as unknown as Comment[]) || [];
 };
 
-export const addComment = async (author: string, text: string): Promise<Comment[]> => {
+export const addComment = async (author: string, text: string): Promise<void> => {
   if (!supabase) throw new Error("Supabase client not initialized.");
 
   // The 'created_at' field is expected to be set by the database with a default value.
-  const { data, error } = await supabase
+  // The Supabase client's type inference for the `insert` payload can fail,
+  // so we provide a specific type for the payload to ensure type safety.
+  const payload: Database['public']['Tables']['comentarios']['Insert'][] = [{ author, text }];
+  
+  const { error } = await supabase
     .from('comentarios')
-    .insert([{ author, text }])
-    .select();
+    .insert(payload);
   
   if (error) {
     console.error('Supabase error adding comment:', error);
     throw error;
   }
-  return data || [];
 };
