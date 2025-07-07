@@ -1,8 +1,11 @@
 
 import React from 'react';
-import { ItineraryData, PointOfInterest, Restaurant, AccordionItemData, NavigationTarget } from './types';
+import type { ItineraryData, PointOfInterest, Restaurant, AccordionItemData } from './types';
+import { NavigationTarget } from './types';
 
-// IMPORTANT: Supabase constants have been moved to constants.ts to resolve module import issues.
+// This file contains all the application's shared constants and data.
+export const SUPABASE_URL_PLACEHOLDER = 'https://ldwxmwezcrgaqqncdxdy.supabase.co';
+export const SUPABASE_ANON_KEY_PLACEHOLDER = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxkd3htd2V6Y3JnYXFxbmNkeGR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwMDIzMDYsImV4cCI6MjA2MzU3ODMwNn0.xDxvmlWt5S61NJQb7KTpn_xIGCH8Sx9ssI6qpl9eMOU';
 
 export const SparklesIcon: React.FC = () => (
   <span role="img" aria-label="sparkles" className="mr-1.5">✨</span>
