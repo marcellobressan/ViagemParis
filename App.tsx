@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { itineraryData, pointsOfInterestData, restaurantData, transportData, usefulTipsData, NAVIGATION_ITEMS, SparklesIcon } from './constants.tsx';
-import { ItineraryData, PointOfInterest, Restaurant, AccordionItemData, Comment, NavigationTarget, ItineraryDay } from './types';
+import type { ItineraryData, PointOfInterest, Restaurant, AccordionItemData, Comment, ItineraryDay } from './types';
+import { NavigationTarget } from './types';
 import AccordionItem from './components/AccordionItem';
 import LoadingSpinner from './components/LoadingSpinner';
 import TripPhaseChart from './components/TripPhaseChart';
