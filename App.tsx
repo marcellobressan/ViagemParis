@@ -189,30 +189,44 @@ const App: React.FC = () => {
                 
                 {currentDayData.mainPlan && (
                   <div>
-                    <h4 className="text-xl font-semibold text-cafe-rouge mt-4 mb-2 border-b border-plum-passion pb-1 text-[1.25rem]">📋 Plano Principal</h4>
-                    <div className="mt-4 space-y-4">
-                      {currentDayData.mainPlan.schedule.map((event, index) => (
-                        <div key={index} className="flex items-start gap-4 p-3 bg-lavender-mist/50 rounded-lg shadow-sm">
-                          <div className="w-28 text-right flex-shrink-0">
-                            <p className="font-bold text-royal-velvet text-lg">{event.time}</p>
-                          </div>
-                          <div className="text-3xl pt-1 flex-shrink-0">{event.icon || '➡️'}</div>
-                          <div className="flex-grow pt-1">
-                            <p dangerouslySetInnerHTML={{ __html: event.description }} />
-                          </div>
+                    <h4 className="text-xl font-semibold text-cafe-rouge mt-4 mb-4 text-[1.25rem]">📋 Plano Principal</h4>
+                    
+                    <div className="mt-6 relative">
+                        {/* The vertical timeline bar, with top/bottom padding to align with markers */}
+                        <div className="absolute left-5 top-5 bottom-5 w-0.5 bg-plum-passion/40" aria-hidden="true"></div>
+
+                        {/* Map through schedule events */}
+                        <div className="space-y-8">
+                            {currentDayData.mainPlan.schedule.map((event, index) => (
+                                <div key={index} className="flex items-start">
+                                    
+                                    {/* Marker circle on the timeline */}
+                                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-cobblestone-beige flex items-center justify-center text-2xl border-2 border-royal-velvet z-10">
+                                        <span>{event.icon || '➡️'}</span>
+                                    </div>
+
+                                    {/* Event details to the right of the timeline */}
+                                    <div className="ml-6 flex-grow"> 
+                                        <div className="p-4 bg-lavender-mist/60 rounded-lg shadow-sm border border-plum-passion/20">
+                                            <p className="font-bold text-royal-velvet mb-1 text-lg">{event.time}</p>
+                                            <p className="text-twilight-black" dangerouslySetInnerHTML={{ __html: event.description }} />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            ))}
                         </div>
-                      ))}
                     </div>
                     
                     {geminiReady ? (
                         <button 
                             onClick={() => handleSuggestKidActivities(selectedDay)} 
                             disabled={kidActivitiesLoading[selectedDay]}
-                            className="gemini-button mt-4 bg-purple-gemini text-white px-3 py-1.5 rounded text-sm hover:bg-purple-gemini-hover disabled:bg-disabled-gray disabled:cursor-not-allowed flex items-center"
+                            className="gemini-button mt-6 bg-purple-gemini text-white px-3 py-1.5 rounded text-sm hover:bg-purple-gemini-hover disabled:bg-disabled-gray disabled:cursor-not-allowed flex items-center"
                         >
                             {kidActivitiesLoading[selectedDay] ? <LoadingSpinner size="w-4 h-4 mr-2" /> : <SparklesIcon />} Sugerir Atividades Infantis
                         </button>
-                    ) : <p className="text-sm text-parisian-gray mt-2">IA para sugestão de atividades indisponível.</p>}
+                    ) : <p className="text-sm text-parisian-gray mt-4">IA para sugestão de atividades indisponível.</p>}
                     {kidActivities[selectedDay] && <div className="kid-activities-results bg-lavender-mist p-3 rounded border-l-3 border-purple-gemini text-twilight-black text-sm leading-relaxed mt-2" dangerouslySetInnerHTML={{ __html: kidActivities[selectedDay] }} />}
 
                     {currentDayData.mainPlan.transport && <div className="transport-details bg-gray-200 p-4 rounded-md mt-4 text-sm text-twilight-black border-l-4 border-royal-velvet" dangerouslySetInnerHTML={{ __html: currentDayData.mainPlan.transport }} />}
