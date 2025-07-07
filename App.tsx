@@ -91,14 +91,33 @@ const App: React.FC = () => {
   const handleSuggestKidActivities = async (dateKey: string) => {
     if (!geminiReady) return;
     const dayData = itineraryData[dateKey];
-    if (!dayData || !dayData.mainPlan) return;
+    if (!dayData || !dayData.mainPlan?.schedule) return;
 
     setKidActivitiesLoading(prev => ({ ...prev, [dateKey]: true }));
     setKidActivities(prev => ({...prev, [dateKey]: ''}));
+
+    const schedule = dayData.mainPlan.schedule;
+    
+    const morningPlan = schedule.filter(e => {
+        const hour = parseInt(e.time.split(':')[0]);
+        return e.time.toLowerCase().includes('manhã') || (!isNaN(hour) && hour < 12);
+    }).map(e => e.description).join('; ');
+
+    const afternoonPlan = schedule.filter(e => {
+        const hour = parseInt(e.time.split(':')[0]);
+        const timeLower = e.time.toLowerCase();
+        return timeLower.includes('tarde') || timeLower.includes('almoço') || (!isNaN(hour) && hour >= 12 && hour < 18);
+    }).map(e => e.description).join('; ');
+    
+    const eveningPlan = schedule.filter(e => {
+        const hour = parseInt(e.time.split(':')[0]);
+        return e.time.toLowerCase().includes('noite') || (!isNaN(hour) && hour >= 18);
+    }).map(e => e.description).join('; ');
+
     const result = await genKidActivities(
-      dayData.mainPlan.morning || "N/A",
-      dayData.mainPlan.afternoon || "N/A",
-      dayData.mainPlan.evening || "N/A"
+      morningPlan || "N/A",
+      afternoonPlan || "N/A",
+      eveningPlan || "N/A"
     );
     setKidActivities(prev => ({ ...prev, [dateKey]: result.replace(/\n/g, '<br>') }));
     setKidActivitiesLoading(prev => ({ ...prev, [dateKey]: false }));
@@ -168,25 +187,27 @@ const App: React.FC = () => {
                 {currentDayData.themeDescription && <p className="text-sm text-parisian-gray italic mb-5 text-[0.95em]">{currentDayData.themeDescription}</p>}
                 
                 {currentDayData.mainPlan && (
-                  <div className="mb-4">
+                  <div>
                     <h4 className="text-xl font-semibold text-cafe-rouge mt-4 mb-2 border-b border-plum-passion pb-1 text-[1.25rem]">📋 Plano Principal</h4>
-                    {currentDayData.mainPlan.fullDay && <div><h5 className="font-semibold text-gray-700 mt-3 mb-1 text-[1.1rem]">Dia Inteiro:</h5><p dangerouslySetInnerHTML={{ __html: currentDayData.mainPlan.fullDay }} /></div>}
-                    {currentDayData.mainPlan.morning_afternoon_options && <div dangerouslySetInnerHTML={{ __html: currentDayData.mainPlan.morning_afternoon_options }} />}
-                    {!currentDayData.mainPlan.fullDay && !currentDayData.mainPlan.morning_afternoon_options && (
-                        <>
-                        {currentDayData.mainPlan.morning && <div><h5 className="font-semibold text-gray-700 mt-3 mb-1 text-[1.1rem]">Manhã ☀️:</h5><p dangerouslySetInnerHTML={{ __html: currentDayData.mainPlan.morning }} /></div>}
-                        {currentDayData.mainPlan.lunch && <div><h5 className="font-semibold text-gray-700 mt-3 mb-1 text-[1.1rem]">Almoço 🍽️:</h5><p dangerouslySetInnerHTML={{ __html: currentDayData.mainPlan.lunch }} /></div>}
-                        {currentDayData.mainPlan.afternoon && <div><h5 className="font-semibold text-gray-700 mt-3 mb-1 text-[1.1rem]">Tarde 🏙️:</h5><p dangerouslySetInnerHTML={{ __html: currentDayData.mainPlan.afternoon }} /></div>}
-                        {currentDayData.mainPlan.tea_time && <div><h5 className="font-semibold text-gray-700 mt-3 mb-1 text-[1.1rem]">Chá da Tarde ☕:</h5><p dangerouslySetInnerHTML={{ __html: currentDayData.mainPlan.tea_time }} /></div>}
-                        </>
-                    )}
-                    {currentDayData.mainPlan.evening && <div><h5 className="font-semibold text-gray-700 mt-3 mb-1 text-[1.1rem]">Noite 🌙:</h5><p dangerouslySetInnerHTML={{ __html: currentDayData.mainPlan.evening }} /></div>}
+                    <div className="mt-4 space-y-4">
+                      {currentDayData.mainPlan.schedule.map((event, index) => (
+                        <div key={index} className="flex items-start gap-4 p-3 bg-lavender-mist/50 rounded-lg shadow-sm">
+                          <div className="w-28 text-right flex-shrink-0">
+                            <p className="font-bold text-royal-velvet text-lg">{event.time}</p>
+                          </div>
+                          <div className="text-3xl pt-1 flex-shrink-0">{event.icon || '➡️'}</div>
+                          <div className="flex-grow pt-1">
+                            <p dangerouslySetInnerHTML={{ __html: event.description }} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                     
                     {geminiReady ? (
                         <button 
                             onClick={() => handleSuggestKidActivities(selectedDay)} 
                             disabled={kidActivitiesLoading[selectedDay]}
-                            className="gemini-button mt-3 bg-purple-gemini text-white px-3 py-1.5 rounded text-sm hover:bg-purple-gemini-hover disabled:bg-disabled-gray disabled:cursor-not-allowed flex items-center"
+                            className="gemini-button mt-4 bg-purple-gemini text-white px-3 py-1.5 rounded text-sm hover:bg-purple-gemini-hover disabled:bg-disabled-gray disabled:cursor-not-allowed flex items-center"
                         >
                             {kidActivitiesLoading[selectedDay] ? <LoadingSpinner size="w-4 h-4 mr-2" /> : <SparklesIcon />} Sugerir Atividades Infantis
                         </button>
@@ -202,14 +223,19 @@ const App: React.FC = () => {
                 {currentDayData.alternativePlan && (
                   <div className="alternative-plan-container bg-lavender-mist border-t-2 border-dashed border-plum-passion mt-6 p-6 rounded-lg">
                     <h4 className="text-xl font-semibold text-[#800080] mt-0 mb-2 border-b border-[#800080] pb-1 text-[1.25rem]">✨ Plano Alternativo: {currentDayData.alternativePlan.title}</h4>
-                     {currentDayData.alternativePlan.fullDay && <div><h5 className="font-semibold text-gray-700 mt-3 mb-1 text-[1.1rem]">Dia Inteiro:</h5><p dangerouslySetInnerHTML={{ __html: currentDayData.alternativePlan.fullDay }} /></div>}
-                     {!currentDayData.alternativePlan.fullDay && (
-                        <>
-                        {currentDayData.alternativePlan.morning && <div><h5 className="font-semibold text-gray-700 mt-3 mb-1 text-[1.1rem]">Manhã ☀️:</h5><p dangerouslySetInnerHTML={{ __html: currentDayData.alternativePlan.morning }} /></div>}
-                        {currentDayData.alternativePlan.afternoon && <div><h5 className="font-semibold text-gray-700 mt-3 mb-1 text-[1.1rem]">Tarde 🏙️:</h5><p dangerouslySetInnerHTML={{ __html: currentDayData.alternativePlan.afternoon }} /></div>}
-                        </>
-                     )}
-                    {currentDayData.alternativePlan.evening && <div><h5 className="font-semibold text-gray-700 mt-3 mb-1 text-[1.1rem]">Noite 🌙:</h5><p dangerouslySetInnerHTML={{ __html: currentDayData.alternativePlan.evening }} /></div>}
+                     <div className="mt-4 space-y-4">
+                      {currentDayData.alternativePlan.schedule.map((event, index) => (
+                        <div key={index} className="flex items-start gap-4 p-3 bg-white/60 rounded-lg">
+                          <div className="w-28 text-right flex-shrink-0">
+                            <p className="font-semibold text-royal-velvet/90">{event.time}</p>
+                          </div>
+                          <div className="text-3xl pt-1 flex-shrink-0">{event.icon || '➡️'}</div>
+                          <div className="flex-grow pt-1">
+                            <p dangerouslySetInnerHTML={{ __html: event.description }} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                     {currentDayData.alternativePlan.transport && <div className="transport-details bg-gray-200 p-4 rounded-md mt-4 text-sm text-twilight-black border-l-4 border-royal-velvet" dangerouslySetInnerHTML={{ __html: currentDayData.alternativePlan.transport }} />}
                     {currentDayData.alternativePlan.notes && <div className="mt-3 pt-3 border-t border-plum-passion"><h5 className="font-semibold text-gray-700">Notas da Alternativa:</h5><p className="text-sm" dangerouslySetInnerHTML={{ __html: currentDayData.alternativePlan.notes }} /></div>}
                   </div>
