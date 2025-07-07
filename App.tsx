@@ -138,7 +138,7 @@ const App: React.FC = () => {
     switch (activeSection) {
       case NavigationTarget.Overview:
         return (
-          <section id="overview" className="bg-white p-6 rounded-lg shadow-lg">
+          <section id="overview" role="tabpanel" className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-3xl font-semibold mb-4 text-cafe-rouge">🌟 Bem-vindos à Aventura Parisiense!</h2>
             <p className="mb-4">Esta aplicação interativa é o seu guia para a mágica viagem de 15 dias da família Barros-Bressan a Paris e Disneyland, de 14 a 28 de julho de 2025. Explore os planos diários, incluindo alternativas e informações de transporte detalhadas, e descubra dicas para tornar esta jornada multigeracional verdadeiramente inesquecível. Navegue pelas secções para aceder a todos os detalhes do seu roteiro personalizado.</p>
             <div className="grid md:grid-cols-2 gap-6 mb-6">
@@ -162,13 +162,15 @@ const App: React.FC = () => {
       case NavigationTarget.DailyItinerary:
         const currentDayData = itineraryData[selectedDay];
         return (
-          <section id="daily-itinerary" className="bg-white p-6 rounded-lg shadow-lg">
+          <section id="daily-itinerary" role="tabpanel" className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-3xl font-semibold mb-6 text-cafe-rouge">🗓️ Roteiro Diário Detalhado</h2>
             <p className="mb-6">Aqui encontrará o plano para cada dia da vossa aventura, incluindo uma opção alternativa e informações de transporte detalhadas, seguindo um formato passo a passo. Selecione um dia para ver as atividades programadas, sugestões de refeições e considerações especiais. Lembrem-se que a flexibilidade é chave, e este roteiro serve como um guia para maximizar a vossa diversão!</p>
-            <div className="mb-4 flex flex-wrap gap-2 justify-center">
+            <div role="tablist" aria-label="Daily itinerary tabs" className="mb-4 flex flex-wrap gap-2 justify-center">
               {Object.keys(itineraryData).map((dateKey) => (
                 <button
                   key={dateKey}
+                  role="tab"
+                  aria-selected={selectedDay === dateKey}
                   onClick={() => setSelectedDay(dateKey)}
                   className={`nav-button px-3 py-1.5 rounded-md text-sm transition-all duration-300 ease-in-out border
                     ${selectedDay === dateKey 
@@ -180,7 +182,7 @@ const App: React.FC = () => {
               ))}
             </div>
             {currentDayData && (
-              <div className="mt-6 day-card">
+              <div role="tabpanel" className="mt-6 day-card">
                 <h3 className="flex items-center text-2xl font-bold text-cafe-rouge mb-2 text-[1.75rem]">
                     <span className="text-3xl mr-3 text-gilded-gold">{currentDayData.themeIcon || '📅'}</span>
                     {currentDayData.mainTitle} - {selectedDay} ({currentDayData.day})
@@ -267,7 +269,7 @@ const App: React.FC = () => {
         );
       case NavigationTarget.PointsOfInterest:
         return (
-          <section id="points-of-interest" className="bg-white p-6 rounded-lg shadow-lg">
+          <section id="points-of-interest" role="tabpanel" className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-3xl font-semibold mb-6 text-cafe-rouge">🗺️ Pontos de Interesse</h2>
             <p className="mb-6">Paris e arredores oferecem uma infinidade de atrações. Esta secção lista os principais pontos mencionados no vosso roteiro, com descrições visuais, ícones, links para os seus sites oficiais (quando disponível) e imagens de placeholder para dar uma ideia visual. Poderão encontrar aqui informações sobre museus, monumentos, parques e outros locais fascinantes que tornarão a vossa viagem ainda mais rica.</p>
             <div className="space-y-6">
@@ -310,7 +312,7 @@ const App: React.FC = () => {
         );
       case NavigationTarget.Culinary:
         return (
-          <section id="culinary" className="bg-white p-6 rounded-lg shadow-lg">
+          <section id="culinary" role="tabpanel" className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-3xl font-semibold mb-6 text-cafe-rouge">🍽️ Delícias Gastronômicas</h2>
             <p className="mb-6">A culinária parisiense é uma experiência por si só! Esta secção é dedicada às vossas aventuras gastronómicas, com sugestões de restaurantes para que todos desfrutem dos sabores de Paris. Desde brasseries clássicas a patisseries de luxo, preparem-se para se deliciar.</p>
             <div className="space-y-4">
@@ -354,7 +356,7 @@ const App: React.FC = () => {
         );
       case NavigationTarget.Transport:
         return (
-          <section id="transport" className="bg-white p-6 rounded-lg shadow-lg">
+          <section id="transport" role="tabpanel" className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-3xl font-semibold mb-6 text-cafe-rouge">🚌 Plano de Transporte Geral</h2>
             <p className="mb-6">Navegar por Paris e arredores requer um bom planeamento de transporte. Aqui estão os detalhes sobre os vossos transfers e as melhores formas de se locomoverem pela cidade, com foco na acessibilidade e conforto para toda a família. Instruções específicas e detalhadas para cada dia, incluindo alternativas, estão na secção "Roteiro Diário".</p>
             <div className="space-y-4">
@@ -366,7 +368,7 @@ const App: React.FC = () => {
         );
       case NavigationTarget.Tips:
         return (
-          <section id="tips" className="bg-white p-6 rounded-lg shadow-lg">
+          <section id="tips" role="tabpanel" className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-3xl font-semibold mb-6 text-cafe-rouge">💡 Dicas Úteis e Extras</h2>
             <p className="mb-6">Para garantir que a vossa viagem seja o mais tranquila e agradável possível, reunimos aqui algumas dicas sobre o que levar na mala, comunicação, compras, e sugestões para as melhores fotos. Pequenos detalhes que fazem uma grande diferença!</p>
             <div className="space-y-4">
@@ -378,7 +380,7 @@ const App: React.FC = () => {
         );
       case NavigationTarget.Comments:
         return (
-          <section id="trip-comments" className="bg-white p-6 rounded-lg shadow-lg">
+          <section id="trip-comments" role="tabpanel" className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-3xl font-semibold mb-6 text-cafe-rouge">📝 Comentários da Viagem</h2>
             <p className="mb-6">Deixe aqui as suas memórias, dicas ou momentos favoritos da viagem para partilhar com a família!</p>
             <div className="bg-lavender-mist p-6 rounded-lg border border-plum-passion">
@@ -438,10 +440,12 @@ const App: React.FC = () => {
         <p className="text-lg text-parisian-gray">Seu roteiro interativo para uma viagem inesquecível!</p>
       </header>
 
-      <nav className="flex flex-wrap justify-center gap-2 mb-8">
+      <nav role="tablist" aria-label="Main navigation" className="flex flex-wrap justify-center gap-2 mb-8">
         {NAVIGATION_ITEMS.map(item => (
           <button
             key={item.target}
+            role="tab"
+            aria-selected={activeSection === item.target}
             onClick={() => setActiveSection(item.target)}
             className={`nav-button px-4 py-2 rounded-md transition-all duration-300 ease-in-out border
               ${activeSection === item.target 
