@@ -27,9 +27,9 @@ type Database = {
           text?: string;
           created_at?: string;
         };
-        // Relationships are removed as they are optional and can cause type
-        // inference issues if not perfectly defined. The client will work
-        // correctly without it for simple queries.
+        // Relationships should be an empty array if there are no defined relationships.
+        // Its absence can cause type inference to fail for insert/update operations.
+        Relationships: [];
       };
     };
     Views: { [key: string]: never };
