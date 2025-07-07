@@ -1,10 +1,11 @@
+
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Comment } from '../types';
 import { SUPABASE_URL_PLACEHOLDER, SUPABASE_ANON_KEY_PLACEHOLDER } from '../constants';
 
 // This is a minimal schema definition based on the usage in the app.
 // It makes the Supabase client fully type-safe for comment operations.
-interface Database {
+type Database = {
   public: {
     Tables: {
       comentarios: {
