@@ -1,16 +1,19 @@
 
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 
-// Use process.env.API_KEY as per the guidelines
+// The Gemini API key is expected to be available in the process.env object.
+// This is typically handled by a build tool (like Vite or Webpack) that replaces
+// `process.env.API_KEY` with the actual value at build time.
 const GEMINI_API_KEY = process.env.API_KEY;
+
 
 if (!GEMINI_API_KEY) {
   console.warn(
-    "Gemini API key (process.env.API_KEY) not found. Please ensure it is set. AI features will be disabled."
+    "Gemini API key (API_KEY) not found. Please ensure it is set in your environment variables. AI features will be disabled."
   );
 }
 
-// Initialize GoogleGenAI with the API key from process.env.API_KEY
+// Initialize GoogleGenAI with the API key from the environment variable.
 const ai = GEMINI_API_KEY ? new GoogleGenAI({ apiKey: GEMINI_API_KEY }) : null;
 
 const getModelName = (task: 'text' | 'image' | 'text-with-search') => {
